@@ -15,6 +15,7 @@ namespace GraphControl
         // p is for private
         private float[] pXlim = new float[2]{-10, 10};
         private float[] pYlim = new float[2] { -10, 10};
+        private bool pAutoScale = true;
         private int num_hashs = 11;
 
         private float mX;
@@ -93,12 +94,59 @@ namespace GraphControl
             }
         }
 
+        private bool AutoScale
+        {
+            set
+            {
+                pAutoScale = value;
+            }
+            get
+            {
+                return(pAutoScale);
+            }
+        }
+
+        private void AutoScaler(double[] Xpts, double[] Ypts)
+        {
+           this.Xlim = new float[2]{FindMin(Xpts), FindMax(Xpts)};
+           this.Ylim = new float[2]{FindMin(Ypts), FindMax(Ypts)};   
+        }
+
+        private float FindMax(double []pts)
+        {
+            double d = pts[0];
+
+            foreach (double p in pts)
+            {
+                if (p > d)
+                    d = p;
+            }
+
+            return ((float) d);
+        }
+
+        private float FindMin(double[] pts)
+        {
+            double d = pts[0];
+
+            foreach (double p in pts)
+            {
+                if (p < d)
+                    d = p;
+            }
+
+            return ((float) d);
+        }
+
         public void Plot(string str_data_name, double[] Xpts, double[] Ypts, Color color_obj)
         {
             // check the data area if the data set name already occurs
             // if it occurs over write it
             // otherwise create it
             data_set d_rm = null;
+
+            if (pAutoScale == true)
+                AutoScaler(Xpts, Ypts);
 
             foreach (data_set d in data_list_obj)
             {
