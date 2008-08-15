@@ -21,7 +21,7 @@ namespace GraphControl
         private float mX;
         private float mY;
 
-        private RectangleF clip_rect_obj;
+        private RectangleF control_rect_obj;
         private RectangleF graph_rect_obj;
         private PointF[] XAxis = new PointF[2];
         private PointF[] YAxis = new PointF[2];
@@ -43,12 +43,16 @@ namespace GraphControl
 
         List<data_set> data_list_obj = new List<data_set>();
 
+        private DBGraphics mem_graphic;
+
         public GraphControl()
         {
+            mem_graphic = new DBGraphics();
             InitializeComponent();
             horzDrawString.Alignment = StringAlignment.Center;
             virtDrawString.Alignment = StringAlignment.Far;
             virtAxisFont = horzAxisFont;
+
         }
 
         public float[] Xlim
@@ -138,6 +142,51 @@ namespace GraphControl
             return ((float) d);
         }
 
+        protected override void OnLoad(EventArgs e)
+        {
+            mem_graphic.CreateDoubleBuffer(this.CreateGraphics(), this.ClientRectangle.Width, this.ClientRectangle.Height);
+            base.OnLoad(e);
+        }
+
+        protected override void OnResize(EventArgs e)
+        {
+            mem_graphic.CreateDoubleBuffer(this.CreateGraphics(), this.ClientRectangle.Width, this.ClientRectangle.Height);
+            Invalidate(); // Force a repaint after has been resized 
+            base.OnResize(e);
+        }
+
+        protected override void OnPaintBackground(PaintEventArgs e)
+        {
+            // determine if the position of the axis need to be recalculated
+            if ((this.Size.Height != control_rect_obj.Height)
+                || (this.Size.Width != control_rect_obj.Width))
+            {
+                //control_rect_obj = e.ClipRectangle;
+                control_rect_obj.Height = this.Size.Height;
+                control_rect_obj.Width = this.Size.Width;
+                Calc_Obj_Postitions();
+            }
+            
+            RectangleF top_rect = 
+                new RectangleF(0, 0, control_rect_obj.Width, graph_rect_obj.Top - control_rect_obj.Top);
+            RectangleF bottom_rect = 
+                new RectangleF(0, graph_rect_obj.Bottom, control_rect_obj.Width, control_rect_obj.Bottom - graph_rect_obj.Bottom);
+            RectangleF left_rect = 
+                new RectangleF(0, 0, graph_rect_obj.Left - control_rect_obj.Left, control_rect_obj.Height);
+            RectangleF right_rect = 
+                new RectangleF(graph_rect_obj.Right, 0, control_rect_obj.Right - graph_rect_obj.Right, control_rect_obj.Height);
+
+
+            SolidBrush b_obj = new SolidBrush(this.BackColor);
+
+            e.Graphics.FillRectangle(b_obj, top_rect);
+            e.Graphics.FillRectangle(b_obj, bottom_rect);
+            e.Graphics.FillRectangle(b_obj, left_rect);
+            e.Graphics.FillRectangle(b_obj, right_rect);
+
+            //base.OnPaintBackground(e);
+        }
+
         public void Plot(string str_data_name, double[] Xpts, double[] Ypts, Color color_obj)
         {
             // check the data area if the data set name already occurs
@@ -173,7 +222,7 @@ namespace GraphControl
         // the limits change size
         private void Calc_Obj_Postitions()
         {
-            graph_rect_obj = new RectangleF(25, 10, clip_rect_obj.Width-40, clip_rect_obj.Height - 40);
+            graph_rect_obj = new RectangleF(25, 10, control_rect_obj.Width-40, control_rect_obj.Height - 40);
 
             mX = graph_rect_obj.Width / (pXlim[1] - pXlim[0]);
             mY = graph_rect_obj.Height / (pYlim[1] - pYlim[0]);
@@ -291,47 +340,54 @@ namespace GraphControl
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            // Get the graphics and the area to draw in
-            RectangleF clipf = e.ClipRectangle;
-            Graphics g = e.Graphics;
-
-            // determine if the position of the axis need to be recalculated
-            if (e.ClipRectangle != clip_rect_obj)
+            if (mem_graphic.CanDoubleBuffer())
             {
-                clip_rect_obj = e.ClipRectangle;
-                Calc_Obj_Postitions();                
-            }
-                                       
-            // Fill the rectangle and draw a box around it
-            g.FillRectangle(Brushes.White, graph_rect_obj);
-            g.DrawRectangle(Pens.Black, Rectangle.Round(graph_rect_obj));
-          
 
-            g.DrawLine(Pens.Black, XAxis[0], XAxis[1]);
-            g.DrawLine(Pens.Black, YAxis[0], YAxis[1]);
-           
-            // draw the rulled hash lines;
-            for(int i = 0; i < num_hashs; i++)
-            {
-                g.DrawLine(Pens.Black, TopRule[i,0], TopRule[i,1]);              
-                g.DrawLine(Pens.Black, BottomRule[i,0], BottomRule[i,1]);
-                g.DrawLine(Pens.Black, LeftRule[i,0], LeftRule[i,1]);              
-                g.DrawLine(Pens.Black, RightRule[i,0], RightRule[i,1]);
-                g.DrawString(XHashPos[i].ToString("0.0"), horzAxisFont, Brushes.Black, XHashLabelRects[i], horzDrawString);
-                g.DrawString(YHashPos[i].ToString("0.0"), virtAxisFont, Brushes.Black, YHashLabelRects[i], virtDrawString); 
-            }
+                // Get the graphics and the area to draw in
+                //RectangleF clipf = e.ClipRectangle;
+                //Graphics g = e.Graphics;
 
-            foreach (data_set d in data_list_obj)
-            {
-                Pen p = new Pen(d.color_obj, 2);
-                if (d.x_vals.Length > 2)
+                // determine if the position of the axis need to be recalculated
+                if ((this.Size.Height != control_rect_obj.Height)
+                    || (this.Size.Width != control_rect_obj.Width))
                 {
-                    g.DrawLines(p, d.cords);
+                    //control_rect_obj = e.ClipRectangle;
+                    control_rect_obj.Height = this.Size.Height;
+                    control_rect_obj.Width = this.Size.Width;
+                    Calc_Obj_Postitions();
                 }
+
+                // Fill the rectangle and draw a box around it
+                mem_graphic.g.FillRectangle(Brushes.White, graph_rect_obj);
+                mem_graphic.g.DrawRectangle(Pens.Black, Rectangle.Round(graph_rect_obj));
+
+
+                mem_graphic.g.DrawLine(Pens.Black, XAxis[0], XAxis[1]);
+                mem_graphic.g.DrawLine(Pens.Black, YAxis[0], YAxis[1]);
+
+                // draw the rulled hash lines;
+                for (int i = 0; i < num_hashs; i++)
+                {
+                    mem_graphic.g.DrawLine(Pens.Black, TopRule[i, 0], TopRule[i, 1]);
+                    mem_graphic.g.DrawLine(Pens.Black, BottomRule[i, 0], BottomRule[i, 1]);
+                    mem_graphic.g.DrawLine(Pens.Black, LeftRule[i, 0], LeftRule[i, 1]);
+                    mem_graphic.g.DrawLine(Pens.Black, RightRule[i, 0], RightRule[i, 1]);
+                    mem_graphic.g.DrawString(XHashPos[i].ToString("0.0"), horzAxisFont, Brushes.Black, XHashLabelRects[i], horzDrawString);
+                    mem_graphic.g.DrawString(YHashPos[i].ToString("0.0"), virtAxisFont, Brushes.Black, YHashLabelRects[i], virtDrawString);
+                }
+
+                foreach (data_set d in data_list_obj)
+                {
+                    Pen p = new Pen(d.color_obj, 2);
+                    if (d.x_vals.Length > 2)
+                    {
+                        mem_graphic.g.DrawLines(p, d.cords);
+                    }
+                }                          
             }
 
-            g.Dispose();
-
+            mem_graphic.Render(e.Graphics);
+            
             base.OnPaint(e);
         }
     }
