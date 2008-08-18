@@ -1,0 +1,5 @@
+C:\Documents and Settings\futia\My Documents\Visual Studio 2005\Projects\MultiOOIDLL_Wrapper\MultiOOIDLL_Wrapper\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\futia\My Documents\Visual Studio 2005\Projects\MultiOOIDLL_Wrapper\MultiOOIDLL_Wrapper\bin\Debug\MultiOOIDLL_Wrapper.dll
+C:\Documents and Settings\futia\My Documents\Visual Studio 2005\Projects\MultiOOIDLL_Wrapper\MultiOOIDLL_Wrapper\bin\Debug\MultiOOIDLL_Wrapper.pdb
+C:\Documents and Settings\futia\My Documents\Visual Studio 2005\Projects\MultiOOIDLL_Wrapper\MultiOOIDLL_Wrapper\obj\Debug\MultiOOIDLL_Wrapper.dll
+C:\Documents and Settings\futia\My Documents\Visual Studio 2005\Projects\MultiOOIDLL_Wrapper\MultiOOIDLL_Wrapper\obj\Debug\MultiOOIDLL_Wrapper.pdb
