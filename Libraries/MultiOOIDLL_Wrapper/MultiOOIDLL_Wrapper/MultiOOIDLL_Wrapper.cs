@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MultiOOIDLL_Wrapper
 {
-    class MultiOOIDLL_Wrapper
+    public class MultiOOIDLL
     {
         [DllImport("MultiOOIDLL.dll", CallingConvention = CallingConvention.StdCall)]
         public static extern int DllMain(IntPtr hinstance, long a, IntPtr b);
