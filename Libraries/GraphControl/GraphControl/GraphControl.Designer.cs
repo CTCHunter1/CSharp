@@ -35,7 +35,7 @@ namespace GraphControl
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Name = "GraphControl";
-            this.Size = new System.Drawing.Size(336, 365);
+            this.Size = new System.Drawing.Size(293, 295);
             this.ResumeLayout(false);
 
         }

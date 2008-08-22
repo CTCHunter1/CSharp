@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Font Name="Tahoma" Size="8.25" />
+  <Class Name="GraphControl.GraphControl">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>GraphControl.cs</FileName>
+      <HashCode>BACCAAgAADAAAAAAUACAABAeACAAAAAAAAAEAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraphControl.Boarder">
+    <Position X="2.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Boarder.cs</FileName>
+      <HashCode>AAAAAAAQAAAIAAAAAAAAAAAgAAAAAAAAAAAQgAEIAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraphControl.Axis">
+    <Position X="4.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Axis.cs</FileName>
+      <HashCode>BAIAkEI0BgQAIAACCQEABAAoIAAAAFCAAGRAAQEYAQA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraphControl.GraphData">
+    <Position X="2.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>GraphData.cs</FileName>
+      <HashCode>AEAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAABAAIABA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+</ClassDiagram>

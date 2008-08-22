@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphControl", "GraphControl\GraphControl.csproj", "{191795D7-22B0-4B66-8631-A741360825F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphControl", "GraphControl\GraphControl.csproj", "{B99E750E-EF0D-48B8-87A8-A09C90B35866}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{191795D7-22B0-4B66-8631-A741360825F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{191795D7-22B0-4B66-8631-A741360825F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{191795D7-22B0-4B66-8631-A741360825F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{191795D7-22B0-4B66-8631-A741360825F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B99E750E-EF0D-48B8-87A8-A09C90B35866}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B99E750E-EF0D-48B8-87A8-A09C90B35866}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B99E750E-EF0D-48B8-87A8-A09C90B35866}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B99E750E-EF0D-48B8-87A8-A09C90B35866}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
