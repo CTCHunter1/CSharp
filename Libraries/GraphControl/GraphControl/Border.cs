@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GraphControl
 {
-    public class Boarder
+    public class Border
     {
         // rectagles to draw
         private Rectangle m_top_rect = new Rectangle();
@@ -14,11 +14,11 @@ namespace GraphControl
         private Rectangle m_right_rect = new Rectangle();
         private SolidBrush m_brush = new SolidBrush(Color.Gray);
 
-        public Boarder()
+        public Border()
         {
         }
 
-        public Boarder(Rectangle outside_rect, Rectangle inside_rect, Color color)
+        public Border(Rectangle outside_rect, Rectangle inside_rect, Color color)
         {
             Resize(outside_rect, inside_rect);
             m_brush.Color = color;

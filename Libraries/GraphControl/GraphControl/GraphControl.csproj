@@ -36,7 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Axis.cs" />
-    <Compile Include="Boarder.cs" />
+    <Compile Include="Border.cs" />
     <Compile Include="DBGraphics.cs" />
     <Compile Include="GraphControl.cs">
       <SubType>UserControl</SubType>

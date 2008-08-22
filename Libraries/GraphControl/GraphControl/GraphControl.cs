@@ -12,7 +12,7 @@ namespace GraphControl
     {
         Rectangle control_rect;     // rectangle represents size of contro
         Axis axis_obj;              // object prints the axis
-        Boarder boarder_obj;
+        Border boarder_obj;
         GraphDataList graph_data_list; 
         
         DBGraphics db_graphics_obj; // double buffer object
@@ -26,7 +26,7 @@ namespace GraphControl
             db_graphics_obj = new DBGraphics();
             db_graphics_obj.CreateDoubleBuffer(this.CreateGraphics(), this.ClientRectangle.Width, this.ClientRectangle.Height);
             axis_obj = new Axis(control_rect, db_graphics_obj.g);
-            boarder_obj = new Boarder(control_rect, axis_obj.Graph_Rect, this.BackColor);
+            boarder_obj = new Border(control_rect, axis_obj.Graph_Rect, this.BackColor);
             graph_data_list = new GraphDataList(axis_obj);
             InitializeComponent();            
             // XLim = new double[2]{-10, 30};
