@@ -37,9 +37,6 @@ namespace GraphControl
         private Rectangle m_control_rect;
         private Rectangle m_graph_rect = new Rectangle();
 
-        private int m_xOrder;
-        private int m_yOrder;
-
         private SolidBrush m_graph_bkgnd = new SolidBrush(Color.White);
 
         private StringFormat m_horz_draw_string = new StringFormat();       // formats the string for horz ticks
@@ -239,8 +236,15 @@ namespace GraphControl
         private void CreateHashes()
         {         
             // get the size of these strings on the display
-            m_horz_sz = g_obj.MeasureString("-000.00", m_horz_axis_font);
-            m_vert_sz = g_obj.MeasureString("-000.00", m_vert_axis_font);
+            try
+            {
+                m_horz_sz = g_obj.MeasureString("-000.00", m_horz_axis_font);
+                m_vert_sz = g_obj.MeasureString("-000.00", m_vert_axis_font);
+            }
+            catch (Exception e)
+            {
+
+            }
 
             int i_max_hashes_x = (int)(m_graph_rect.Width / (m_horz_sz.Width * 1));
             int i_max_hashes_y = (int)(m_graph_rect.Width / (m_vert_sz.Height * 2));
@@ -309,11 +313,13 @@ namespace GraphControl
             double[] space = new double[] { 5, 2, 1, .5, .2, .1, .05};
 
             double W = lims[1] - lims[0];               // With of axis
+            if (W == 0)
+                W = 1;
             double PW = Math.Floor(Math.Log10(W));      // lowest power of 10 of the width
             double xmin, xmax;                          // minimum and maximum values for the hashes
             double num_hashs = 0;                       // total number of hashes
             int i;                                      // a counter for the loops
-
+                        
             for (i = 0; i < space.Length; i++)
             {
                 // find highest and lowest tick position
