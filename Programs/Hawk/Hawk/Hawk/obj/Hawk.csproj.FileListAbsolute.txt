@@ -1,0 +1,12 @@
+C:\Repository\Software\C Sharp\Programs\Hawk\Hawk\Hawk\bin\Debug\Hawk.exe
+C:\Repository\Software\C Sharp\Programs\Hawk\Hawk\Hawk\bin\Debug\Hawk.pdb
+C:\Repository\Software\C Sharp\Programs\Hawk\Hawk\Hawk\bin\Debug\GraphControl.dll
+C:\Repository\Software\C Sharp\Programs\Hawk\Hawk\Hawk\bin\Debug\GraphControl.pdb
+C:\Repository\Software\C Sharp\Programs\Hawk\Hawk\Hawk\obj\Debug\ResolveAssemblyReference.cache
+C:\Repository\Software\C Sharp\Programs\Hawk\Hawk\Hawk\obj\Debug\Hawk.Form1.resources
+C:\Repository\Software\C Sharp\Programs\Hawk\Hawk\Hawk\obj\Debug\Hawk.Properties.Resources.resources
+C:\Repository\Software\C Sharp\Programs\Hawk\Hawk\Hawk\obj\Debug\Hawk.csproj.GenerateResource.Cache
+C:\Repository\Software\C Sharp\Programs\Hawk\Hawk\Hawk\obj\Debug\Hawk.exe
+C:\Repository\Software\C Sharp\Programs\Hawk\Hawk\Hawk\obj\Debug\Hawk.pdb
+C:\Repository\Software\C Sharp\Programs\Hawk\Hawk\Hawk\obj\Debug\Driver.HP8594E_Options.resources
+C:\Repository\Software\C Sharp\Programs\Hawk\Hawk\Hawk\obj\Debug\Hawk.Arroyo_Sweep_Options.resources
