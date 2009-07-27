@@ -40,9 +40,13 @@ namespace Hawk
             this.cancel_button = new System.Windows.Forms.Button();
             this.start_label = new System.Windows.Forms.Label();
             this.stop_label = new System.Windows.Forms.Label();
+            this.sleep_time_numeric = new System.Windows.Forms.NumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.start_numeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stop_numeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_pts_numeric)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sleep_time_numeric)).BeginInit();
             this.SuspendLayout();
             // 
             // start_numeric
@@ -87,9 +91,19 @@ namespace Hawk
             0,
             0,
             0});
+            this.num_pts_numeric.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
             this.num_pts_numeric.Name = "num_pts_numeric";
             this.num_pts_numeric.Size = new System.Drawing.Size(120, 20);
             this.num_pts_numeric.TabIndex = 2;
+            this.num_pts_numeric.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
             // 
             // label1
             // 
@@ -143,7 +157,7 @@ namespace Hawk
             // Ok_button
             // 
             this.Ok_button.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.Ok_button.Location = new System.Drawing.Point(12, 231);
+            this.Ok_button.Location = new System.Drawing.Point(12, 266);
             this.Ok_button.Name = "Ok_button";
             this.Ok_button.Size = new System.Drawing.Size(75, 23);
             this.Ok_button.TabIndex = 8;
@@ -153,7 +167,7 @@ namespace Hawk
             // cancel_button
             // 
             this.cancel_button.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancel_button.Location = new System.Drawing.Point(114, 231);
+            this.cancel_button.Location = new System.Drawing.Point(114, 266);
             this.cancel_button.Name = "cancel_button";
             this.cancel_button.Size = new System.Drawing.Size(75, 23);
             this.cancel_button.TabIndex = 9;
@@ -178,13 +192,41 @@ namespace Hawk
             this.stop_label.TabIndex = 11;
             this.stop_label.Text = "mA";
             // 
+            // sleep_time_numeric
+            // 
+            this.sleep_time_numeric.Location = new System.Drawing.Point(36, 219);
+            this.sleep_time_numeric.Name = "sleep_time_numeric";
+            this.sleep_time_numeric.Size = new System.Drawing.Size(120, 20);
+            this.sleep_time_numeric.TabIndex = 12;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(33, 203);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(60, 13);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Sleep Time";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(162, 226);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(20, 13);
+            this.label6.TabIndex = 14;
+            this.label6.Text = "ms";
+            // 
             // Arroyo_Sweep_Options
             // 
             this.AcceptButton = this.Ok_button;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancel_button;
-            this.ClientSize = new System.Drawing.Size(229, 266);
+            this.ClientSize = new System.Drawing.Size(229, 313);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.sleep_time_numeric);
             this.Controls.Add(this.stop_label);
             this.Controls.Add(this.start_label);
             this.Controls.Add(this.cancel_button);
@@ -203,6 +245,7 @@ namespace Hawk
             ((System.ComponentModel.ISupportInitialize)(this.start_numeric)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.stop_numeric)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_pts_numeric)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sleep_time_numeric)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -222,6 +265,9 @@ namespace Hawk
         private System.Windows.Forms.Button cancel_button;
         private System.Windows.Forms.Label start_label;
         private System.Windows.Forms.Label stop_label;
+        private System.Windows.Forms.NumericUpDown sleep_time_numeric;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
 
     }
 }

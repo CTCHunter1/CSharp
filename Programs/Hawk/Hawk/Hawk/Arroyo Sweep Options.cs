@@ -12,7 +12,7 @@ namespace Hawk
     {
         public enum Mode { I0, Im };
 
-        public Arroyo_Sweep_Options(double d_start, double d_stop, int i_num_pts, Mode sm)
+        public Arroyo_Sweep_Options(double d_start, double d_stop, int i_num_pts, Mode sm, int i_sleep_time)
         {
             InitializeComponent();
 
@@ -21,6 +21,7 @@ namespace Hawk
             Num_Points = i_num_pts;
             Sweep_Mode = sm;
             mode_combo.SelectedIndex = 0;
+            Sleep_Time = i_sleep_time;
         }
 
         public double Start{
@@ -58,6 +59,7 @@ namespace Hawk
             }
         }
 
+
         public Mode Sweep_Mode
         {
             get
@@ -87,6 +89,18 @@ namespace Hawk
                         mode_combo.SelectedIndex = 1;
                         break;
                 }
+            }
+        }
+
+        public int Sleep_Time
+        {
+            get
+            {
+                return (int)sleep_time_numeric.Value;
+            }
+            set
+            {
+                sleep_time_numeric.Value = (decimal)value;
             }
         }
 
