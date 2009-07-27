@@ -184,5 +184,22 @@ namespace Hawk
 
             return (Convert.ToDouble(Im_str));
         }
+
+        public void Show_Options()
+        {
+            String i_port_num_str = sp_obj.PortName.Substring(3);
+            int i_port_num = Convert.ToInt32(i_port_num_str);
+            Arroyo_Options_Form aof_obj = new Arroyo_Options_Form(i_port_num);
+
+            if (aof_obj.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                    // Close the com port
+                    // change number
+                    // and reopen
+                    sp_obj.Close();
+                    sp_obj.PortName = "COM" + aof_obj.Com_Port.ToString();
+                    sp_obj.Open();        
+            }
+        }
     }
 }

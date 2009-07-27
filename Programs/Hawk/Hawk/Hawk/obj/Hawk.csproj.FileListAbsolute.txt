@@ -10,3 +10,4 @@ C:\Repository\Software\C Sharp\Programs\Hawk\Hawk\Hawk\obj\Debug\Hawk.exe
 C:\Repository\Software\C Sharp\Programs\Hawk\Hawk\Hawk\obj\Debug\Hawk.pdb
 C:\Repository\Software\C Sharp\Programs\Hawk\Hawk\Hawk\obj\Debug\Driver.HP8594E_Options.resources
 C:\Repository\Software\C Sharp\Programs\Hawk\Hawk\Hawk\obj\Debug\Hawk.Arroyo_Sweep_Options.resources
+C:\Repository\Software\C Sharp\Programs\Hawk\Hawk\Hawk\obj\Debug\Hawk.Arroyo_Options_Form.resources

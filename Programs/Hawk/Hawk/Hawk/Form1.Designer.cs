@@ -42,6 +42,7 @@ namespace Hawk
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -76,6 +77,7 @@ namespace Hawk
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.gPIPOptionsToolStripMenuItem,
+            this.toolStripMenuItem1,
             this.arroyoSweepOptionsToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -84,15 +86,15 @@ namespace Hawk
             // gPIPOptionsToolStripMenuItem
             // 
             this.gPIPOptionsToolStripMenuItem.Name = "gPIPOptionsToolStripMenuItem";
-            this.gPIPOptionsToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.gPIPOptionsToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.gPIPOptionsToolStripMenuItem.Text = "GPIP Options";
             this.gPIPOptionsToolStripMenuItem.Click += new System.EventHandler(this.gPIPOptionsToolStripMenuItem_Click);
             // 
             // arroyoSweepOptionsToolStripMenuItem
             // 
             this.arroyoSweepOptionsToolStripMenuItem.Name = "arroyoSweepOptionsToolStripMenuItem";
-            this.arroyoSweepOptionsToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.arroyoSweepOptionsToolStripMenuItem.Text = "Arroyo Sweep Options";
+            this.arroyoSweepOptionsToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.arroyoSweepOptionsToolStripMenuItem.Text = "Current Sweep Options";
             this.arroyoSweepOptionsToolStripMenuItem.Click += new System.EventHandler(this.arroyoSweepOptionsToolStripMenuItem_Click);
             // 
             // graphControl1
@@ -170,7 +172,7 @@ namespace Hawk
             this.toolStripStatusLabel.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
             this.toolStripStatusLabel.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
-            this.toolStripStatusLabel.Size = new System.Drawing.Size(689, 17);
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(720, 17);
             this.toolStripStatusLabel.Spring = true;
             this.toolStripStatusLabel.Text = "Hawk Status";
             // 
@@ -179,6 +181,13 @@ namespace Hawk
             this.toolStripProgressBar.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripProgressBar.Name = "toolStripProgressBar";
             this.toolStripProgressBar.Size = new System.Drawing.Size(150, 16);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(197, 22);
+            this.toolStripMenuItem1.Text = "Arroyo Options";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // Form1
             // 
@@ -221,6 +230,7 @@ namespace Hawk
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
     }
 }
 

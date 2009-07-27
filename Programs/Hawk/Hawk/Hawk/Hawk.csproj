@@ -40,6 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Arroyo Options.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Arroyo Options.Designer.cs">
+      <DependentUpon>Arroyo Options.cs</DependentUpon>
+    </Compile>
     <Compile Include="Arroyo Sweep Options.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -64,6 +70,10 @@
     <Compile Include="ICSconstants.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Arroyo Options.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Arroyo Options.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Arroyo Sweep Options.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Arroyo Sweep Options.cs</DependentUpon>

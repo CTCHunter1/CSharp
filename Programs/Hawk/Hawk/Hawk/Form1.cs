@@ -38,12 +38,18 @@ namespace Hawk
             graph_xunits = Freq_Units.MHz;
 
 
-            hp_8594e_obj = new HP_8594E();
-            arroyo_obj = new Arroyo();
-            // initalize the equpiment
-            hp_8594e_obj.Initalize();
-            arroyo_obj.Connect();
-
+            try
+            {
+                hp_8594e_obj = new HP_8594E();
+                arroyo_obj = new Arroyo();
+                // initalize the equpiment
+                //hp_8594e_obj.Initalize();
+                arroyo_obj.Connect();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void gPIPOptionsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -53,11 +59,18 @@ namespace Hawk
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            // Back to local mode
-            arroyo_obj.Set_Local();
-            arroyo_obj.Disconnect();
+            try
+            {
+                // Back to local mode
+                arroyo_obj.Set_Local();
+                arroyo_obj.Disconnect();
 
-            hp_8594e_obj.Go_Local();
+                hp_8594e_obj.Go_Local();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("On Exit Error: \n" + ex.Message);
+            }
         }
 
 
@@ -126,6 +139,18 @@ namespace Hawk
                 aso_obj.Sweep_Mode = smode;
             }
 
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                arroyo_obj.Show_Options();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
     }
