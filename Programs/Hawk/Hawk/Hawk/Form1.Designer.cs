@@ -30,6 +30,8 @@ namespace Hawk
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSaveTrace = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSaveSweep = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gPIPOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,8 +45,6 @@ namespace Hawk
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
-            this.toolStripSaveTrace = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -56,7 +56,7 @@ namespace Hawk
             this.editToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(887, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(552, 24);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -64,11 +64,25 @@ namespace Hawk
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripSaveTrace,
-            this.toolStripMenuItem3,
+            this.toolStripSaveSweep,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
             this.fileToolStripMenuItem.Text = "File";
+            // 
+            // toolStripSaveTrace
+            // 
+            this.toolStripSaveTrace.Name = "toolStripSaveTrace";
+            this.toolStripSaveTrace.Size = new System.Drawing.Size(184, 22);
+            this.toolStripSaveTrace.Text = "Save Trace";
+            this.toolStripSaveTrace.Click += new System.EventHandler(this.toolStripSaveTrace_Click);
+            // 
+            // toolStripSaveSweep
+            // 
+            this.toolStripSaveSweep.Name = "toolStripSaveSweep";
+            this.toolStripSaveSweep.Size = new System.Drawing.Size(184, 22);
+            this.toolStripSaveSweep.Text = "Save Current Sweep";
+            this.toolStripSaveSweep.Click += new System.EventHandler(this.toolStripSaveSweep_Click);
             // 
             // exitToolStripMenuItem
             // 
@@ -111,7 +125,7 @@ namespace Hawk
             // graphControl1
             // 
             this.graphControl1.AutoScale = true;
-            this.graphControl1.Location = new System.Drawing.Point(12, 76);
+            this.graphControl1.Location = new System.Drawing.Point(12, 36);
             this.graphControl1.Name = "graphControl1";
             this.graphControl1.Size = new System.Drawing.Size(475, 374);
             this.graphControl1.TabIndex = 0;
@@ -141,7 +155,7 @@ namespace Hawk
             "kHz",
             "MHz",
             "GHz"});
-            this.comboBox1.Location = new System.Drawing.Point(243, 49);
+            this.comboBox1.Location = new System.Drawing.Point(355, 434);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
             this.comboBox1.TabIndex = 5;
@@ -150,7 +164,7 @@ namespace Hawk
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(240, 33);
+            this.label1.Location = new System.Drawing.Point(352, 418);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(84, 13);
             this.label1.TabIndex = 6;
@@ -171,10 +185,10 @@ namespace Hawk
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel,
             this.toolStripProgressBar});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 525);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 533);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.statusStrip1.Size = new System.Drawing.Size(887, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(552, 22);
             this.statusStrip1.TabIndex = 8;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -183,7 +197,7 @@ namespace Hawk
             this.toolStripStatusLabel.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
             this.toolStripStatusLabel.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
-            this.toolStripStatusLabel.Size = new System.Drawing.Size(689, 17);
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(385, 17);
             this.toolStripStatusLabel.Spring = true;
             this.toolStripStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -193,25 +207,12 @@ namespace Hawk
             this.toolStripProgressBar.Name = "toolStripProgressBar";
             this.toolStripProgressBar.Size = new System.Drawing.Size(150, 16);
             // 
-            // toolStripSaveTrace
-            // 
-            this.toolStripSaveTrace.Name = "toolStripSaveTrace";
-            this.toolStripSaveTrace.Size = new System.Drawing.Size(184, 22);
-            this.toolStripSaveTrace.Text = "Save Trace";
-            this.toolStripSaveTrace.Click += new System.EventHandler(this.toolStripSaveTrace_Click);
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(184, 22);
-            this.toolStripMenuItem3.Text = "Save Current Sweep";
-            // 
             // Form1
             // 
             this.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(887, 547);
+            this.ClientSize = new System.Drawing.Size(552, 555);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.current_sweep_button);
             this.Controls.Add(this.label1);
@@ -249,7 +250,7 @@ namespace Hawk
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolStripSaveTrace;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem toolStripSaveSweep;
     }
 }
 

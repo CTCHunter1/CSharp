@@ -69,7 +69,7 @@ namespace Hawk
             // ok_button
             // 
             this.ok_button.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.ok_button.Location = new System.Drawing.Point(12, 165);
+            this.ok_button.Location = new System.Drawing.Point(12, 174);
             this.ok_button.Name = "ok_button";
             this.ok_button.Size = new System.Drawing.Size(75, 23);
             this.ok_button.TabIndex = 2;
@@ -79,7 +79,7 @@ namespace Hawk
             // cancel_button
             // 
             this.cancel_button.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancel_button.Location = new System.Drawing.Point(111, 165);
+            this.cancel_button.Location = new System.Drawing.Point(111, 174);
             this.cancel_button.Name = "cancel_button";
             this.cancel_button.Size = new System.Drawing.Size(75, 23);
             this.cancel_button.TabIndex = 3;
@@ -88,9 +88,11 @@ namespace Hawk
             // 
             // Arroyo_Options_Form
             // 
+            this.AcceptButton = this.ok_button;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(211, 209);
+            this.CancelButton = this.cancel_button;
+            this.ClientSize = new System.Drawing.Size(211, 204);
             this.Controls.Add(this.cancel_button);
             this.Controls.Add(this.ok_button);
             this.Controls.Add(this.port_num);
