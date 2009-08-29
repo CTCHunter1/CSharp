@@ -107,8 +107,22 @@ namespace GraphControl
         {
             if (m_autoscale)
             {
-                axis_obj.XLim = new double[] { Min(x_vals), Max(x_vals)};
-                axis_obj.YLim = new double[] {Min(y_vals), Max(y_vals)};  
+                double x_min_val = Min(x_vals);
+                double x_max_val = Max(x_vals);
+                double y_min_val = Min(y_vals);
+                double y_max_val = Max(y_vals);
+
+                axis_obj.XLim = new double[] {x_min_val, x_max_val};
+                axis_obj.YLim = new double[] {y_min_val, y_max_val}; 
+
+                // there is a problem if the minimum and maximum values are euqal
+                // spread out the limits by 5% of the values
+                if (x_min_val == x_max_val)
+                    axis_obj.XLim = new double[] { x_min_val - x_min_val * .05, x_max_val + x_max_val * .05};
+                                
+                if (y_min_val == y_max_val)
+                    axis_obj.YLim = new double[] { y_min_val - y_min_val * .05, y_max_val + y_max_val * .05 };                             
+                
             }            
             graph_data_list.Add(str_data_name, x_vals, y_vals, color_obj, 1);
             this.Invalidate();
