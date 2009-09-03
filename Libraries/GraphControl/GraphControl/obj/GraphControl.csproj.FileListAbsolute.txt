@@ -19,10 +19,3 @@ C:\Repository\Software\C Sharp\Libraries\GraphControl\GraphControl\obj\Release\G
 C:\Repository\Software\C Sharp\Libraries\GraphControl\GraphControl\obj\Release\GraphControl.csproj.GenerateResource.Cache
 C:\Repository\Software\C Sharp\Libraries\GraphControl\GraphControl\obj\Release\GraphControl.dll
 C:\Repository\Software\C Sharp\Libraries\GraphControl\GraphControl\obj\Release\GraphControl.pdb
-C:\Repository\Software\C Sharp\Libraries\GraphControl\GraphControl\bin\Debug\GraphControl.dll
-C:\Repository\Software\C Sharp\Libraries\GraphControl\GraphControl\bin\Debug\GraphControl.pdb
-C:\Repository\Software\C Sharp\Libraries\GraphControl\GraphControl\obj\Debug\ResolveAssemblyReference.cache
-C:\Repository\Software\C Sharp\Libraries\GraphControl\GraphControl\obj\Debug\GraphControl.GraphControl.resources
-C:\Repository\Software\C Sharp\Libraries\GraphControl\GraphControl\obj\Debug\GraphControl.csproj.GenerateResource.Cache
-C:\Repository\Software\C Sharp\Libraries\GraphControl\GraphControl\obj\Debug\GraphControl.dll
-C:\Repository\Software\C Sharp\Libraries\GraphControl\GraphControl\obj\Debug\GraphControl.pdb

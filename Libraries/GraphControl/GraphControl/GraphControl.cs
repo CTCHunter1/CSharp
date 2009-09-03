@@ -118,13 +118,47 @@ namespace GraphControl
                 // there is a problem if the minimum and maximum values are euqal
                 // spread out the limits by 5% of the values
                 if (x_min_val == x_max_val)
-                    axis_obj.XLim = new double[] { x_min_val - x_min_val * .05, x_max_val + x_max_val * .05};
+                    axis_obj.XLim = new double[] { x_min_val - Math.Abs(x_min_val) * .05, x_max_val + Math.Abs(x_max_val) * .05};
                                 
                 if (y_min_val == y_max_val)
-                    axis_obj.YLim = new double[] { y_min_val - y_min_val * .05, y_max_val + y_max_val * .05 };                             
+                    axis_obj.YLim = new double[] { y_min_val - Math.Abs(y_min_val) * .05, y_max_val + Math.Abs(y_max_val) * .05 };                             
                 
             }            
-            graph_data_list.Add(str_data_name, x_vals, y_vals, color_obj, 1);
+            graph_data_list.Add(str_data_name, x_vals, y_vals, color_obj, 1, AxisType.LinLin);
+            this.Invalidate();
+        }
+
+        public void Semilogx(string str_data_name, double[] x_vals, double[] y_vals, Color color_obj)
+        {
+            if (m_autoscale)
+            {
+                double x_min_val = Min(x_vals);
+                double x_max_val = Max(x_vals);
+                double y_min_val = Min(y_vals);
+                double y_max_val = Max(y_vals);
+
+                // check for out of bounds x values
+                if((x_min_val <= 0) || (x_max_val <= 0))
+                {
+                    Exception ex = new Exception("Semilogx limit less than zero invalid\r\n" +
+                        "x_min_val = " + x_min_val + "\r\nxmax_val = " +x_max_val);
+ 
+                    throw (ex);
+                }
+                axis_obj.XLim = new double[] { x_min_val, x_max_val };
+                axis_obj.YLim = new double[] { y_min_val, y_max_val };
+
+                // there is a problem if the minimum and maximum values are euqal
+                // spread out the limits by 5% of the values
+                if (x_min_val == x_max_val)
+                    axis_obj.XLim = new double[] { x_min_val - Math.Abs(x_min_val) * .05, x_max_val + Math.Abs(x_max_val) * .05 };
+
+                if (y_min_val == y_max_val)
+                    axis_obj.YLim = new double[] { y_min_val - Math.Abs(y_min_val) * .05, y_max_val + Math.Abs(y_max_val) * .05 };
+            }
+
+            axis_obj.PlotType = AxisType.LinLog;
+            graph_data_list.Add(str_data_name, x_vals, y_vals, color_obj, 1, AxisType.LinLog);
             this.Invalidate();
         }
 
