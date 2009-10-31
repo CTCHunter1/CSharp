@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ESP100Driver")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Lab Motor Drivers")]
+[assembly: AssemblyDescription("Implments Drivers for Actuators Used in Lab")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany(".")]
-[assembly: AssemblyProduct("ESP100Driver")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("Lab.Motors.Drivers")]
 [assembly: AssemblyCopyright("Copyright © . 2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
