@@ -32,24 +32,30 @@ namespace Lab.Programs.Bullet
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.motorOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scanOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.scanButton = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.waistsGraph = new GraphControl.GraphControl();
-            this.profileGraph = new GraphControl.GraphControl();
+            this.dAQOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.controlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cuttingProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zAxisPofileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cuttingAxisGraph = new GraphControl.GraphControl();
+            this.waistListView = new System.Windows.Forms.ListView();
+            this.saveZAxisScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 463);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 588);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(755, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(792, 22);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -57,25 +63,36 @@ namespace Lab.Programs.Bullet
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.optionsToolStripMenuItem});
+            this.optionsToolStripMenuItem,
+            this.controlToolStripMenuItem,
+            this.viewToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(755, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(792, 24);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveToolStripMenuItem,
+            this.saveZAxisScanToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.saveToolStripMenuItem.Text = "Save Single Scan";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -83,7 +100,8 @@ namespace Lab.Programs.Bullet
             // 
             this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.motorOptionsToolStripMenuItem,
-            this.scanOptionsToolStripMenuItem});
+            this.scanOptionsToolStripMenuItem,
+            this.dAQOptionsToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
             this.optionsToolStripMenuItem.Text = "Options";
@@ -93,95 +111,124 @@ namespace Lab.Programs.Bullet
             this.motorOptionsToolStripMenuItem.Name = "motorOptionsToolStripMenuItem";
             this.motorOptionsToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.motorOptionsToolStripMenuItem.Text = "Motor Options";
+            this.motorOptionsToolStripMenuItem.Click += new System.EventHandler(this.motorOptionsToolStripMenuItem_Click);
             // 
             // scanOptionsToolStripMenuItem
             // 
             this.scanOptionsToolStripMenuItem.Name = "scanOptionsToolStripMenuItem";
             this.scanOptionsToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.scanOptionsToolStripMenuItem.Text = "Scan Options";
+            this.scanOptionsToolStripMenuItem.Click += new System.EventHandler(this.scanOptionsToolStripMenuItem_Click);
             // 
-            // label1
+            // dAQOptionsToolStripMenuItem
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(102, 76);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(36, 13);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Profile";
+            this.dAQOptionsToolStripMenuItem.Name = "dAQOptionsToolStripMenuItem";
+            this.dAQOptionsToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.dAQOptionsToolStripMenuItem.Text = "DAQ Options";
+            this.dAQOptionsToolStripMenuItem.Click += new System.EventHandler(this.dAQOptionsToolStripMenuItem_Click);
             // 
-            // label2
+            // controlToolStripMenuItem
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(437, 76);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(39, 13);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Waists";
+            this.controlToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.startToolStripMenuItem,
+            this.zScanToolStripMenuItem,
+            this.stopToolStripMenuItem});
+            this.controlToolStripMenuItem.Name = "controlToolStripMenuItem";
+            this.controlToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
+            this.controlToolStripMenuItem.Text = "Control";
             // 
-            // scanButton
+            // startToolStripMenuItem
             // 
-            this.scanButton.Location = new System.Drawing.Point(611, 422);
-            this.scanButton.Name = "scanButton";
-            this.scanButton.Size = new System.Drawing.Size(75, 23);
-            this.scanButton.TabIndex = 6;
-            this.scanButton.Text = "Scan";
-            this.scanButton.UseVisualStyleBackColor = true;
+            this.startToolStripMenuItem.Name = "startToolStripMenuItem";
+            this.startToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Space)));
+            this.startToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.startToolStripMenuItem.Text = "Single Scan";
+            this.startToolStripMenuItem.Click += new System.EventHandler(this.singleScanToolStripMenuItem_Click);
             // 
-            // button1
+            // zScanToolStripMenuItem
             // 
-            this.button1.Location = new System.Drawing.Point(63, 422);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "Temp Button";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.zScanToolStripMenuItem.Name = "zScanToolStripMenuItem";
+            this.zScanToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.zScanToolStripMenuItem.Text = "Z Scan";
+            this.zScanToolStripMenuItem.Click += new System.EventHandler(this.zScanToolStripMenuItem_Click);
             // 
-            // waistsGraph
+            // stopToolStripMenuItem
             // 
-            this.waistsGraph.AutoScale = true;
-            this.waistsGraph.Location = new System.Drawing.Point(393, 92);
-            this.waistsGraph.Name = "waistsGraph";
-            this.waistsGraph.Size = new System.Drawing.Size(293, 295);
-            this.waistsGraph.TabIndex = 1;
-            this.waistsGraph.XLim = new float[] {
+            this.stopToolStripMenuItem.Name = "stopToolStripMenuItem";
+            this.stopToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.stopToolStripMenuItem.Text = "Stop";
+            this.stopToolStripMenuItem.Click += new System.EventHandler(this.stopToolStripMenuItem_Click);
+            // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cuttingProfileToolStripMenuItem,
+            this.zAxisPofileToolStripMenuItem});
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
+            this.viewToolStripMenuItem.Text = "View";
+            // 
+            // cuttingProfileToolStripMenuItem
+            // 
+            this.cuttingProfileToolStripMenuItem.Name = "cuttingProfileToolStripMenuItem";
+            this.cuttingProfileToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.cuttingProfileToolStripMenuItem.Text = "Cutting Profile";
+            this.cuttingProfileToolStripMenuItem.Click += new System.EventHandler(this.cuttingProfileToolStripMenuItem_Click);
+            // 
+            // zAxisPofileToolStripMenuItem
+            // 
+            this.zAxisPofileToolStripMenuItem.Name = "zAxisPofileToolStripMenuItem";
+            this.zAxisPofileToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.zAxisPofileToolStripMenuItem.Text = "Z Axis Pofile";
+            this.zAxisPofileToolStripMenuItem.Click += new System.EventHandler(this.zAxisPofileToolStripMenuItem_Click);
+            // 
+            // cuttingAxisGraph
+            // 
+            this.cuttingAxisGraph.AutoScale = true;
+            this.cuttingAxisGraph.Location = new System.Drawing.Point(0, 27);
+            this.cuttingAxisGraph.Name = "cuttingAxisGraph";
+            this.cuttingAxisGraph.Size = new System.Drawing.Size(767, 438);
+            this.cuttingAxisGraph.TabIndex = 0;
+            this.cuttingAxisGraph.XLim = new float[] {
         -10F,
         10F};
-            this.waistsGraph.YLim = new float[] {
+            this.cuttingAxisGraph.YLim = new float[] {
         -10F,
         10F};
             // 
-            // profileGraph
+            // waistListView
             // 
-            this.profileGraph.AutoScale = true;
-            this.profileGraph.Location = new System.Drawing.Point(70, 92);
-            this.profileGraph.Name = "profileGraph";
-            this.profileGraph.Size = new System.Drawing.Size(293, 295);
-            this.profileGraph.TabIndex = 0;
-            this.profileGraph.XLim = new float[] {
-        -10F,
-        10F};
-            this.profileGraph.YLim = new float[] {
-        -10F,
-        10F};
+            this.waistListView.FullRowSelect = true;
+            this.waistListView.GridLines = true;
+            this.waistListView.Location = new System.Drawing.Point(32, 481);
+            this.waistListView.Name = "waistListView";
+            this.waistListView.Size = new System.Drawing.Size(735, 79);
+            this.waistListView.TabIndex = 4;
+            this.waistListView.UseCompatibleStateImageBehavior = false;
+            this.waistListView.View = System.Windows.Forms.View.Details;
+            this.waistListView.Resize += new System.EventHandler(this.waistListView_Resize);
             // 
-            // Form1
+            // saveZAxisScanToolStripMenuItem
+            // 
+            this.saveZAxisScanToolStripMenuItem.Name = "saveZAxisScanToolStripMenuItem";
+            this.saveZAxisScanToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.saveZAxisScanToolStripMenuItem.Text = "Save Z Axis Scan";
+            this.saveZAxisScanToolStripMenuItem.Click += new System.EventHandler(this.saveZAxisScanToolStripMenuItem_Click);
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(755, 485);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.scanButton);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.ClientSize = new System.Drawing.Size(792, 610);
+            this.Controls.Add(this.waistListView);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.waistsGraph);
-            this.Controls.Add(this.profileGraph);
+            this.Controls.Add(this.cuttingAxisGraph);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "MainForm";
+            this.Text = "Bullet";
+            this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -191,8 +238,7 @@ namespace Lab.Programs.Bullet
 
         #endregion
 
-        private GraphControl.GraphControl profileGraph;
-        private GraphControl.GraphControl waistsGraph;
+        private GraphControl.GraphControl cuttingAxisGraph;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
@@ -200,10 +246,17 @@ namespace Lab.Programs.Bullet
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem motorOptionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scanOptionsToolStripMenuItem;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button scanButton;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dAQOptionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem controlToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem stopToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem zScanToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem startToolStripMenuItem;
+        private System.Windows.Forms.ListView waistListView;
+        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cuttingProfileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem zAxisPofileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveZAxisScanToolStripMenuItem;
     }
 }
 

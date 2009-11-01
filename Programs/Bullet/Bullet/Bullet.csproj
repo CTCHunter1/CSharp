@@ -29,6 +29,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NationalInstruments.Common, Version=8.7.20.131, Culture=neutral, PublicKeyToken=4544464cdeaab541, processorArchitecture=MSIL" />
+    <Reference Include="NationalInstruments.DAQmx, Version=8.9.20.210, Culture=neutral, PublicKeyToken=4544464cdeaab541, processorArchitecture=x86" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -37,11 +39,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataSeries.cs" />
+    <Compile Include="FileIO.cs" />
+    <Compile Include="FileIOZScan.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainFormControl.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -54,11 +62,16 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="ScanOptionsForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ScanOptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -68,15 +81,30 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ScanOptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScanOptionsForm.Designer.cs">
+      <DependentUpon>ScanOptionsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ZDataSeries.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Libraries\GraphControl\GraphControl\GraphControl.csproj">
       <Project>{B99E750E-EF0D-48B8-87A8-A09C90B35866}</Project>
       <Name>GraphControl</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Libraries\Lab.Drivers.DAQ\Lab.Drivers.DAQ.csproj">
+      <Project>{20A289EB-5891-4A59-90D6-BEE35ED61578}</Project>
+      <Name>Lab.Drivers.DAQ</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Libraries\Lab.Drivers.Motors\Lab.Drivers.Motors.csproj">
       <Project>{206E8042-B072-4E9F-87C4-BC3090C91E62}</Project>
       <Name>Lab.Drivers.Motors</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Libraries\Lab.Math\Lab.Math.csproj">
+      <Project>{B1ABFB43-C135-45EE-B048-310B72895DCA}</Project>
+      <Name>Lab.Math</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

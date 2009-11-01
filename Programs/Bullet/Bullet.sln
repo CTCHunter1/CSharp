@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphControl", "..\..\Libra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.Drivers.Motors", "..\..\Libraries\Lab.Drivers.Motors\Lab.Drivers.Motors.csproj", "{206E8042-B072-4E9F-87C4-BC3090C91E62}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.Drivers.DAQ", "..\..\Libraries\Lab.Drivers.DAQ\Lab.Drivers.DAQ.csproj", "{20A289EB-5891-4A59-90D6-BEE35ED61578}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.Math", "..\..\Libraries\Lab.Math\Lab.Math.csproj", "{B1ABFB43-C135-45EE-B048-310B72895DCA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +29,14 @@ Global
 		{206E8042-B072-4E9F-87C4-BC3090C91E62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{206E8042-B072-4E9F-87C4-BC3090C91E62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{206E8042-B072-4E9F-87C4-BC3090C91E62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20A289EB-5891-4A59-90D6-BEE35ED61578}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20A289EB-5891-4A59-90D6-BEE35ED61578}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20A289EB-5891-4A59-90D6-BEE35ED61578}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20A289EB-5891-4A59-90D6-BEE35ED61578}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1ABFB43-C135-45EE-B048-310B72895DCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1ABFB43-C135-45EE-B048-310B72895DCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1ABFB43-C135-45EE-B048-310B72895DCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1ABFB43-C135-45EE-B048-310B72895DCA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
