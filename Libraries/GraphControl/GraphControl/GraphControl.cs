@@ -105,6 +105,10 @@ namespace GraphControl
 
         public void Plot(string str_data_name, double[] x_vals, double[] y_vals, Color color_obj)
         {
+            // need two points to plot
+            if (x_vals.Length <= 1)
+                return;
+
             if (m_autoscale)
             {
                 double x_min_val = Min(x_vals);

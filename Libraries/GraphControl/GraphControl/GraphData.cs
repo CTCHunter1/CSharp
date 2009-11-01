@@ -35,7 +35,8 @@ namespace GraphControl
 
         public void Paint(Graphics g)
         {
-            g.DrawLines(m_pen, m_pixel_cords);
+            if(m_pixel_cords.Length > 1)
+                g.DrawLines(m_pen, m_pixel_cords);
         }
     }
 
