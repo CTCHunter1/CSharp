@@ -18,7 +18,7 @@ namespace Lab.Programs.Bullet
 {
     public partial class MainForm : Form
     {
-        enum ViewType { CuttingAxis, WaistsGraph };
+        enum ViewType { CuttingAxis, PlotWaists, PlotWaistsAndCentroid};
 
         // the scan options form should never be destroyed
         MotorControlForm motorControlFormObj;
@@ -26,6 +26,7 @@ namespace Lab.Programs.Bullet
         NI6251ControlForm NIDAQControlFormObj;
 
         GraphControl.GraphControl waistsGraph = new GraphControl.GraphControl();
+        GraphControl.GraphControl centroidGraph = new GraphControl.GraphControl();
 
         // for the DAQ
         private AsyncCallback analogCallback;
@@ -33,7 +34,7 @@ namespace Lab.Programs.Bullet
         private AnalogMultiChannelReader analogInReader;
         private AnalogWaveform<double>[] multiChannelWaveformData;
 
-        private ViewType viewTypeObj = ViewType.WaistsGraph;
+        private ViewType viewTypeObj = ViewType.PlotWaists;
 
         // TODO: Delete next two lines
         // object to place incoming data in
@@ -49,11 +50,14 @@ namespace Lab.Programs.Bullet
         {
             InitializeComponent();
             waistsGraph.Hide();
+            centroidGraph.Hide();
+            
+            // add the new control to the UI
             this.Controls.Add(waistsGraph);
+            this.Controls.Add(centroidGraph);
 
             InitalizeListView();
             SizeFormControls();
-
             motorControlFormObj = new MotorControlForm();
             scanOptionsFormObj = new ScanOptionsForm(motorControlFormObj.Axes);
             
@@ -195,28 +199,37 @@ namespace Lab.Programs.Bullet
                     case ViewType.CuttingAxis:
                         // the waist plot isn't shown in this view
                         waistsGraph.Hide();
+                        centroidGraph.Hide();
 
                         // change the width of the profile graph and waist list view to that of the window
                         
                         profileGraphSize.Width = widthOfControls;                                               
                         break;
 
-                    case ViewType.WaistsGraph:
+                    case ViewType.PlotWaists:
+                        centroidGraph.Hide();
                         profileGraphSize.Width = widthOfControls/2 - 10; 
 
-                        this.waistsGraph.AutoScale = true;
                         this.waistsGraph.Location = new System.Drawing.Point(profileGraphSize.Width+10, menuStrip1.Height + 5);
-                        this.waistsGraph.Name = "zProfileGraph";
+                        this.waistsGraph.Name = "zWaistGraph";
                         this.waistsGraph.Size = new System.Drawing.Size(profileGraphSize.Width, bottomOfProfileGraph);
-                        this.waistsGraph.TabIndex = 0;
-                        this.waistsGraph.XLim = new float[] {
-                        -10F,
-                        10F};
-                        this.waistsGraph.YLim = new float[] {
-                        -10F,
-                        10F};
+                        this.waistsGraph.TabIndex = 0;                       
                         this.waistsGraph.Show();
+                        break;
 
+                    case ViewType.PlotWaistsAndCentroid:
+                        profileGraphSize.Width = widthOfControls / 3 - 10;
+                        
+                        this.waistsGraph.Location = new System.Drawing.Point(profileGraphSize.Width + 10, menuStrip1.Height + 5);
+                        this.waistsGraph.Name = "zWaistGraph";
+                        this.waistsGraph.Size = new System.Drawing.Size(profileGraphSize.Width, bottomOfProfileGraph);
+
+                        this.centroidGraph.Location = new System.Drawing.Point(profileGraphSize.Width*2 + 10, menuStrip1.Height + 5);
+                        this.centroidGraph.Name = "zCentroidGraph";
+                        this.centroidGraph.Size = new System.Drawing.Size(profileGraphSize.Width, bottomOfProfileGraph);
+                       
+                        this.waistsGraph.Show();
+                        this.centroidGraph.Show();
                         break;
                 }
                 
@@ -226,10 +239,11 @@ namespace Lab.Programs.Bullet
                 profileGraphLocation.Y = menuStrip1.Height + 5;
                 
                 
+                // size the waist list view
                 waistListViewLocation.Y = bottomOfProfileGraph + 35;
                 waistListViewLocation.X = 4;
 
-                // make the waist liust and graph span the horizontal and the waist 
+                // make the waist list and graph span the horizontal and the waist 
                 cuttingAxisGraph.Size = profileGraphSize;
                 cuttingAxisGraph.Location = profileGraphLocation;
                 waistListView.Size = waistListViewSize;
@@ -251,14 +265,19 @@ namespace Lab.Programs.Bullet
 
         private void zAxisPofileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            viewTypeObj = ViewType.WaistsGraph;
+            viewTypeObj = ViewType.PlotWaists;
             SizeFormControls();
         }
 
         private void cuttingProfileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.cuttingAxisGraph.Show();
             viewTypeObj = ViewType.CuttingAxis;
+            SizeFormControls();
+        }
+
+        private void beamWaistAndCentroidProfileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            viewTypeObj = ViewType.PlotWaistsAndCentroid;
             SizeFormControls();
         }
 

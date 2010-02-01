@@ -106,7 +106,7 @@ namespace Lab.Programs.Bullet
                 if (erfFitResultObj == null)
                     return (0);
 
-                return (System.Math.Sqrt(2)*erfFitResultObj.B);
+                return (System.Math.Sqrt(2)*erfFitResultObj.B*1000);
             }
         }
 
@@ -175,8 +175,94 @@ namespace Lab.Programs.Bullet
 
         public void GetFit()
         {
-            ErfFit erfFitObj = new ErfFit();
-            erfFitResultObj = erfFitObj.Fit(x_arr.ToArray(), Y_t.ToArray());
+            double [] y_arr = Y_t.ToArray();
+            double [] x_arr = this.x_arr.ToArray();
+
+            // we need to try to guess the offset position the beam width and the amplitude
+            int minIndex, maxIndex;
+            double minValue = Functions.Min(y_arr, out minIndex);
+            double maxValue = Functions.Max(y_arr, out maxIndex);
+
+            // the value where the erf is at it's half max
+            double spread = maxValue - minValue;
+
+            int x0Index = FindIndex(spread/2, y_arr);
+            double x0 = x_arr[x0Index];     // a guess of where the half way point is
+
+            int b0minIndex = FindIndex(spread * .0786, y_arr);
+            int b0maxIndex = FindIndex(spread * .9214, y_arr);
+
+            double b0 = 0; // initial guess of the b paramter
+
+            if (b0minIndex < b0maxIndex)
+            {
+                b0 = (x_arr[b0maxIndex] - x_arr[b0minIndex]) / 2;
+            }
+            else if (b0minIndex > b0maxIndex)
+            {
+                b0 = (x_arr[b0minIndex] - x_arr[b0maxIndex]) / 2;
+            }
+            else
+            {
+                b0 = x_arr[1] - x_arr[0];   // make the inital guess the step size
+            }
+
+            double d = spread/2;   // +1 because the erf ranges from -1 to 1
+            double a = spread / 2;                  // /2 becaus the erf ranges from -1 to 1 
+
+            if (minIndex < maxIndex)
+            {
+                ErfFit erfFitObj = new ErfFit(1E-9,
+                    1000,
+                    new double[4] { a, b0, x0, d },
+                    new double[4] { a * .05, b0 * .05, x0 * .05, d * .1 });
+
+                erfFitResultObj = erfFitObj.Fit(x_arr, y_arr);
+            }
+            else
+            {
+                ErfFit erfFitObj = new ErfFit(1E-9,
+                    1000,
+                    new double[4] { -a, b0, x0, d },
+                    new double[4] { a * .05, b0 * .05, x0 * .05, d * .1 });
+
+                erfFitResultObj = erfFitObj.Fit(x_arr, y_arr);
+            }
+        }
+
+        public int FindIndex(double searchValue, double[] yArr)
+        {
+            // some simple error checking
+            if (yArr == null)
+                return 0;
+
+            if (yArr.Length < 2)
+                return 0;
+
+            int index = 0;
+
+            // two search routines
+            if (yArr[0] < searchValue)
+            {
+                // the ERF function goes from zero to it's max value
+                for (index = 0; index < yArr.Length; index++)
+                {
+                    if (yArr[index] > searchValue)
+                        return (index);
+                }
+            }
+            else
+            {
+                // the ERF function starts at it's max and goes to zero
+                for (index = 0; index < yArr.Length; index++)
+                {
+                    if (yArr[index] < searchValue)
+                        return (index);
+                }
+            }
+
+            // shouldn't ever get to here
+            return (0);
         }
     }
 }

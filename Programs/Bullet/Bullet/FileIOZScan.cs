@@ -22,7 +22,7 @@ namespace Lab.Programs.Bullet
             ZDataSeries[] zDataSeriesArr)
         {
             streamWritterObj.WriteLine("Timestamp:," + DateTime.Now);
-            streamWritterObj.WriteLine("Title:," + "Bullet Single Shot File");
+            streamWritterObj.WriteLine("Title:," + "Bullet ZScan File");
             streamWritterObj.WriteLine("Number of Channels:," + zDataSeriesArr.Length.ToString());
             streamWritterObj.WriteLine("Number of Z Points:," + zDataSeriesArr[0].ZPositions.Length);
             streamWritterObj.WriteLine("");

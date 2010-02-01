@@ -285,12 +285,21 @@ namespace Lab.Programs.Bullet
             {
                 for (int i = 0; i < dataSeriesArr.Length; i++)
                 {
-                    // write the time value
-                    streamWriterObj.Write(dataSeriesArr[i].t[j].ToString() + ",");
-                    // write the position value
-                    streamWriterObj.Write(dataSeriesArr[i].x[j].ToString() + ",");
-                    // write the voltage value
-                    streamWriterObj.Write(dataSeriesArr[i].Y[j].ToString() + ",");
+                    // sometimes the daq times out during acquistion, prevent outside indexing
+                    if (dataSeriesArr[i].t.Length > j)
+                    {
+                        // write the time value
+                        streamWriterObj.Write(dataSeriesArr[i].t[j].ToString() + ",");
+                        // write the position value
+                        streamWriterObj.Write(dataSeriesArr[i].x[j].ToString() + ",");
+                        // write the voltage value
+                        streamWriterObj.Write(dataSeriesArr[i].Y[j].ToString() + ",");
+                    }
+                    else
+                    {
+                        // write the voltage value
+                        streamWriterObj.Write("-1,-1,-1,");
+                    }
                 }   
 
                 // new line
