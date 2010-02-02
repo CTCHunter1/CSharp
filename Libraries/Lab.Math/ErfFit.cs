@@ -22,8 +22,8 @@ namespace Lab.Math
             // initalize to usable values
             tolerance = 1E-9;
             maxEvals = 1000;
-            startingValues = new double[4] {1, 10, 0, 0};
-            startingStep = new double[4] { .1, .1, .1, .1 };            
+            startingValues = new double[4] {1, .1, 1.6, 0};
+            startingStep = new double[4] { .1, .01, .1, .1 };            
         }
 
         // fits the constants a,b,c,d function of form y = a*erf((x-c)/b)+d
