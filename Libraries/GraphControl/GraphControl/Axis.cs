@@ -110,6 +110,13 @@ namespace GraphControl
             set
             {
                 m_ylim = value;
+                // if either of the m_ylim are infinity zet them to zero
+                if (double.IsInfinity(m_ylim[0]) || double.IsInfinity(m_ylim[1]))
+                {
+                    m_ylim[0] = -10;
+                    m_ylim[1] = 10;
+                }
+
                 Resize(m_control_rect, g_obj);
             }
         }
@@ -644,11 +651,11 @@ namespace GraphControl
         {
             // the functions (try to) prevent off graph_rect drawing
             Point pt = new Point();
-            
             switch(axisType)
             {
                 case AxisType.LinLog:
                     pt.X = (int) Math.Round(((Math.Log10(x) - m_xlim[0]) * m_mX + m_graph_rect.Left));
+                    // check that it's inside of the graph
                     pt.Y = (int) Math.Ceiling((m_graph_rect.Bottom - (y - m_ylim[0]) * m_mY));
                     break;
 
@@ -658,6 +665,16 @@ namespace GraphControl
                     pt.Y = (int) Math.Ceiling((m_graph_rect.Bottom - (y - m_ylim[0]) * m_mY));
                     break;                    
             }
+
+            // insures that the point is in the rectangle
+            if (pt.X < m_graph_rect.Left)
+                pt.X = m_graph_rect.Left;
+            if (pt.X > m_graph_rect.Right)
+                pt.X = m_graph_rect.Right;
+            if (pt.Y > m_graph_rect.Bottom)
+                pt.Y = m_graph_rect.Bottom;
+            if (pt.Y < m_graph_rect.Top)
+                pt.Y = m_graph_rect.Top;
 
             return (pt);
         }

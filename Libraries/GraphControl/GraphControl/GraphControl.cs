@@ -32,30 +32,33 @@ namespace GraphControl
             // XLim = new double[2]{-10, 30};
         }
 
-        public float [] XLim
+        public double [] XLim
         {
             get
             {
                 // the interface doesn't suport using double[]. Donno why
-                return (new float[2]{(float) axis_obj.XLim[0], (float)axis_obj.XLim[1]});
+                return (new double[2]{axis_obj.XLim[0], axis_obj.XLim[1]});
             }
             set
             {
                 axis_obj.XLim = new double[2] { value[0],  value[1]};
+                graph_data_list.Resize(axis_obj);
                 this.Invalidate();
             }
         }
 
-        public float [] YLim
+        public double [] YLim
         {
             get
             {
-                return (new float[2] {(float) axis_obj.YLim[0], (float)axis_obj.YLim[1] });
+                return (new double[2] {axis_obj.YLim[0], axis_obj.YLim[1] });
             }
             set
             {
 
                 axis_obj.YLim = new double[2] { value[0], value[1] };
+                graph_data_list.Resize(axis_obj);
+                this.Invalidate();
             }
         }
 
@@ -79,7 +82,14 @@ namespace GraphControl
 
         protected override void OnPaint(PaintEventArgs e)
         {
-
+            // for some reason, the double buffer graphics object disappears when the 
+            // application is minized, so if the graphics opject doesn't exist reinitalize it
+            if (db_graphics_obj.g == null)
+            {
+                db_graphics_obj = new DBGraphics();
+                db_graphics_obj.CreateDoubleBuffer(this.CreateGraphics(), this.ClientRectangle.Width, this.ClientRectangle.Height);
+            }
+              
              boarder_obj.Paint(db_graphics_obj.g);
              axis_obj.Paint(db_graphics_obj.g);
              graph_data_list.Paint(db_graphics_obj.g);
