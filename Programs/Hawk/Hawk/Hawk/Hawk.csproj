@@ -59,15 +59,6 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="HP8954E Options.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="HP8954E Options.Designer.cs">
-      <DependentUpon>HP8954E Options.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GPIB-32.cs" />
-    <Compile Include="HP_8594E.cs" />
-    <Compile Include="ICSconstants.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Arroyo Options.resx">
@@ -81,10 +72,6 @@
     <EmbeddedResource Include="Form1.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HP8954E Options.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>HP8954E Options.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -110,6 +97,10 @@
     <ProjectReference Include="..\..\..\..\Libraries\GraphControl\GraphControl\GraphControl.csproj">
       <Project>{B99E750E-EF0D-48B8-87A8-A09C90B35866}</Project>
       <Name>GraphControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Libraries\Lab.Drivers.HP8594E\Lab.Drivers.HP8594E.csproj">
+      <Project>{FEA45B76-6210-4C42-BB54-4CC8C63F3AA3}</Project>
+      <Name>Lab.Drivers.HP8594E</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
