@@ -7,9 +7,10 @@ using System.Threading;
 
 namespace Hawk
 {
-    class Arroyo
+    public class Arroyo
     {
         SerialPort sp_obj;
+        bool connected;
 
         public enum Laser_Mode
         {
@@ -33,12 +34,22 @@ namespace Hawk
 
         public void Connect()
         {
-            sp_obj.Open();
+            try
+            {
+                sp_obj.Open();
+                connected = true;
+            }
+            catch (Exception Ex)
+            {
+                connected = false;
+                throw (Ex);
+            }
         }
 
         public void Disconnect()
         {
             sp_obj.Close();
+            connected = false;
         }
 
         public String Get_ID()
@@ -198,7 +209,15 @@ namespace Hawk
                     // and reopen
                     sp_obj.Close();
                     sp_obj.PortName = "COM" + aof_obj.Com_Port.ToString();
-                    sp_obj.Open();        
+                    Connect();      
+            }
+        }
+
+        public bool Connected
+        {
+            get
+            {
+                return (this.connected);
             }
         }
     }

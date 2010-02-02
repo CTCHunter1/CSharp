@@ -7,7 +7,8 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using Driver;
+//using Driver;
+using Lab.Drivers.HP8594E;
 
 namespace Hawk
 {
@@ -24,12 +25,12 @@ namespace Hawk
         UI_UpdateStatusDelegate ui_update_status_delegate_obj;
         UI_EnableSweepDelegate ui_enable_sweep_delegate_obj;
 
-        HP_8594E hp_8594e_obj;
+        HP8594E hp_8594e_obj;
         Arroyo arroyo_obj;
 
         private enum Freq_Units {Hz=1, kHz=3, MHz=6, GHz=9 };
         Freq_Units graph_xunits;
-        HP_8594E.AmpUnits amp_units;
+        HP8594E.AmpUnits amp_units;
 
         // Current Sweep Parameters
         double d_start = 10;
@@ -64,9 +65,18 @@ namespace Hawk
             comboBox1.SelectedIndex = 2;
             graph_xunits = Freq_Units.MHz;
 
+            // initalize the HP8594E
             try
             {
-                hp_8594e_obj = new HP_8594E();
+                hp_8594e_obj = new HP8594E();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error Initalizing HP8594E\r\n" + ex.Message); 
+            }
+
+            try
+            {
                 arroyo_obj = new Arroyo();
                 // initalize the equpiment
                 //hp_8594e_obj.Initalize();
@@ -74,7 +84,8 @@ namespace Hawk
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Error Initalizing Arroryo\r\n" + ex.Message);
+                DisableSweep();
             }
         }
 
@@ -96,6 +107,12 @@ namespace Hawk
             toolStripSaveSweep.Enabled = true;
         }
 
+        private void DisableSweep()
+        {
+            current_sweep_button.Enabled = false;
+            toolStripSaveSweep.Enabled = false;
+        }
+
         private void gPIPOptionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             hp_8594e_obj.Show_Options();
@@ -105,9 +122,12 @@ namespace Hawk
         {
             try
             {
-                // Back to local mode
-                arroyo_obj.Set_Local();
-                arroyo_obj.Disconnect();
+                if (arroyo_obj.Connected == true)
+                {
+                    // Back to local mode
+                    arroyo_obj.Set_Local();
+                    arroyo_obj.Disconnect();
+                }
 
                 hp_8594e_obj.Go_Local();
             }
@@ -207,14 +227,17 @@ namespace Hawk
 
         }
 
-        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        private void toolStripArroyoOptions_Click(object sender, EventArgs e)
         {
             try
             {
                 arroyo_obj.Show_Options();
+                EnableSweep();
+                
             }
             catch (Exception ex)
             {
+                DisableSweep();
                 MessageBox.Show(ex.Message);
             }
         }

@@ -35,7 +35,7 @@ namespace Hawk
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gPIPOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripArroyoOptions = new System.Windows.Forms.ToolStripMenuItem();
             this.arroyoSweepOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.graphControl1 = new GraphControl.GraphControl();
             this.take_trace_button = new System.Windows.Forms.Button();
@@ -95,7 +95,7 @@ namespace Hawk
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.gPIPOptionsToolStripMenuItem,
-            this.toolStripMenuItem1,
+            this.toolStripArroyoOptions,
             this.arroyoSweepOptionsToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -108,12 +108,12 @@ namespace Hawk
             this.gPIPOptionsToolStripMenuItem.Text = "GPIP Options";
             this.gPIPOptionsToolStripMenuItem.Click += new System.EventHandler(this.gPIPOptionsToolStripMenuItem_Click);
             // 
-            // toolStripMenuItem1
+            // toolStripArroyoOptions
             // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(197, 22);
-            this.toolStripMenuItem1.Text = "Arroyo Options";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            this.toolStripArroyoOptions.Name = "toolStripArroyoOptions";
+            this.toolStripArroyoOptions.Size = new System.Drawing.Size(197, 22);
+            this.toolStripArroyoOptions.Text = "Arroyo Options";
+            this.toolStripArroyoOptions.Click += new System.EventHandler(this.toolStripArroyoOptions_Click);
             // 
             // arroyoSweepOptionsToolStripMenuItem
             // 
@@ -248,7 +248,7 @@ namespace Hawk
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripArroyoOptions;
         private System.Windows.Forms.ToolStripMenuItem toolStripSaveTrace;
         private System.Windows.Forms.ToolStripMenuItem toolStripSaveSweep;
     }
