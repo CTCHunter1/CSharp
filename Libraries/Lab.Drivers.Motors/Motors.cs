@@ -22,9 +22,9 @@ namespace Lab.Drivers.Motors
 
         public void FindAxes()
         {
-            zaberAxes = FindZaberMotors();
             newportAxes = FindNewportMotors();
-
+            zaberAxes = FindZaberMotors();
+            
             // figure out if both are attached
             if (zaberAxes == null && newportAxes == null)
             {

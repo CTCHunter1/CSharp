@@ -17,6 +17,13 @@ namespace Lab.Drivers.Motors
             InitializeComponent();
 
             motorsObj = new Motors();
+
+            if (motorsObj.Axes == null)
+            {
+                MessageBox.Show("No Motors Found. Exiting");
+                Application.Exit();
+            }
+
             // get the position and velocity
             axisComboBox.Items.AddRange(motorsObj.Axes); 
             

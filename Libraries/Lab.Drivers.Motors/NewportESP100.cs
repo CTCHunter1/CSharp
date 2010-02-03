@@ -68,7 +68,11 @@ namespace Lab.Drivers.Motors
                         // the device requires RTS hardware control
                         // if it is enabled before this point it hangs the system
                         spObj.RtsEnable = true;
+                        // clear the com port object
+                        spObj.DiscardInBuffer();
+
                         str_resp = ReadControllerFirmwareVersion();
+                        spObj.BaseStream.Flush();
                         // remove everything but themodel number
                         str_resp = str_resp.Remove(6);
 
