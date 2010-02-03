@@ -5,7 +5,7 @@ using System.IO.Ports;
 using System.Threading;
 
 
-namespace Hawk
+namespace Lab.Programs.Hawk
 {
     public class Arroyo
     {

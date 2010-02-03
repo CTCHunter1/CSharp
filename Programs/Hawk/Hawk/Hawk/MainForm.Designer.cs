@@ -1,6 +1,6 @@
-namespace Hawk
+namespace Lab.Programs.Hawk
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -33,10 +33,15 @@ namespace Hawk
             this.toolStripSaveTrace = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSaveSweep = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveSingleScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gPIPOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripArroyoOptions = new System.Windows.Forms.ToolStripMenuItem();
             this.arroyoSweepOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.motorScanOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.motorOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.controlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.singleScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.graphControl1 = new GraphControl.GraphControl();
             this.take_trace_button = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
@@ -53,7 +58,8 @@ namespace Hawk
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.editToolStripMenuItem});
+            this.editToolStripMenuItem,
+            this.controlToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(552, 24);
@@ -65,6 +71,7 @@ namespace Hawk
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripSaveTrace,
             this.toolStripSaveSweep,
+            this.saveSingleScanToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
@@ -91,12 +98,21 @@ namespace Hawk
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
+            // saveSingleScanToolStripMenuItem
+            // 
+            this.saveSingleScanToolStripMenuItem.Name = "saveSingleScanToolStripMenuItem";
+            this.saveSingleScanToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.saveSingleScanToolStripMenuItem.Text = "Save Single Scan";
+            this.saveSingleScanToolStripMenuItem.Click += new System.EventHandler(this.saveSingleScanToolStripMenuItem_Click);
+            // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.gPIPOptionsToolStripMenuItem,
             this.toolStripArroyoOptions,
-            this.arroyoSweepOptionsToolStripMenuItem});
+            this.arroyoSweepOptionsToolStripMenuItem,
+            this.motorScanOptionsToolStripMenuItem,
+            this.motorOptionsToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.editToolStripMenuItem.Text = "Edit";
@@ -122,6 +138,35 @@ namespace Hawk
             this.arroyoSweepOptionsToolStripMenuItem.Text = "Current Sweep Options";
             this.arroyoSweepOptionsToolStripMenuItem.Click += new System.EventHandler(this.arroyoSweepOptionsToolStripMenuItem_Click);
             // 
+            // motorScanOptionsToolStripMenuItem
+            // 
+            this.motorScanOptionsToolStripMenuItem.Name = "motorScanOptionsToolStripMenuItem";
+            this.motorScanOptionsToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.motorScanOptionsToolStripMenuItem.Text = "Motor Scan Options";
+            this.motorScanOptionsToolStripMenuItem.Click += new System.EventHandler(this.motorScanOptionsToolStripMenuItem_Click);
+            // 
+            // motorOptionsToolStripMenuItem
+            // 
+            this.motorOptionsToolStripMenuItem.Name = "motorOptionsToolStripMenuItem";
+            this.motorOptionsToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.motorOptionsToolStripMenuItem.Text = "Motor Options";
+            this.motorOptionsToolStripMenuItem.Click += new System.EventHandler(this.motorOptionsToolStripMenuItem_Click);
+            // 
+            // controlToolStripMenuItem
+            // 
+            this.controlToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.singleScanToolStripMenuItem});
+            this.controlToolStripMenuItem.Name = "controlToolStripMenuItem";
+            this.controlToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
+            this.controlToolStripMenuItem.Text = "Control";
+            // 
+            // singleScanToolStripMenuItem
+            // 
+            this.singleScanToolStripMenuItem.Name = "singleScanToolStripMenuItem";
+            this.singleScanToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.singleScanToolStripMenuItem.Text = "Single Scan";
+            this.singleScanToolStripMenuItem.Click += new System.EventHandler(this.singleScanToolStripMenuItem_Click);
+            // 
             // graphControl1
             // 
             this.graphControl1.AutoScale = true;
@@ -129,12 +174,12 @@ namespace Hawk
             this.graphControl1.Name = "graphControl1";
             this.graphControl1.Size = new System.Drawing.Size(475, 374);
             this.graphControl1.TabIndex = 0;
-            this.graphControl1.XLim = new float[] {
-        -10F,
-        10F};
-            this.graphControl1.YLim = new float[] {
-        -10F,
-        10F};
+            this.graphControl1.XLim = new double[] {
+        -10,
+        10};
+            this.graphControl1.YLim = new double[] {
+        -10,
+        10};
             // 
             // take_trace_button
             // 
@@ -207,7 +252,7 @@ namespace Hawk
             this.toolStripProgressBar.Name = "toolStripProgressBar";
             this.toolStripProgressBar.Size = new System.Drawing.Size(150, 16);
             // 
-            // Form1
+            // MainForm
             // 
             this.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -221,7 +266,7 @@ namespace Hawk
             this.Controls.Add(this.graphControl1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -251,6 +296,11 @@ namespace Hawk
         private System.Windows.Forms.ToolStripMenuItem toolStripArroyoOptions;
         private System.Windows.Forms.ToolStripMenuItem toolStripSaveTrace;
         private System.Windows.Forms.ToolStripMenuItem toolStripSaveSweep;
+        private System.Windows.Forms.ToolStripMenuItem motorScanOptionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem motorOptionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem controlToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem singleScanToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveSingleScanToolStripMenuItem;
     }
 }
 

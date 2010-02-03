@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Hawk
+namespace Lab.Programs.Hawk
 {
     public partial class Arroyo_Sweep_Options : Form
     {

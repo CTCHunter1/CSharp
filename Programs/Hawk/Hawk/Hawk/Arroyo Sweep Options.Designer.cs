@@ -1,4 +1,4 @@
-namespace Hawk
+namespace Lab.Programs.Hawk
 {
     partial class Arroyo_Sweep_Options
     {

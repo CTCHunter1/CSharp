@@ -7,23 +7,28 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-//using Driver;
 using Lab.Drivers.HP8594E;
+using Lab.Drivers.Motors;
 
-namespace Hawk
+namespace Lab.Programs.Hawk
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
+        // form objects
+        MotorControlForm motorControlFormObj;
+        ScanOptionsForm scanOptionsFormObj;
+
         // UI Update Delegates
         delegate void UI_UpdateGraphDelegate(String str, double[] x_data, double[] y_data, Color c);
         delegate void UI_UpdateStatusDelegate(String str_msg, int i_precent_comp);
-        delegate void UI_EnableSweepDelegate();
+        delegate void UI_EnableDelegate();
         // Thread Object
-        Thread current_sweep_thread_obj; 
+        Thread current_sweep_thread_obj;
+        Thread singleScanThreadObj;
 
         UI_UpdateGraphDelegate ui_update_graph_delegate_obj;
         UI_UpdateStatusDelegate ui_update_status_delegate_obj;
-        UI_EnableSweepDelegate ui_enable_sweep_delegate_obj;
+        UI_EnableDelegate ui_enable_delegate_obj;
 
         HP8594E hp_8594e_obj;
         Arroyo arroyo_obj;
@@ -31,6 +36,7 @@ namespace Hawk
         private enum Freq_Units {Hz=1, kHz=3, MHz=6, GHz=9 };
         Freq_Units graph_xunits;
         HP8594E.AmpUnits amp_units;
+        double resolution_bandwidth = 0;
 
         // Current Sweep Parameters
         double d_start = 10;
@@ -47,9 +53,10 @@ namespace Hawk
         // Sweep Variables , d_axis_arr is also used in the sweep
         double [] d_I0_arr = null;
         double [] d_Im_arr = null;
+        double [] d_position_arr = null;
         double [][] d_trace_2D_arr = null;
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
 
@@ -75,6 +82,7 @@ namespace Hawk
                 MessageBox.Show("Error Initalizing HP8594E\r\n" + ex.Message); 
             }
 
+            // initalize the Arroyo Driver
             try
             {
                 arroyo_obj = new Arroyo();
@@ -87,6 +95,12 @@ namespace Hawk
                 MessageBox.Show("Error Initalizing Arroryo\r\n" + ex.Message);
                 DisableSweep();
             }
+
+            // initalize the motors
+            motorControlFormObj = new MotorControlForm();
+            scanOptionsFormObj = new ScanOptionsForm(motorControlFormObj.Axes);
+
+
         }
 
         private void UpdateGraph(string str, double []x_data, double []y_data, Color c)
@@ -99,6 +113,22 @@ namespace Hawk
         {
             toolStripStatusLabel.Text = status_str;
             toolStripProgressBar.Value = i_per_complete;
+        }
+
+        private void EnableSingleScan()
+        {
+            // Disable the take scan button
+            singleScanToolStripMenuItem.Enabled = true;
+            // disable the save button until this is complete
+            saveSingleScanToolStripMenuItem.Enabled = true;
+        }
+
+        private void DisableSingleScan()
+        {
+            // Disable the take scan button
+            singleScanToolStripMenuItem.Enabled = false;
+            // disable the save button until this is complete
+            saveSingleScanToolStripMenuItem.Enabled = false;
         }
 
         private void EnableSweep()
@@ -150,17 +180,18 @@ namespace Hawk
 
             d_trace_arr = hp_8594e_obj.Get_HP_TraceA();
             d_axis_arr = hp_8594e_obj.Get_HP_Axis();
-                        
+            resolution_bandwidth = hp_8594e_obj.Get_Resolution_Bandwidth();
+            amp_units = hp_8594e_obj.Get_Amp_Units();
+
+
             // put the axis into the correct units
-            double d_scale_fac = Math.Pow(10, -((double)graph_xunits));
+            double d_scale_fac = System.Math.Pow(10, -((double)graph_xunits));
 
             // convert the X-axis to the right units
             for (int i = 0; i < d_axis_arr.Length; i++)
             {
                 d_axis_arr[i] = d_axis_arr[i] * d_scale_fac;
-            }
-            
-            amp_units = hp_8594e_obj.Get_Amp_Units();
+            }            
 
             // return control to local
             hp_8594e_obj.Go_Local();
@@ -200,9 +231,9 @@ namespace Hawk
 
             ui_update_graph_delegate_obj = new UI_UpdateGraphDelegate(UpdateGraph);
             ui_update_status_delegate_obj = new UI_UpdateStatusDelegate(UpdateStatus);
-            ui_enable_sweep_delegate_obj = new UI_EnableSweepDelegate(EnableSweep);
+            ui_enable_delegate_obj = new UI_EnableDelegate(EnableSweep);
             current_sweep_thread_obj = new Thread(new ParameterizedThreadStart(Current_Sweep));
-            current_sweep_thread_obj.Start((object) new object[]{this, ui_update_graph_delegate_obj, ui_update_status_delegate_obj, ui_enable_sweep_delegate_obj});            
+            current_sweep_thread_obj.Start((object)new object[] { this, ui_update_graph_delegate_obj, ui_update_status_delegate_obj, ui_enable_delegate_obj });            
            
         }
 
@@ -287,7 +318,7 @@ namespace Hawk
             ContainerControl sender = (ContainerControl) obj_arr[0];
             UI_UpdateGraphDelegate ui_update_graph_obj = (UI_UpdateGraphDelegate) obj_arr[1];
             UI_UpdateStatusDelegate ui_update_status_obj = (UI_UpdateStatusDelegate) obj_arr[2];
-            UI_EnableSweepDelegate ui_enable_sweep_obj = (UI_EnableSweepDelegate)obj_arr[3];
+            UI_EnableDelegate ui_enable_sweep_obj = (UI_EnableDelegate)obj_arr[3];
 
             // There are two sweep options, sweeping the I0 and sweeping the Im
             // Deal with each seprately
@@ -309,7 +340,7 @@ namespace Hawk
             // get the axis 
             d_axis_arr = hp_8594e_obj.Get_HP_Axis();
             // put the axis into the correct units
-            double d_scale_fac = Math.Pow(10, -((double)graph_xunits));
+            double d_scale_fac = System.Math.Pow(10, -((double)graph_xunits));
 
             // convert the X-axis to the right units
             for (int i = 0; i < d_axis_arr.Length; i++)
@@ -382,6 +413,71 @@ namespace Hawk
             sender.BeginInvoke(ui_enable_sweep_obj, new object[] { });
         }
 
+        private void SingleScan(object parameters)
+        {
+            // get the parameteres
+            Object[] obj_arr = (Object[])parameters;
+            ContainerControl sender = (ContainerControl)obj_arr[0];
+            UI_UpdateGraphDelegate ui_update_graph_obj = (UI_UpdateGraphDelegate)obj_arr[1];
+            UI_UpdateStatusDelegate ui_update_status_obj = (UI_UpdateStatusDelegate)obj_arr[2];
+            UI_EnableDelegate ui_enable_single_scan_obj = (UI_EnableDelegate)obj_arr[3];
+
+            // apparently using jagged arrarys is faster than using multi-demension ones, who knew
+            d_trace_2D_arr = new double[scanOptionsFormObj.CuttingAxisNumPoints][];
+            d_position_arr = new double[scanOptionsFormObj.CuttingAxisNumPoints];
+
+            // There are two sweep options, sweeping the I0 and sweeping the Im
+            // Deal with each seprately
+            double centerPosition = scanOptionsFormObj.CuttingAxisMotor.Position;   // the position of the motor prior to the scan
+            double scanDist = 2*scanOptionsFormObj.CuttingAxisRadius/1000;  // put into (mm)
+            // FindForm the distance between the points dX
+            double dX = scanDist;            
+            if (scanOptionsFormObj.CuttingAxisNumPoints > 1)
+                dX = scanDist / (scanOptionsFormObj.CuttingAxisNumPoints - 1); // fixes fence post problem
+            
+            double startingPosition = centerPosition - scanOptionsFormObj.CuttingAxisRadius/1000;
+
+            // get the axis assumes to be constant throughout scan
+            d_axis_arr = hp_8594e_obj.Get_HP_Axis();
+            // put the axis into the correct units
+            double d_scale_fac = System.Math.Pow(10, -((double)graph_xunits));
+            d_axis_arr = Lab.Math.Functions.ConstMultArray(d_scale_fac, d_axis_arr);
+
+            // get the amplitude units
+            amp_units = hp_8594e_obj.Get_Amp_Units();
+
+            resolution_bandwidth = hp_8594e_obj.Get_Resolution_Bandwidth();
+
+
+            for (int i = 0; i < scanOptionsFormObj.CuttingAxisNumPoints; i++)
+            {
+                d_position_arr[i] = startingPosition + dX * i;
+                // move the motor to the position to take the trace at
+                scanOptionsFormObj.CuttingAxisMotor.MoveAbsolute(d_position_arr[i]);
+                // take the trace
+                d_trace_2D_arr[i] = hp_8594e_obj.Get_HP_TraceA();
+
+                ui_update_graph_obj.BeginInvoke("Trace A", d_axis_arr, d_trace_2D_arr[i], Color.Red, null, null);
+                // update the UI graph
+                //sender.BeginInvoke(ui_update_graph_obj,
+                //    new object[] { "Trace A", d_axis_arr, d_trace_2D_arr[i], Color.Red });
+
+
+                //sender.BeginInvoke(ui_update_status_obj,
+                //            new object[] { "(" + (i + 1) +  "/" + scanOptionsFormObj.CuttingAxisNumPoints +
+                //                "Position = "+  pointPosition.ToString("{0:F4}") + "um"});
+
+            }
+
+            // move back to the starting position
+            scanOptionsFormObj.CuttingAxisMotor.MoveAbsolute(centerPosition);
+
+            scanOptionsFormObj.CuttingAxisMotor.EndMoveAbsolute(null);
+
+            // reenable the single scan option button
+            sender.BeginInvoke(ui_enable_single_scan_obj, new object[] { });
+        }
+
         private void toolStripSaveSweep_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd_obj = new SaveFileDialog();
@@ -436,6 +532,94 @@ namespace Hawk
                         sw_obj.Write("{0:e}\t", d_trace_2D_arr[j][i]);
                     }
                     sw_obj.Write("\n");
+                }
+
+                // close the file
+                sw_obj.Close();
+            }
+        }
+
+        private void motorScanOptionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            scanOptionsFormObj.ShowDialog();
+        }
+
+        private void motorOptionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            motorControlFormObj.ShowDialog();
+        }
+
+        private void singleScanToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Disable the take scan button
+            DisableSingleScan();
+
+            ui_update_graph_delegate_obj = new UI_UpdateGraphDelegate(UpdateGraph);
+            ui_update_status_delegate_obj = new UI_UpdateStatusDelegate(UpdateStatus);
+            ui_enable_delegate_obj = new UI_EnableDelegate(EnableSingleScan);
+
+            singleScanThreadObj = new Thread(new ParameterizedThreadStart(SingleScan));
+            singleScanThreadObj.Start((object)new object[] { this, ui_update_graph_delegate_obj, ui_update_status_delegate_obj, ui_enable_delegate_obj });  
+        }
+
+        private void saveSingleScanToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd_obj = new SaveFileDialog();
+            sfd_obj.Filter = "Csv Files (*.csv)|.csv|All Files|";
+            StreamWriter sw_obj;
+
+            if (d_trace_2D_arr == null)
+            {
+                MessageBox.Show("No Sweep Data to Save. Take a Sweep First");
+                return;
+            }
+
+            if (sfd_obj.ShowDialog() == DialogResult.OK)
+            {
+                sw_obj = new StreamWriter(sfd_obj.OpenFile());
+
+                // Write Date Information
+                sw_obj.WriteLine("Hawk Data File");
+                sw_obj.WriteLine("Date:," + DateTime.Now);
+                sw_obj.WriteLine("Resolution Bandwidth (Hz): " + resolution_bandwidth);
+
+                // Write the Im and I0 values for each measurement           
+                sw_obj.Write("Position (mm),");
+                for (int i = 0; i < d_position_arr.Length; i++)
+                {
+                    sw_obj.Write("{0:e},", d_position_arr[i]);
+                }
+
+                sw_obj.Write("\r\n");
+                // Write the Header Information
+                sw_obj.Write("Freq Axis (" + graph_xunits + "),");
+
+                // i think it's faster to copy the length out instead of accessing every loop
+                // iteration
+                int i_num_pts = d_trace_2D_arr[0].Length;
+
+                for (int i = 0; i < d_trace_2D_arr.Length; i++)
+                {
+                    sw_obj.Write("Amp (" + amp_units + "),");              
+                }
+
+                sw_obj.Write("\r\n");
+
+                
+                // write the trace to the file
+                for (int i = 0; i < i_num_pts; i++)
+                {
+                    // Write the axis
+                    sw_obj.Write("{0:e},",
+                                     d_axis_arr[i]);
+
+                    // each trace in its own column
+                    int i_num_traces = d_trace_2D_arr.Length;
+                    for (int j = 0; j < i_num_traces; j++)
+                    {
+                        sw_obj.Write("{0:e},", d_trace_2D_arr[j][i]);
+                    }
+                    sw_obj.Write("\r\n");
                 }
 
                 // close the file

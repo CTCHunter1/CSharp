@@ -7,7 +7,7 @@
     <ProjectGuid>{BAE52598-0DD5-4B76-8B04-21A3881CD812}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Hawk</RootNamespace>
+    <RootNamespace>Lab.Programs.Hawk</RootNamespace>
     <AssemblyName>Hawk</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -53,11 +53,11 @@
       <DependentUpon>Arroyo Sweep Options.cs</DependentUpon>
     </Compile>
     <Compile Include="Arroyo.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,14 +69,18 @@
       <SubType>Designer</SubType>
       <DependentUpon>Arroyo Sweep Options.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
+    <EmbeddedResource Include="MainForm.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>Form1.cs</DependentUpon>
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScanOptionsForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ScanOptionsForm.cs</DependentUpon>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -92,6 +96,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ScanOptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScanOptionsForm.Designer.cs">
+      <DependentUpon>ScanOptionsForm.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Libraries\GraphControl\GraphControl\GraphControl.csproj">
@@ -101,6 +111,14 @@
     <ProjectReference Include="..\..\..\..\Libraries\Lab.Drivers.HP8594E\Lab.Drivers.HP8594E.csproj">
       <Project>{FEA45B76-6210-4C42-BB54-4CC8C63F3AA3}</Project>
       <Name>Lab.Drivers.HP8594E</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Libraries\Lab.Drivers.Motors\Lab.Drivers.Motors.csproj">
+      <Project>{206E8042-B072-4E9F-87C4-BC3090C91E62}</Project>
+      <Name>Lab.Drivers.Motors</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Libraries\Lab.Math\Lab.Math.csproj">
+      <Project>{B1ABFB43-C135-45EE-B048-310B72895DCA}</Project>
+      <Name>Lab.Math</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
