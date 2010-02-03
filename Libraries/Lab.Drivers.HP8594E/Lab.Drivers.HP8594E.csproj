@@ -53,6 +53,12 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lab.Drivers.Motors\Lab.Drivers.Motors.csproj">
+      <Project>{206E8042-B072-4E9F-87C4-BC3090C91E62}</Project>
+      <Name>Lab.Drivers.Motors</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

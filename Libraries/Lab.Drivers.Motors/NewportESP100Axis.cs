@@ -114,7 +114,7 @@ namespace Lab.Drivers.Motors
             bool motionDone = esp100Obj.ReadMotionDoneStatus(axisNumber);
             esp100Obj.ReadTimeout = readTimeout;        // set it back too 100 ms
             this.position = esp100Obj.ReadActualPosition(axisNumber);
-            esp100Obj.MotorOff(axisNumber);
+            //esp100Obj.MotorOff(axisNumber);
         }
 
         // function pointers are wierd in C#, delegate implementaion wraps them into
@@ -162,7 +162,8 @@ namespace Lab.Drivers.Motors
             esp100Obj.StopMotion(axisNumber);
             esp100Obj.MotorOff(axisNumber);
             position = esp100Obj.ReadActualPosition(axisNumber);
-            asyncMovePointerAbsoluteeObj.EndInvoke(iAsyncResultObj);            
+            if(iAsyncResultObj != null)
+                asyncMovePointerAbsoluteeObj.EndInvoke(iAsyncResultObj);            
         }        
 
 

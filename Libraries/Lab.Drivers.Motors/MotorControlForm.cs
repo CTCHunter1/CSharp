@@ -20,19 +20,26 @@ namespace Lab.Drivers.Motors
 
             if (motorsObj.Axes == null)
             {
-                MessageBox.Show("No Motors Found. Exiting");
+                MessageBox.Show("No Motors Found.");
                 Application.Exit();
             }
 
-            // get the position and velocity
-            axisComboBox.Items.AddRange(motorsObj.Axes); 
-            
+            if (motorsObj.Axes != null)
+            {
+                // get the position and velocity
+                axisComboBox.Items.AddRange(motorsObj.Axes);
+            }
+
             // select the zeroth index
             if (axisComboBox.Items.Count > 0)
                 axisComboBox.SelectedIndex = 0;
 
-            positionTextBox.Text = ((IAxis)axisComboBox.SelectedItem).Position.ToString();
-            velocityTextBox.Text = ((IAxis)axisComboBox.SelectedItem).Velocity.ToString();
+            if (motorsObj.Axes != null)
+            {                
+
+                positionTextBox.Text = ((IAxis)axisComboBox.SelectedItem).Position.ToString();
+                velocityTextBox.Text = ((IAxis)axisComboBox.SelectedItem).Velocity.ToString();
+            }
         }
 
         public IAxis [] Axes

@@ -15,6 +15,7 @@ namespace Lab.Drivers.HP8594E
         public enum FreqUnits {Hz, kHz, MHz, GHz, NONE}
         public enum AmpUnits {dB, dBm, dBmV, dBuV, V, mV, uV, W, mW, uW, NONE};
 
+
         public HP8594E()
         {
             hp8594e_form = new HP8594E_Options();
@@ -61,8 +62,8 @@ namespace Lab.Drivers.HP8594E
                 throw (ex);
             }
 
-            // Set the Controller Time out to 1 second
-            GPIB_32.ibtmo(i_brd, GPIB_32.T1s);
+            // Set the Controller Time out to infinite
+            GPIB_32.ibtmo(i_brd, GPIB_32.T300ms);         
             GPIB_32.copy_globals();
 
             if (((GPIB_32.ibsta & GPIB_32.EERR) == GPIB_32.EERR) ||
@@ -148,6 +149,15 @@ namespace Lab.Drivers.HP8594E
             return (AmpUnits.NONE);
         }
 
+        public double Get_Resolution_Bandwidth()
+        {
+            Send_HP("RB?");
+            String str_res_bw = GPIB_32.Receive_String(i_brd, i_addr, 100, GPIB_32.DABend);
+
+            double d_start_freq = Convert.ToDouble(str_res_bw);
+            return (d_start_freq);
+        }
+
         public void Set_Amp_Units(AmpUnits au)
         {
             String str_tmp = null;
@@ -218,13 +228,24 @@ namespace Lab.Drivers.HP8594E
             AmpUnits au = Get_Amp_Units();
         
             int len = d_spec_amp.Length;
-         
+
+            //try            
+            //{
+            // Set the Controller Time out to infinite
+            GPIB_32.ibtmo(i_brd, GPIB_32.TNONE);
+            //GPIB_32.ibtmo(i_brd, GPIB_32.T1000s);            
+            GPIB_32.copy_globals();
+
             // Single sweep, Take Sweep
-            Send_HP("SNGLS; TS;");     
+            Send_HP("SNGLS; TS;");
+
+            // Set reset the Controller Time out to 300ms
+            GPIB_32.ibtmo(i_brd, GPIB_32.T300ms);
+            GPIB_32.copy_globals(); 
 
             // Set the data mode to binary, and transfer full words
             // Request Trace A
-            Send_HP("TDF B; MDS W; TRA?;");
+            Send_HP("TDF B; MDS W; TRA?");
             ushort[] us_data_arr = GPIB_32.Receive_Ushort(i_brd, i_addr, 401, GPIB_32.DABend);
 
             switch (au)
@@ -234,7 +255,7 @@ namespace Lab.Drivers.HP8594E
                 case AmpUnits.dBmV:
                 case AmpUnits.dBuV:
                     // put it ito dbm mode
-                    Set_Amp_Units(AmpUnits.dBm);
+                    Set_Amp_Units(au);
                     // the reference level is needed to convert counts to data
                     d_ref_lev = Get_Ref_Level();
                     for (int i = 0; i < len; i++)
@@ -248,7 +269,7 @@ namespace Lab.Drivers.HP8594E
                 case AmpUnits.V:
                 case AmpUnits.W:                    
                 // put it ito V mode
-                    Set_Amp_Units(AmpUnits.V);
+                    Set_Amp_Units(au);
                     // the reference level is needed to convert counts to data
                     d_ref_lev = Get_Ref_Level(); 
                     for (int i = 0; i < len; i++)
@@ -269,7 +290,7 @@ namespace Lab.Drivers.HP8594E
 
         public void Go_Continous_Mode()
         {
-            Send_HP("CONTS; TS;");
+            Send_HP("CONTS;"); 
         }
 
         public void Go_Local()
@@ -310,16 +331,16 @@ namespace Lab.Drivers.HP8594E
             GPIB_32.Send(i_brd, i_addr, send_str, send_str.Length, GPIB_32.DABend);
             GPIB_32.copy_globals();
 
-            if (((GPIB_32.ibsta & GPIB_32.EERR) == GPIB_32.EERR) ||
-                ((GPIB_32.ibsta & GPIB_32.TIMO) == GPIB_32.TIMO))
+            // check for timeout
+            if(((GPIB_32.ibsta & GPIB_32.TIMO) == GPIB_32.TIMO) 
+                || ((GPIB_32.ibsta & GPIB_32.EERR) == GPIB_32.EERR))
             {
-                // Throw a exception
+                // throw timeout
                 Exception ex = new Exception(ICSconstants.GPIBerr(
-                    "Error Sending: " +  send_str + "\n"));
-                
-                throw (ex);
-            }
+                    "Error Sending: " + send_str + "\n"));
 
+                throw (ex);
+            }           
         }
     }
 }
