@@ -68,7 +68,37 @@ namespace Lab.Programs.Bullet
             }
         }
 
-        public DataSeries[] DataSeries
+        public double[] FirstMoments
+        {
+            get
+            {
+                double[] firstMoments = new double[dataSeriesArr.Count];
+
+                for (int i = 0; i < firstMoments.Length; i++)
+                {
+                    firstMoments[i] = dataSeriesArr[i].FirstMoment;
+                }
+
+                return (firstMoments);
+            }
+        }
+
+        public double[] SecondMoments
+        {
+            get
+            {
+                double[] secondMoments = new double[dataSeriesArr.Count];
+
+                for (int i = 0; i < secondMoments.Length; i++)
+                {
+                    secondMoments[i] = dataSeriesArr[i].SecondMoment;
+                }
+
+                return (secondMoments);
+            }
+        }
+
+            public DataSeries[] DataSeries
         {
             get
             {

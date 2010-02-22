@@ -21,7 +21,9 @@ namespace Lab.Programs.Bullet
         double velocity;
         double fSample;
 
-        ErfFitResult erfFitResultObj;
+        ErfFitResult erfFitResultObj;   // the fit result object used to generate the waist and displacement
+        double firstMoment;
+        double secondMoment;
 
         public DataSeries(AIVoltageChannel aiVoltageChannelObj, double zPosition, double sampleRate, double movingVelocity)
         {
@@ -110,6 +112,16 @@ namespace Lab.Programs.Bullet
             }
         }
 
+        // returns the waists in (um) waist computed from moment
+        public double SecondMoment
+        {
+            get
+            {
+
+                return (secondMoment);
+            }
+        }
+
         // the position of the centroid in (mm)
         public double CentroidDisplacement
         {
@@ -120,6 +132,16 @@ namespace Lab.Programs.Bullet
                     return (0);
 
                 return (erfFitResultObj.C);
+            }
+        }
+
+        // the position of the centroind in (um) computed from the moment
+        public double FirstMoment
+        {
+            get
+            {
+
+                return (firstMoment);
             }
         }
 
@@ -228,6 +250,28 @@ namespace Lab.Programs.Bullet
 
                 erfFitResultObj = erfFitObj.Fit(x_arr, y_arr);
             }
+        }
+
+        public void GetFitMoment()
+        {
+            double [] y_arr = Y_t.ToArray();
+            double [] x_arr = this.x_arr.ToArray();
+    
+            // create the difference array;
+            double [] y_array_diff = Functions.Diff(y_arr);
+            double Dx = x_arr[2] - x_arr[1];
+
+            // compute y_array diff = dY_t/dx
+            y_array_diff = Functions.ConstMultArray(1 / Dx, y_array_diff);
+
+
+            firstMoment = Functions.SumArray(Functions.MultArray(x_arr, y_array_diff)); // sum(x*I_t)
+
+
+            double[] diffx = Functions.ConstAddArray(firstMoment, x_arr);  // (x-x0)
+            double[] diffx2 = Functions.PowArray(diffx, 2);  // (x-x0)^2;
+
+            secondMoment = Functions.SumArray(Functions.MultArray(diffx2, y_array_diff)); // sum((x-x0)^2*I_t)
         }
 
         public int FindIndex(double searchValue, double[] yArr)

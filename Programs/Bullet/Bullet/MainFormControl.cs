@@ -250,7 +250,11 @@ namespace Lab.Programs.Bullet
                 if (viewTypeObj == ViewType.PlotWaists || viewTypeObj == ViewType.PlotWaistsAndCentroid)
                 {
                     waistsGraph.Plot("Waist" + i.ToString(), zDataSeriesArr[i].ZPositions,
-                     zDataSeriesArr[i].Waists, GetColorByIndex(i));                 
+                     zDataSeriesArr[i].Waists, GetColorByIndex(i));
+
+                    waistsGraph.Plot("SecondMoment" + i.ToString(), zDataSeriesArr[i].ZPositions,
+                     zDataSeriesArr[i].SecondMoments, GetColorByIndex(2*i));     
+            
                 }
 
                 // plot the zDataPoints
