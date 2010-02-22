@@ -21,7 +21,22 @@ namespace Lab.Math
             return (sum);
         }
 
-        public static double[] SubArray(double[] minuend, double []subtrahend)
+        public static double[] Diff(double[] x)
+        {
+            if (x.Length < 2)
+                return (null);
+
+            double[] diff_out = new double[x.Length - 1];
+
+            for (int i = 0; i < diff_out.Length; i++)
+            {
+                diff_out[i] = x[i + 1] - x[i];
+            }
+
+            return (diff_out);
+        }
+
+        public static double[] SubArray(double[] minuend, double[] subtrahend)
         {
             if (minuend.Length != subtrahend.Length)
                 return (null);
@@ -36,6 +51,22 @@ namespace Lab.Math
             return (diff);
         }
 
+        public static double[] ConstAddArray(double a, double[] b)
+        {
+            if (b == null)
+                return (null);
+
+            double[] sum = new double[b.Length];
+
+            for (int i = 0; i < b.Length; i++)
+            {
+                sum[i] = a + b[i];
+            }
+
+            return (sum);
+        }
+
+
         public static double[] ConstMultArray(double a, double[] b)
         {
             if (b == null)
@@ -49,6 +80,43 @@ namespace Lab.Math
             }
 
             return (prod);
+        }
+
+        public static double[] MultArray(double[] a, double[] b)
+        {
+            double[] prod;
+
+            if (a.Length < b.Length)
+            {
+                prod = new double[a.Length];
+                for (int i = 0; i < a.Length; i++)
+                {
+                    prod[i] = a[i] * b[i];
+                }
+            }
+            else
+            {
+                prod = new double[b.Length];
+                
+                for (int i = 0; i < b.Length; i++)
+                {
+                    prod[i] = a[i] * b[i];
+                }
+            }
+
+            return (prod);
+        }
+
+        public static double[] PowArray(double[] a, double power)
+        {
+            double[] b = new double[a.Length];
+
+            for (int i = 0; i < a.Length; i++)
+            {
+                b[i] = System.Math.Pow(a[i], power);
+            }
+
+            return (b);
         }
 
         // a min call without the index parameter
@@ -130,6 +198,18 @@ namespace Lab.Math
             }
 
             return (dSum / arr.Length);
+        }
+
+        public static double SumArray(double[] arr)
+        {
+            double sum = 0;
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+                sum += arr[i];
+            }
+
+            return (sum);
         }
     }
 }
