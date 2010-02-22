@@ -287,7 +287,7 @@ namespace Lab.Programs.Bullet
 
             SaveFileDialog saveFileDialogObj = new SaveFileDialog();
             // set what file types the dialog shows
-            saveFileDialogObj.Filter = "Csv Files (*.csv)|.csv|All Files|";
+            saveFileDialogObj.Filter = "Csv Files (*.csv)|*.csv|All Files|*.*";
 
 
             if (saveFileDialogObj.ShowDialog() == DialogResult.OK)
@@ -313,7 +313,7 @@ namespace Lab.Programs.Bullet
         {
             SaveFileDialog saveFileDialogObj = new SaveFileDialog();
             // set what file types the dialog shows
-            saveFileDialogObj.Filter = "Csv Files (*.csv)|.csv|All Files|";
+            saveFileDialogObj.Filter = "Csv Files (*.csv)|*.csv|All Files|*.*";
 
 
             if (saveFileDialogObj.ShowDialog() == DialogResult.OK)

@@ -87,6 +87,7 @@ namespace Lab.Programs.Bullet
             // first synchronously move backward
             cuttingAxisLeftPosition = centerPosition - cuttingAxisRadius;
             scanOptionsFormObj.CuttingAxisMotor.MoveAbsolute(cuttingAxisLeftPosition);
+            scanOptionsFormObj.CuttingAxisMotor.EndMoveAbsolute(null);
 
             scanOptionsFormObj.CuttingAxisMotor.Velocity = cuttingAxisVelocity;
             // start reading the waveform
@@ -145,6 +146,8 @@ namespace Lab.Programs.Bullet
             }
             // move back to the starting cutting position
             scanOptionsFormObj.CuttingAxisMotor.MoveAbsolute(sigleScanStartingCuttingPosition);
+            scanOptionsFormObj.CuttingAxisMotor.EndMoveAbsolute(null);
+
             bSingleScan = false;
         }
 
@@ -271,6 +274,7 @@ namespace Lab.Programs.Bullet
                 scanOptionsFormObj.ZAxisMotor.MoveAbsolute(startingZPosition);
                 // move the cutting axis motor back to the starting position
                 scanOptionsFormObj.CuttingAxisMotor.MoveAbsolute(startingCuttingPosition);
+                scanOptionsFormObj.CuttingAxisMotor.EndMoveAbsolute(null);
 
                 bZScan = false;
             }            
