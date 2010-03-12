@@ -94,23 +94,27 @@ namespace Lab.Drivers.Motors
 
         public ZaberTLAAxis[] FindZaberMotors()
         {
-
-            ZaberDLLWrapper.Motor_Init((IntPtr)null, (string)null);
-            int numAxis = ZaberDLLWrapper.Motor_NumAxes();
-
-            ZaberTLAAxis[] zaberAxisArr = new ZaberTLAAxis[numAxis];
-
-            // initalize the zaber axes
-            for (int i = 0; i < numAxis; i++)
+            try
             {
-                zaberAxisArr[i] = new ZaberTLAAxis(i);                
-            }
 
-            if (numAxis > 0)
-            {
-                return (zaberAxisArr);
+                ZaberDLLWrapper.Motor_Init((IntPtr)null, (string)null);
+                int numAxis = ZaberDLLWrapper.Motor_NumAxes();
+
+                ZaberTLAAxis[] zaberAxisArr = new ZaberTLAAxis[numAxis];
+
+                // initalize the zaber axes
+                for (int i = 0; i < numAxis; i++)
+                {
+                    zaberAxisArr[i] = new ZaberTLAAxis(i);
+                }
+
+                if (numAxis > 0)
+                {
+                    return (zaberAxisArr);
+                }
             }
-            
+            catch { };
+
             // no motors found
             return (null);
         }
