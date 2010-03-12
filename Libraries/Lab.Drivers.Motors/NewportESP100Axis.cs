@@ -20,6 +20,7 @@ namespace Lab.Drivers.Motors
         double velocity;
         double home;
 
+        bool motorOn = false;
 
         public NewportESP100Axis(int axisNumber, NewportESP100 esp100Obj)
         {
@@ -140,13 +141,15 @@ namespace Lab.Drivers.Motors
         {
             // this is nearly identical to the MoveAbsolute Call
             esp100Obj.MotorOn(axisNumber);
+            //motorOn = true;
             int readTimeout = esp100Obj.ReadTimeout;
             // do the move
             esp100Obj.MoveToAbsolutePosition(axisNumber, position);
             esp100Obj.ReadTimeout = NewportESP100.InfiniteTimeout;
             esp100Obj.WaitForMotionStop(axisNumber, 0);
 
-            bool motionDone = esp100Obj.ReadMotionDoneStatus(axisNumber);
+            while(esp100Obj.ReadMotionDoneStatus(axisNumber) == false);
+
             esp100Obj.ReadTimeout = readTimeout;        // set it back too 100 ms
 
             // call the call back, if there is no callback do nothing
@@ -158,12 +161,14 @@ namespace Lab.Drivers.Motors
 
         public void EndMoveAbsolute(IAsyncResult iAsyncResultObj)
         {
-            // stop the motion
-            esp100Obj.StopMotion(axisNumber);
-            esp100Obj.MotorOff(axisNumber);
+            esp100Obj.StopMotion(axisNumber);            
             position = esp100Obj.ReadActualPosition(axisNumber);
-            if(iAsyncResultObj != null)
-                asyncMovePointerAbsoluteeObj.EndInvoke(iAsyncResultObj);            
+
+            if (iAsyncResultObj != null)
+            {
+                esp100Obj.MotorOff(axisNumber); 
+                asyncMovePointerAbsoluteeObj.EndInvoke(iAsyncResultObj);
+            }
         }        
 
 

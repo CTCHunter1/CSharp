@@ -164,7 +164,7 @@ namespace Lab.Drivers.Motors
 
         public void MotorOn(int axis)
         {
-            spObj.WriteLine(axis + "MO");
+            spObj.WriteLine(axis + "MO");           
         }
 
 

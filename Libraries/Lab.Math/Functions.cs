@@ -119,6 +119,18 @@ namespace Lab.Math
             return (b);
         }
 
+        public static double[] AbsArray(double [] a)
+        {
+            double[] b = new double[a.Length];
+
+            for (int i = 0; i < a.Length; i++)
+            {
+                b[i] = System.Math.Abs(a[i]);
+            }
+
+            return (b);
+        }
+
         // a min call without the index parameter
         public static double Min(double[] arr)
         {
