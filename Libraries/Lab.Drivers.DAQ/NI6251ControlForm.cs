@@ -12,6 +12,8 @@ namespace Lab.Drivers.DAQ
 {
     public partial class NI6251ControlForm : Form
     {
+
+
         // store the current control parameters incase of cancel
         private int backupSelectedChannelIndex;
         private AITerminalConfiguration backupTerminalMode;
@@ -24,14 +26,23 @@ namespace Lab.Drivers.DAQ
 
         private Task taskObj = null;
 
-        
+        // Trigger Additions
+        private AnalogEdgeStartTriggerSlope referenceEdge = AnalogEdgeStartTriggerSlope.Rising;
+        private AnalogEdgeStartTriggerSlope backupReferenceEdge;
+        private bool backupSoftwareTrigger;
+        private string backupTriggerSource;
+        private decimal backupTriggerLevel;
+        private decimal backupHisteresis;
+        private decimal backupDelay;
+
+
         public NI6251ControlForm()
         {
             InitializeComponent();
-        
+
             // Get the channels available
             physicalChannelComboBox.Items.AddRange(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.AI, PhysicalChannelAccess.External));
-            if( physicalChannelComboBox.Items.Count > 0)
+            if (physicalChannelComboBox.Items.Count > 0)
                 physicalChannelComboBox.SelectedIndex = 0;
 
             // add the terminal configuration modes to it's combo box
@@ -43,7 +54,16 @@ namespace Lab.Drivers.DAQ
 
             AddCurrentChannel();
 
-            SetupDevice();
+            try
+            {
+
+                SetupDevice();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                Close();
+            }
         }
 
         private void SetupDevice()
@@ -54,12 +74,12 @@ namespace Lab.Drivers.DAQ
                 taskObj.Control(TaskAction.Stop);
                 taskObj.Dispose();
             }
-            
+
             try
             {
                 // create a new task
                 taskObj = new Task("Task 1");
-                
+
                 // add all of the channels in the channels list
                 foreach (AIVoltageChannel aivcObj in channelsListBox.Items)
                 {
@@ -71,7 +91,7 @@ namespace Lab.Drivers.DAQ
                         aivcObj.MaximumVoltage,
                         AIVoltageUnits.Volts);
                 }
-               
+
                 if (bSingleShot == true)
                 {
                     // setup the timing, last value is the number of samples to use in the buffer
@@ -86,18 +106,29 @@ namespace Lab.Drivers.DAQ
 
                 }
 
+                if (softwareTriggerCheckBox.Checked == false)
+                {
+                    taskObj.Triggers.StartTrigger.ConfigureAnalogEdgeTrigger(referenceTriggerSourceTextBox.Text,
+                        referenceEdge, Convert.ToDouble(triggerLevelNumeric.Value));                    
+
+                    taskObj.Triggers.StartTrigger.AnalogEdge.Hysteresis = Convert.ToDouble(hysteresisNumeric.Value);
+
+                    taskObj.Triggers.StartTrigger.DelayUnits = StartTriggerDelayUnits.Seconds;
+                    taskObj.Triggers.StartTrigger.Delay = Convert.ToDouble(delayNumeric.Value)*.001;
+                }
+
                 taskObj.Control(TaskAction.Verify);
             }
             catch (Exception Ex)
             {
                 // null out the task object
-                if(taskObj != null)
+                if (taskObj != null)
                     taskObj.Dispose();
                 // throw the error
                 throw (Ex);
             }
         }
-        
+
         private void NI6251_Options_Shown(object sender, EventArgs e)
         {
             // when the options dialog is shown back up the options in case of cancel
@@ -106,11 +137,21 @@ namespace Lab.Drivers.DAQ
             backupMaxValue = maximumValueNumeric.Value;
             backupSamplesChannel = samplesPerChannelNumeric.Value;
             backupRate = rateNumeric.Value;
-            backupTerminalMode = (AITerminalConfiguration) terminalModeComboBox.SelectedItem;
+            backupTerminalMode = (AITerminalConfiguration)terminalModeComboBox.SelectedItem;
 
             samplesPerChannelLabel.Text = Math.Pow(2.0, Convert.ToDouble(samplesPerChannelNumeric.Value)).ToString("0");
 
-       
+
+            backupSoftwareTrigger = softwareTriggerCheckBox.Checked;
+
+            backupReferenceEdge = referenceEdge; ;
+            backupTriggerSource = referenceTriggerSourceTextBox.Text;
+            backupTriggerLevel = triggerLevelNumeric.Value;
+            backupHisteresis = hysteresisNumeric.Value;
+            backupDelay = delayNumeric.Value;
+
+
+            softwareTriggerCheckBox_CheckedChanged(sender, e);
         }
 
         private void cancel_button_Click(object sender, EventArgs e)
@@ -120,7 +161,14 @@ namespace Lab.Drivers.DAQ
             minimumValueNumeric.Value = backupMinValue;
             maximumValueNumeric.Value = backupMaxValue;
             samplesPerChannelNumeric.Value = backupSamplesChannel;
-            rateNumeric.Value = backupRate;            
+            rateNumeric.Value = backupRate;
+
+            softwareTriggerCheckBox.Checked = backupSoftwareTrigger;
+            referenceEdge = backupReferenceEdge;
+            referenceTriggerSourceTextBox.Text = backupTriggerSource;
+            triggerLevelNumeric.Value = backupTriggerLevel;
+            hysteresisNumeric.Value = backupHisteresis;
+            delayNumeric.Value = backupDelay;
         }
 
         private void ok_button_Click(object sender, EventArgs e)
@@ -141,7 +189,7 @@ namespace Lab.Drivers.DAQ
         {
             get
             {
-                return  Convert.ToInt32(Math.Pow(2,(Convert.ToDouble(samplesPerChannelNumeric.Value))));
+                return Convert.ToInt32(Math.Pow(2, (Convert.ToDouble(samplesPerChannelNumeric.Value))));
             }
         }
 
@@ -172,7 +220,7 @@ namespace Lab.Drivers.DAQ
             }
         }
 
-        public AIVoltageChannel [] AIChannels
+        public AIVoltageChannel[] AIChannels
         {
             get
             {
@@ -181,7 +229,7 @@ namespace Lab.Drivers.DAQ
                 // copy out the channesl list and return
                 for (int i = 0; i < channelsListBox.Items.Count; i++)
                 {
-                    channels[i] = (AIVoltageChannel) channelsListBox.Items[i];
+                    channels[i] = (AIVoltageChannel)channelsListBox.Items[i];
                 }
 
                 return (channels);
@@ -190,7 +238,7 @@ namespace Lab.Drivers.DAQ
 
         private void samplesPerChannelNumeric_ValueChanged(object sender, EventArgs e)
         {
-            samplesPerChannelLabel.Text = Math.Pow(2.0, Convert.ToDouble(samplesPerChannelNumeric.Value)).ToString("0");            
+            samplesPerChannelLabel.Text = Math.Pow(2.0, Convert.ToDouble(samplesPerChannelNumeric.Value)).ToString("0");
         }
 
         private void UpdateChnanelsListBox()
@@ -234,6 +282,32 @@ namespace Lab.Drivers.DAQ
         private void removeButton_Click(object sender, EventArgs e)
         {
             channelsListBox.Items.Remove(channelsListBox.SelectedItem);
+        }
+
+        private void referenceEdgeRisingButton_CheckedChanged(object sender, System.EventArgs e)
+        {
+            if (referenceEdgeRisingButton.Checked)
+            {
+                referenceEdge = AnalogEdgeStartTriggerSlope.Rising;
+            }
+        }
+
+        private void referenceEdgeFallingButton_CheckedChanged(object sender, System.EventArgs e)
+        {
+            if (referenceEdgeFallingButton.Checked)
+            {
+                referenceEdge = AnalogEdgeStartTriggerSlope.Falling;
+            }
+        }
+
+        private void softwareTriggerCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            referenceTriggerSourceTextBox.Enabled = !softwareTriggerCheckBox.Checked;
+            triggerLevelNumeric.Enabled = !softwareTriggerCheckBox.Checked;
+            hysteresisNumeric.Enabled = !softwareTriggerCheckBox.Checked;
+            delayNumeric.Enabled = !softwareTriggerCheckBox.Checked; 
+            referenceEdgeFallingButton.Enabled = !softwareTriggerCheckBox.Checked;
+            referenceEdgeRisingButton.Enabled = !softwareTriggerCheckBox.Checked;
         }
     }
 }

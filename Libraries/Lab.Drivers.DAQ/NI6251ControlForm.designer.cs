@@ -31,6 +31,7 @@ namespace Lab.Drivers.DAQ
             this.ok_button = new System.Windows.Forms.Button();
             this.cancel_button = new System.Windows.Forms.Button();
             this.channelParametersGroupBox = new System.Windows.Forms.GroupBox();
+            this.removeButton = new System.Windows.Forms.Button();
             this.addChannelButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.channelsListBox = new System.Windows.Forms.ListBox();
@@ -49,19 +50,38 @@ namespace Lab.Drivers.DAQ
             this.samplesLabel = new System.Windows.Forms.Label();
             this.rateLabel = new System.Windows.Forms.Label();
             this.samplesPerChannelNumeric = new System.Windows.Forms.NumericUpDown();
-            this.removeButton = new System.Windows.Forms.Button();
+            this.triggerParametersGroupBox = new System.Windows.Forms.GroupBox();
+            this.referenceEdgeGroupBox = new System.Windows.Forms.GroupBox();
+            this.referenceEdgeRisingButton = new System.Windows.Forms.RadioButton();
+            this.referenceEdgeFallingButton = new System.Windows.Forms.RadioButton();
+            this.softwareTriggerCheckBox = new System.Windows.Forms.CheckBox();
+            this.triggerSourceInfoAsterisk = new System.Windows.Forms.Label();
+            this.triggerSourceInfo = new System.Windows.Forms.Label();
+            this.referenceTriggerSourceTextBox = new System.Windows.Forms.TextBox();
+            this.referenceTriggerSourceLabel = new System.Windows.Forms.Label();
+            this.triggerLevelLabel = new System.Windows.Forms.Label();
+            this.hysteresisLabel = new System.Windows.Forms.Label();
+            this.hysteresisNumeric = new System.Windows.Forms.NumericUpDown();
+            this.triggerLevelNumeric = new System.Windows.Forms.NumericUpDown();
+            this.label4 = new System.Windows.Forms.Label();
+            this.delayNumeric = new System.Windows.Forms.NumericUpDown();
             this.channelParametersGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.minimumValueNumeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.maximumValueNumeric)).BeginInit();
             this.timingParametersGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rateNumeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.samplesPerChannelNumeric)).BeginInit();
+            this.triggerParametersGroupBox.SuspendLayout();
+            this.referenceEdgeGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.hysteresisNumeric)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.triggerLevelNumeric)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.delayNumeric)).BeginInit();
             this.SuspendLayout();
             // 
             // ok_button
             // 
             this.ok_button.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.ok_button.Location = new System.Drawing.Point(16, 443);
+            this.ok_button.Location = new System.Drawing.Point(22, 718);
             this.ok_button.Name = "ok_button";
             this.ok_button.Size = new System.Drawing.Size(75, 23);
             this.ok_button.TabIndex = 0;
@@ -72,7 +92,7 @@ namespace Lab.Drivers.DAQ
             // cancel_button
             // 
             this.cancel_button.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancel_button.Location = new System.Drawing.Point(165, 443);
+            this.cancel_button.Location = new System.Drawing.Point(171, 718);
             this.cancel_button.Name = "cancel_button";
             this.cancel_button.Size = new System.Drawing.Size(75, 23);
             this.cancel_button.TabIndex = 1;
@@ -101,6 +121,16 @@ namespace Lab.Drivers.DAQ
             this.channelParametersGroupBox.TabIndex = 3;
             this.channelParametersGroupBox.TabStop = false;
             this.channelParametersGroupBox.Text = "Channel Parameters";
+            // 
+            // removeButton
+            // 
+            this.removeButton.Location = new System.Drawing.Point(182, 238);
+            this.removeButton.Name = "removeButton";
+            this.removeButton.Size = new System.Drawing.Size(75, 23);
+            this.removeButton.TabIndex = 11;
+            this.removeButton.Text = "Remove";
+            this.removeButton.UseVisualStyleBackColor = true;
+            this.removeButton.Click += new System.EventHandler(this.removeButton_Click);
             // 
             // addChannelButton
             // 
@@ -236,7 +266,7 @@ namespace Lab.Drivers.DAQ
             this.timingParametersGroupBox.Controls.Add(this.rateLabel);
             this.timingParametersGroupBox.Controls.Add(this.samplesPerChannelNumeric);
             this.timingParametersGroupBox.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.timingParametersGroupBox.Location = new System.Drawing.Point(16, 336);
+            this.timingParametersGroupBox.Location = new System.Drawing.Point(18, 616);
             this.timingParametersGroupBox.Name = "timingParametersGroupBox";
             this.timingParametersGroupBox.Size = new System.Drawing.Size(269, 92);
             this.timingParametersGroupBox.TabIndex = 4;
@@ -315,15 +345,191 @@ namespace Lab.Drivers.DAQ
             0});
             this.samplesPerChannelNumeric.ValueChanged += new System.EventHandler(this.samplesPerChannelNumeric_ValueChanged);
             // 
-            // removeButton
+            // triggerParametersGroupBox
             // 
-            this.removeButton.Location = new System.Drawing.Point(182, 238);
-            this.removeButton.Name = "removeButton";
-            this.removeButton.Size = new System.Drawing.Size(75, 23);
-            this.removeButton.TabIndex = 11;
-            this.removeButton.Text = "Remove";
-            this.removeButton.UseVisualStyleBackColor = true;
-            this.removeButton.Click += new System.EventHandler(this.removeButton_Click);
+            this.triggerParametersGroupBox.Controls.Add(this.label4);
+            this.triggerParametersGroupBox.Controls.Add(this.delayNumeric);
+            this.triggerParametersGroupBox.Controls.Add(this.referenceEdgeGroupBox);
+            this.triggerParametersGroupBox.Controls.Add(this.softwareTriggerCheckBox);
+            this.triggerParametersGroupBox.Controls.Add(this.triggerSourceInfoAsterisk);
+            this.triggerParametersGroupBox.Controls.Add(this.triggerSourceInfo);
+            this.triggerParametersGroupBox.Controls.Add(this.referenceTriggerSourceTextBox);
+            this.triggerParametersGroupBox.Controls.Add(this.referenceTriggerSourceLabel);
+            this.triggerParametersGroupBox.Controls.Add(this.triggerLevelLabel);
+            this.triggerParametersGroupBox.Controls.Add(this.hysteresisLabel);
+            this.triggerParametersGroupBox.Controls.Add(this.hysteresisNumeric);
+            this.triggerParametersGroupBox.Controls.Add(this.triggerLevelNumeric);
+            this.triggerParametersGroupBox.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.triggerParametersGroupBox.Location = new System.Drawing.Point(18, 286);
+            this.triggerParametersGroupBox.Name = "triggerParametersGroupBox";
+            this.triggerParametersGroupBox.Size = new System.Drawing.Size(267, 313);
+            this.triggerParametersGroupBox.TabIndex = 5;
+            this.triggerParametersGroupBox.TabStop = false;
+            this.triggerParametersGroupBox.Text = "Trigger Parameters";
+            // 
+            // referenceEdgeGroupBox
+            // 
+            this.referenceEdgeGroupBox.Controls.Add(this.referenceEdgeRisingButton);
+            this.referenceEdgeGroupBox.Controls.Add(this.referenceEdgeFallingButton);
+            this.referenceEdgeGroupBox.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.referenceEdgeGroupBox.Location = new System.Drawing.Point(19, 237);
+            this.referenceEdgeGroupBox.Name = "referenceEdgeGroupBox";
+            this.referenceEdgeGroupBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.referenceEdgeGroupBox.Size = new System.Drawing.Size(224, 56);
+            this.referenceEdgeGroupBox.TabIndex = 10;
+            this.referenceEdgeGroupBox.TabStop = false;
+            this.referenceEdgeGroupBox.Text = "Reference Edge:";
+            // 
+            // referenceEdgeRisingButton
+            // 
+            this.referenceEdgeRisingButton.Checked = true;
+            this.referenceEdgeRisingButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.referenceEdgeRisingButton.Location = new System.Drawing.Point(24, 16);
+            this.referenceEdgeRisingButton.Name = "referenceEdgeRisingButton";
+            this.referenceEdgeRisingButton.Size = new System.Drawing.Size(56, 24);
+            this.referenceEdgeRisingButton.TabIndex = 0;
+            this.referenceEdgeRisingButton.TabStop = true;
+            this.referenceEdgeRisingButton.Text = "Rising";
+            this.referenceEdgeRisingButton.CheckedChanged += new System.EventHandler(this.referenceEdgeRisingButton_CheckedChanged);
+            // 
+            // referenceEdgeFallingButton
+            // 
+            this.referenceEdgeFallingButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.referenceEdgeFallingButton.Location = new System.Drawing.Point(104, 16);
+            this.referenceEdgeFallingButton.Name = "referenceEdgeFallingButton";
+            this.referenceEdgeFallingButton.Size = new System.Drawing.Size(56, 24);
+            this.referenceEdgeFallingButton.TabIndex = 1;
+            this.referenceEdgeFallingButton.Text = "Falling";
+            // 
+            // softwareTriggerCheckBox
+            // 
+            this.softwareTriggerCheckBox.AutoSize = true;
+            this.softwareTriggerCheckBox.Checked = true;
+            this.softwareTriggerCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.softwareTriggerCheckBox.Location = new System.Drawing.Point(17, 19);
+            this.softwareTriggerCheckBox.Name = "softwareTriggerCheckBox";
+            this.softwareTriggerCheckBox.Size = new System.Drawing.Size(104, 17);
+            this.softwareTriggerCheckBox.TabIndex = 9;
+            this.softwareTriggerCheckBox.Text = "Software Trigger";
+            this.softwareTriggerCheckBox.UseVisualStyleBackColor = true;
+            this.softwareTriggerCheckBox.CheckedChanged += new System.EventHandler(this.softwareTriggerCheckBox_CheckedChanged);
+            // 
+            // triggerSourceInfoAsterisk
+            // 
+            this.triggerSourceInfoAsterisk.Location = new System.Drawing.Point(16, 161);
+            this.triggerSourceInfoAsterisk.Name = "triggerSourceInfoAsterisk";
+            this.triggerSourceInfoAsterisk.Size = new System.Drawing.Size(8, 23);
+            this.triggerSourceInfoAsterisk.TabIndex = 7;
+            this.triggerSourceInfoAsterisk.Text = "*";
+            // 
+            // triggerSourceInfo
+            // 
+            this.triggerSourceInfo.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.triggerSourceInfo.Location = new System.Drawing.Point(24, 170);
+            this.triggerSourceInfo.Name = "triggerSourceInfo";
+            this.triggerSourceInfo.Size = new System.Drawing.Size(192, 64);
+            this.triggerSourceInfo.TabIndex = 8;
+            this.triggerSourceInfo.Text = "APFI0 is the default Analog Trigger pin for M Series devices.  Please refer to yo" +
+                "ur device documentation for information regarding valid Analog Triggers for your" +
+                " device.";
+            // 
+            // referenceTriggerSourceTextBox
+            // 
+            this.referenceTriggerSourceTextBox.Location = new System.Drawing.Point(128, 46);
+            this.referenceTriggerSourceTextBox.Name = "referenceTriggerSourceTextBox";
+            this.referenceTriggerSourceTextBox.Size = new System.Drawing.Size(88, 20);
+            this.referenceTriggerSourceTextBox.TabIndex = 1;
+            this.referenceTriggerSourceTextBox.Text = "APFI0";
+            // 
+            // referenceTriggerSourceLabel
+            // 
+            this.referenceTriggerSourceLabel.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.referenceTriggerSourceLabel.Location = new System.Drawing.Point(16, 49);
+            this.referenceTriggerSourceLabel.Name = "referenceTriggerSourceLabel";
+            this.referenceTriggerSourceLabel.Size = new System.Drawing.Size(88, 16);
+            this.referenceTriggerSourceLabel.TabIndex = 0;
+            this.referenceTriggerSourceLabel.Text = "Trigger Source:*";
+            // 
+            // triggerLevelLabel
+            // 
+            this.triggerLevelLabel.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.triggerLevelLabel.Location = new System.Drawing.Point(16, 79);
+            this.triggerLevelLabel.Name = "triggerLevelLabel";
+            this.triggerLevelLabel.Size = new System.Drawing.Size(96, 16);
+            this.triggerLevelLabel.TabIndex = 2;
+            this.triggerLevelLabel.Text = "Trigger Level (V):";
+            // 
+            // hysteresisLabel
+            // 
+            this.hysteresisLabel.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.hysteresisLabel.Location = new System.Drawing.Point(16, 110);
+            this.hysteresisLabel.Name = "hysteresisLabel";
+            this.hysteresisLabel.Size = new System.Drawing.Size(96, 16);
+            this.hysteresisLabel.TabIndex = 4;
+            this.hysteresisLabel.Text = "Hysteresis (V):";
+            // 
+            // hysteresisNumeric
+            // 
+            this.hysteresisNumeric.DecimalPlaces = 2;
+            this.hysteresisNumeric.Location = new System.Drawing.Point(128, 110);
+            this.hysteresisNumeric.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.hysteresisNumeric.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            -2147483648});
+            this.hysteresisNumeric.Name = "hysteresisNumeric";
+            this.hysteresisNumeric.Size = new System.Drawing.Size(88, 20);
+            this.hysteresisNumeric.TabIndex = 5;
+            // 
+            // triggerLevelNumeric
+            // 
+            this.triggerLevelNumeric.DecimalPlaces = 2;
+            this.triggerLevelNumeric.Location = new System.Drawing.Point(128, 78);
+            this.triggerLevelNumeric.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.triggerLevelNumeric.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            -2147483648});
+            this.triggerLevelNumeric.Name = "triggerLevelNumeric";
+            this.triggerLevelNumeric.Size = new System.Drawing.Size(88, 20);
+            this.triggerLevelNumeric.TabIndex = 3;
+            // 
+            // label4
+            // 
+            this.label4.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label4.Location = new System.Drawing.Point(15, 140);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(96, 16);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Delay (ms):";
+            // 
+            // delayNumeric
+            // 
+            this.delayNumeric.DecimalPlaces = 3;
+            this.delayNumeric.Location = new System.Drawing.Point(127, 140);
+            this.delayNumeric.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.delayNumeric.Minimum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            -2147483648});
+            this.delayNumeric.Name = "delayNumeric";
+            this.delayNumeric.Size = new System.Drawing.Size(88, 20);
+            this.delayNumeric.TabIndex = 12;
             // 
             // NI6251ControlForm
             // 
@@ -331,7 +537,8 @@ namespace Lab.Drivers.DAQ
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancel_button;
-            this.ClientSize = new System.Drawing.Size(296, 478);
+            this.ClientSize = new System.Drawing.Size(296, 753);
+            this.Controls.Add(this.triggerParametersGroupBox);
             this.Controls.Add(this.timingParametersGroupBox);
             this.Controls.Add(this.channelParametersGroupBox);
             this.Controls.Add(this.cancel_button);
@@ -348,6 +555,12 @@ namespace Lab.Drivers.DAQ
             this.timingParametersGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rateNumeric)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.samplesPerChannelNumeric)).EndInit();
+            this.triggerParametersGroupBox.ResumeLayout(false);
+            this.triggerParametersGroupBox.PerformLayout();
+            this.referenceEdgeGroupBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.hysteresisNumeric)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.triggerLevelNumeric)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.delayNumeric)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -376,5 +589,20 @@ namespace Lab.Drivers.DAQ
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ListBox channelsListBox;
         private System.Windows.Forms.Button removeButton;
+        private System.Windows.Forms.GroupBox triggerParametersGroupBox;
+        private System.Windows.Forms.Label triggerSourceInfoAsterisk;
+        private System.Windows.Forms.Label triggerSourceInfo;
+        private System.Windows.Forms.TextBox referenceTriggerSourceTextBox;
+        private System.Windows.Forms.Label referenceTriggerSourceLabel;
+        private System.Windows.Forms.Label triggerLevelLabel;
+        private System.Windows.Forms.Label hysteresisLabel;
+        internal System.Windows.Forms.NumericUpDown hysteresisNumeric;
+        internal System.Windows.Forms.NumericUpDown triggerLevelNumeric;
+        private System.Windows.Forms.CheckBox softwareTriggerCheckBox;
+        private System.Windows.Forms.GroupBox referenceEdgeGroupBox;
+        private System.Windows.Forms.RadioButton referenceEdgeRisingButton;
+        private System.Windows.Forms.RadioButton referenceEdgeFallingButton;
+        private System.Windows.Forms.Label label4;
+        internal System.Windows.Forms.NumericUpDown delayNumeric;
     }
 }
