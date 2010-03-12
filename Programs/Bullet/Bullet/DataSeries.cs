@@ -250,6 +250,8 @@ namespace Lab.Programs.Bullet
 
                 erfFitResultObj = erfFitObj.Fit(x_arr, y_arr);
             }
+
+            //GetFitMoment();
         }
 
         public void GetFitMoment()
@@ -262,16 +264,30 @@ namespace Lab.Programs.Bullet
             double Dx = x_arr[2] - x_arr[1];
 
             // compute y_array diff = dY_t/dx
+            y_array_diff = Functions.AbsArray(y_array_diff);
             y_array_diff = Functions.ConstMultArray(1 / Dx, y_array_diff);
 
+            double y_array_diff_max = Functions.Max(y_array_diff);
 
-            firstMoment = Functions.SumArray(Functions.MultArray(x_arr, y_array_diff)); // sum(x*I_t)
+            for (int i = 0; i < y_array_diff.Length; i++)
+            {
+                if (y_array_diff[i] < y_array_diff_max * .015)
+                {
+                    y_array_diff[i] = 0;
+                }
+            }
+
+            double y_array_diff_sum = Functions.SumArray(y_array_diff);
+            
+
+            firstMoment = Functions.SumArray(Functions.MultArray(x_arr, y_array_diff)) / y_array_diff_sum; // sum(x*I_t)
 
 
-            double[] diffx = Functions.ConstAddArray(firstMoment, x_arr);  // (x-x0)
+            double[] diffx = Functions.ConstAddArray(-firstMoment, x_arr);  // (x-x0)
             double[] diffx2 = Functions.PowArray(diffx, 2);  // (x-x0)^2;
 
-            secondMoment = Functions.SumArray(Functions.MultArray(diffx2, y_array_diff)); // sum((x-x0)^2*I_t)
+            secondMoment = 1000*Functions.SumArray(Functions.MultArray(diffx2, y_array_diff)) / (y_array_diff_sum); // sum((x-x0)^2*I_t)
+            
         }
 
         public int FindIndex(double searchValue, double[] yArr)

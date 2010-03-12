@@ -249,11 +249,13 @@ namespace Lab.Programs.Bullet
 
                 if (viewTypeObj == ViewType.PlotWaists || viewTypeObj == ViewType.PlotWaistsAndCentroid)
                 {
-                    waistsGraph.Plot("Waist" + i.ToString(), zDataSeriesArr[i].ZPositions,
+                   waistsGraph.Plot("Waist" + i.ToString(), zDataSeriesArr[i].ZPositions,
                      zDataSeriesArr[i].Waists, GetColorByIndex(i));
 
-                    waistsGraph.Plot("SecondMoment" + i.ToString(), zDataSeriesArr[i].ZPositions,
-                     zDataSeriesArr[i].SecondMoments, GetColorByIndex(2*i));     
+                   // waistsGraph.Plot("SecondMoment" + i.ToString(), zDataSeriesArr[i].ZPositions,
+                   //  zDataSeriesArr[i].SecondMoments, GetColorByIndex(2*i+1));
+                    //waistsGraph.AutoScale = false;
+                   // waistsGraph.YLim = new double[] { Functions.Min(zDataSeriesArr[i].SecondMoments), Functions.Max(zDataSeriesArr[i].SecondMoments) };
             
                 }
 
