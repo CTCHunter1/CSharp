@@ -32,8 +32,8 @@ namespace Lab.Programs.Hawk
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSaveTrace = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSaveSweep = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveSingleScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gPIPOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripArroyoOptions = new System.Windows.Forms.ToolStripMenuItem();
@@ -91,19 +91,19 @@ namespace Lab.Programs.Hawk
             this.toolStripSaveSweep.Text = "Save Current Sweep";
             this.toolStripSaveSweep.Click += new System.EventHandler(this.toolStripSaveSweep_Click);
             // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-            this.exitToolStripMenuItem.Text = "E&xit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
-            // 
             // saveSingleScanToolStripMenuItem
             // 
             this.saveSingleScanToolStripMenuItem.Name = "saveSingleScanToolStripMenuItem";
             this.saveSingleScanToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.saveSingleScanToolStripMenuItem.Text = "Save Single Scan";
             this.saveSingleScanToolStripMenuItem.Click += new System.EventHandler(this.saveSingleScanToolStripMenuItem_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.exitToolStripMenuItem.Text = "E&xit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
@@ -205,6 +205,7 @@ namespace Lab.Programs.Hawk
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
             this.comboBox1.TabIndex = 5;
             this.comboBox1.Validated += new System.EventHandler(this.comboBox1_Validated);
+            this.comboBox1.TextChanged += new System.EventHandler(this.comboBox1_Validated);
             // 
             // label1
             // 

@@ -217,7 +217,7 @@ namespace Lab.Programs.Hawk
             // 
             this.cuttingAxisRadiusNumericUpDown.Location = new System.Drawing.Point(22, 57);
             this.cuttingAxisRadiusNumericUpDown.Maximum = new decimal(new int[] {
-            10000,
+            20000,
             0,
             0,
             0});

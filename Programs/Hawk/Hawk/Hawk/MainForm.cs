@@ -222,6 +222,12 @@ namespace Lab.Programs.Hawk
             }
         }
 
+
+        private void comboBox1_TextChanged(object sender, EventArgs e)
+        {
+            comboBox1_Validated(sender, e);
+        }
+
         private void current_sweep_button_Click(object sender, EventArgs e)
         {
             // Disable this button until this is complete
@@ -565,7 +571,7 @@ namespace Lab.Programs.Hawk
         private void saveSingleScanToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd_obj = new SaveFileDialog();
-            sfd_obj.Filter = "Csv Files (*.csv)|.csv|All Files|";
+            sfd_obj.Filter = "Csv Files (*.csv)|*.csv|All Files|*.*";
             StreamWriter sw_obj;
 
             if (d_trace_2D_arr == null)
