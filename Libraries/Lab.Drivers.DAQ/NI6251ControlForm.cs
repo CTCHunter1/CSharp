@@ -51,13 +51,16 @@ namespace Lab.Drivers.DAQ
             terminalModeComboBox.Items.Add(AITerminalConfiguration.Rse);
 
             terminalModeComboBox.SelectedItem = AITerminalConfiguration.Differential;
-
+                        
             AddCurrentChannel();
 
             try
             {
 
                 SetupDevice();
+
+                taskObj.Triggers.StartTrigger.DelayUnits = StartTriggerDelayUnits.Seconds;
+                delayNumeric.Value = Convert.ToDecimal(taskObj.Triggers.StartTrigger.Delay);                            
             }
             catch (Exception ex)
             {
@@ -113,8 +116,9 @@ namespace Lab.Drivers.DAQ
 
                     taskObj.Triggers.StartTrigger.AnalogEdge.Hysteresis = Convert.ToDouble(hysteresisNumeric.Value);
 
-                    taskObj.Triggers.StartTrigger.DelayUnits = StartTriggerDelayUnits.Seconds;
-                    taskObj.Triggers.StartTrigger.Delay = Convert.ToDouble(delayNumeric.Value)*.001;
+                    //taskObj.Triggers.StartTrigger.DelayUnits = StartTriggerDelayUnits.Seconds;                    
+                     
+                    //taskObj.Triggers.StartTrigger.Delay = Convert.ToDouble(delayNumeric.Value);
                 }
 
                 taskObj.Control(TaskAction.Verify);

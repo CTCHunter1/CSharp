@@ -51,6 +51,8 @@ namespace Lab.Drivers.DAQ
             this.rateLabel = new System.Windows.Forms.Label();
             this.samplesPerChannelNumeric = new System.Windows.Forms.NumericUpDown();
             this.triggerParametersGroupBox = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.delayNumeric = new System.Windows.Forms.NumericUpDown();
             this.referenceEdgeGroupBox = new System.Windows.Forms.GroupBox();
             this.referenceEdgeRisingButton = new System.Windows.Forms.RadioButton();
             this.referenceEdgeFallingButton = new System.Windows.Forms.RadioButton();
@@ -63,8 +65,6 @@ namespace Lab.Drivers.DAQ
             this.hysteresisLabel = new System.Windows.Forms.Label();
             this.hysteresisNumeric = new System.Windows.Forms.NumericUpDown();
             this.triggerLevelNumeric = new System.Windows.Forms.NumericUpDown();
-            this.label4 = new System.Windows.Forms.Label();
-            this.delayNumeric = new System.Windows.Forms.NumericUpDown();
             this.channelParametersGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.minimumValueNumeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.maximumValueNumeric)).BeginInit();
@@ -72,10 +72,10 @@ namespace Lab.Drivers.DAQ
             ((System.ComponentModel.ISupportInitialize)(this.rateNumeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.samplesPerChannelNumeric)).BeginInit();
             this.triggerParametersGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.delayNumeric)).BeginInit();
             this.referenceEdgeGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.hysteresisNumeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.triggerLevelNumeric)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.delayNumeric)).BeginInit();
             this.SuspendLayout();
             // 
             // ok_button
@@ -367,6 +367,33 @@ namespace Lab.Drivers.DAQ
             this.triggerParametersGroupBox.TabStop = false;
             this.triggerParametersGroupBox.Text = "Trigger Parameters";
             // 
+            // label4
+            // 
+            this.label4.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label4.Location = new System.Drawing.Point(15, 140);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(96, 16);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Delay (ms):";
+            // 
+            // delayNumeric
+            // 
+            this.delayNumeric.DecimalPlaces = 3;
+            this.delayNumeric.Location = new System.Drawing.Point(127, 140);
+            this.delayNumeric.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.delayNumeric.Minimum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            -2147483648});
+            this.delayNumeric.Name = "delayNumeric";
+            this.delayNumeric.Size = new System.Drawing.Size(88, 20);
+            this.delayNumeric.TabIndex = 12;
+            // 
             // referenceEdgeGroupBox
             // 
             this.referenceEdgeGroupBox.Controls.Add(this.referenceEdgeRisingButton);
@@ -504,33 +531,6 @@ namespace Lab.Drivers.DAQ
             this.triggerLevelNumeric.Size = new System.Drawing.Size(88, 20);
             this.triggerLevelNumeric.TabIndex = 3;
             // 
-            // label4
-            // 
-            this.label4.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label4.Location = new System.Drawing.Point(15, 140);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(96, 16);
-            this.label4.TabIndex = 11;
-            this.label4.Text = "Delay (ms):";
-            // 
-            // delayNumeric
-            // 
-            this.delayNumeric.DecimalPlaces = 3;
-            this.delayNumeric.Location = new System.Drawing.Point(127, 140);
-            this.delayNumeric.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.delayNumeric.Minimum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            -2147483648});
-            this.delayNumeric.Name = "delayNumeric";
-            this.delayNumeric.Size = new System.Drawing.Size(88, 20);
-            this.delayNumeric.TabIndex = 12;
-            // 
             // NI6251ControlForm
             // 
             this.AcceptButton = this.ok_button;
@@ -557,10 +557,10 @@ namespace Lab.Drivers.DAQ
             ((System.ComponentModel.ISupportInitialize)(this.samplesPerChannelNumeric)).EndInit();
             this.triggerParametersGroupBox.ResumeLayout(false);
             this.triggerParametersGroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.delayNumeric)).EndInit();
             this.referenceEdgeGroupBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.hysteresisNumeric)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.triggerLevelNumeric)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.delayNumeric)).EndInit();
             this.ResumeLayout(false);
 
         }
