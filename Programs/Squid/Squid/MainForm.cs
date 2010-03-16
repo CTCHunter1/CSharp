@@ -31,6 +31,8 @@ namespace Squid
         delegate void UIUpdateStatusDelegate(String str_msg, int i_precent_comp);
         delegate void UIEnableDelegate();
 
+        int rnd = 1; // temp
+            
 
         public MainForm()
         {
@@ -58,6 +60,14 @@ namespace Squid
         {
             try
             {
+                if (contiousScanThreadObj != null)
+                {
+                    // stop the thread
+                    runContousScan = false;
+                    // wait for thead to stop running
+                    while (contiousScanThreadObj.ThreadState == ThreadState.Running) ;
+                }
+
                 NIDAQControlFormObj.SingleShot = true;
                 NIDAQControlFormObj.ShowDialog();
             }
@@ -101,12 +111,13 @@ namespace Squid
             multiChannelWaveformData = analogInReader.ReadWaveform(NIDAQControlFormObj.SamplesPerChannel);
 
             // copy out the waveform data
-            for (int i = 0; i < dataSeriesArr.Length && i < multiChannelWaveformData.Length; i++)
-            {
-                //singleScanArr[i]AddRange(multiChannelWaveformData[i].GetScaledData());
+            for (int i = 0; i < dataSeriesArr.Length; i++)
+            {                
                 dataSeriesArr[i].Y_t = multiChannelWaveformData[i].GetScaledData();
                 dataSeriesArr[i].UpdateFFT();
             }
+
+            rnd++;
         }
 
         private Color GetColorByIndex(int index)
@@ -164,7 +175,7 @@ namespace Squid
 
             runContousScan = true;
 
-            NIDAQControlFormObj.SingleShot = false;
+            NIDAQControlFormObj.SingleShot = true;
 
             contiousScanThreadObj = new Thread(new ParameterizedThreadStart(ContinousScan));
             contiousScanThreadObj.Start((object)new object[] { this, ui_update_graph_delegate_obj, ui_enable_delegate_obj });  
