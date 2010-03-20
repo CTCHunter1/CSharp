@@ -45,7 +45,7 @@ namespace Lab.Drivers.DAQ
             this.physicalChannelLabel = new System.Windows.Forms.Label();
             this.timingParametersGroupBox = new System.Windows.Forms.GroupBox();
             this.samplesPerChannelLabel = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.pow2label = new System.Windows.Forms.Label();
             this.rateNumeric = new System.Windows.Forms.NumericUpDown();
             this.samplesLabel = new System.Windows.Forms.Label();
             this.rateLabel = new System.Windows.Forms.Label();
@@ -260,7 +260,7 @@ namespace Lab.Drivers.DAQ
             // timingParametersGroupBox
             // 
             this.timingParametersGroupBox.Controls.Add(this.samplesPerChannelLabel);
-            this.timingParametersGroupBox.Controls.Add(this.label1);
+            this.timingParametersGroupBox.Controls.Add(this.pow2label);
             this.timingParametersGroupBox.Controls.Add(this.rateNumeric);
             this.timingParametersGroupBox.Controls.Add(this.samplesLabel);
             this.timingParametersGroupBox.Controls.Add(this.rateLabel);
@@ -276,20 +276,20 @@ namespace Lab.Drivers.DAQ
             // samplesPerChannelLabel
             // 
             this.samplesPerChannelLabel.AutoSize = true;
-            this.samplesPerChannelLabel.Location = new System.Drawing.Point(117, 29);
+            this.samplesPerChannelLabel.Location = new System.Drawing.Point(191, 29);
             this.samplesPerChannelLabel.Name = "samplesPerChannelLabel";
             this.samplesPerChannelLabel.Size = new System.Drawing.Size(31, 13);
             this.samplesPerChannelLabel.TabIndex = 5;
             this.samplesPerChannelLabel.Text = "1024";
             // 
-            // label1
+            // pow2label
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(161, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(37, 13);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Pow 2";
+            this.pow2label.AutoSize = true;
+            this.pow2label.Location = new System.Drawing.Point(120, 8);
+            this.pow2label.Name = "pow2label";
+            this.pow2label.Size = new System.Drawing.Size(37, 13);
+            this.pow2label.TabIndex = 4;
+            this.pow2label.Text = "Pow 2";
             // 
             // rateNumeric
             // 
@@ -329,14 +329,14 @@ namespace Lab.Drivers.DAQ
             // 
             // samplesPerChannelNumeric
             // 
-            this.samplesPerChannelNumeric.Location = new System.Drawing.Point(164, 24);
+            this.samplesPerChannelNumeric.Location = new System.Drawing.Point(120, 24);
             this.samplesPerChannelNumeric.Maximum = new decimal(new int[] {
             32,
             0,
             0,
             0});
             this.samplesPerChannelNumeric.Name = "samplesPerChannelNumeric";
-            this.samplesPerChannelNumeric.Size = new System.Drawing.Size(51, 20);
+            this.samplesPerChannelNumeric.Size = new System.Drawing.Size(69, 20);
             this.samplesPerChannelNumeric.TabIndex = 1;
             this.samplesPerChannelNumeric.Value = new decimal(new int[] {
             10,
@@ -582,7 +582,7 @@ namespace Lab.Drivers.DAQ
         private System.Windows.Forms.Label rateLabel;
         private System.Windows.Forms.NumericUpDown samplesPerChannelNumeric;
         private System.Windows.Forms.Label samplesPerChannelLabel;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label pow2label;
         private System.Windows.Forms.ComboBox terminalModeComboBox;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button addChannelButton;

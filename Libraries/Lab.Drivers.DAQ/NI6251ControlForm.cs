@@ -35,6 +35,7 @@ namespace Lab.Drivers.DAQ
         private decimal backupHisteresis;
         private decimal backupDelay;
 
+        private bool samplesChannelPow2 = true;
 
         public NI6251ControlForm()
         {
@@ -99,16 +100,16 @@ namespace Lab.Drivers.DAQ
                 {
                     // setup the timing, last value is the number of samples to use in the buffer
                     taskObj.Timing.ConfigureSampleClock("", Convert.ToDouble(rateNumeric.Value),
-                        SampleClockActiveEdge.Rising, SampleQuantityMode.FiniteSamples, 2 * Convert.ToInt32(Math.Pow(2, Convert.ToDouble(samplesPerChannelNumeric.Value))));
+                        SampleClockActiveEdge.Rising, SampleQuantityMode.FiniteSamples, this.SamplesPerChannel);
                 }
                 else
                 {
                     // setup the timing, last value is the number of samples to use in the buffer
                     taskObj.Timing.ConfigureSampleClock("", Convert.ToDouble(rateNumeric.Value),
-                        SampleClockActiveEdge.Rising, SampleQuantityMode.ContinuousSamples, 2 * Convert.ToInt32(Math.Pow(2, Convert.ToDouble(samplesPerChannelNumeric.Value))));
+                        SampleClockActiveEdge.Rising, SampleQuantityMode.ContinuousSamples, this.SamplesPerChannel);
 
                 }
-
+                
                 if (softwareTriggerCheckBox.Checked == false)
                 {
                     taskObj.Triggers.StartTrigger.ConfigureAnalogEdgeTrigger(referenceTriggerSourceTextBox.Text,
@@ -120,6 +121,9 @@ namespace Lab.Drivers.DAQ
                      
                     //taskObj.Triggers.StartTrigger.Delay = Convert.ToDouble(delayNumeric.Value);
                 }
+
+                // can set the time out with this line
+                // taskObj.Stream.Timeout = 10000; 
 
                 taskObj.Control(TaskAction.Verify);
             }
@@ -143,7 +147,7 @@ namespace Lab.Drivers.DAQ
             backupRate = rateNumeric.Value;
             backupTerminalMode = (AITerminalConfiguration)terminalModeComboBox.SelectedItem;
 
-            samplesPerChannelLabel.Text = Math.Pow(2.0, Convert.ToDouble(samplesPerChannelNumeric.Value)).ToString("0");
+            // samplesPerChannelLabel.Text = Math.Pow(2.0, Convert.ToDouble(samplesPerChannelNumeric.Value)).ToString("0");
 
 
             backupSoftwareTrigger = softwareTriggerCheckBox.Checked;
@@ -193,7 +197,14 @@ namespace Lab.Drivers.DAQ
         {
             get
             {
-                return Convert.ToInt32(Math.Pow(2, (Convert.ToDouble(samplesPerChannelNumeric.Value))));
+                if (samplesChannelPow2)
+                {
+                    return Convert.ToInt32(Math.Pow(2, (Convert.ToDouble(samplesPerChannelNumeric.Value))));
+                }
+                else
+                {
+                    return (Convert.ToInt32(samplesPerChannelNumeric.Value));
+                }
             }
         }
 
@@ -240,9 +251,39 @@ namespace Lab.Drivers.DAQ
             }
         }
 
+        // allows enable/disalbing of using 2^n samples per channel
+        public bool UseSamplesPerChannelPow2
+        {
+            get
+            {
+                return (samplesChannelPow2);
+            }
+            set
+            {
+                samplesChannelPow2 = value;
+
+                if (samplesChannelPow2)
+                {
+                    pow2label.Text = "Pow 2";
+                    samplesPerChannelLabel.Text = Math.Pow(2.0, Convert.ToDouble(samplesPerChannelNumeric.Value)).ToString("0");
+                    samplesPerChannelNumeric.Maximum = 40;
+                }
+                else
+                {
+                    pow2label.Text = "";
+                    samplesPerChannelLabel.Text = "";
+                    samplesPerChannelNumeric.Maximum = int.MaxValue;
+                    samplesPerChannelNumeric.Value = 1024;
+                }
+            }
+        }
+
         private void samplesPerChannelNumeric_ValueChanged(object sender, EventArgs e)
         {
-            samplesPerChannelLabel.Text = Math.Pow(2.0, Convert.ToDouble(samplesPerChannelNumeric.Value)).ToString("0");
+            if (samplesChannelPow2 == true)
+            {
+                samplesPerChannelLabel.Text = this.SamplesPerChannel.ToString("0");
+            }
         }
 
         private void UpdateChnanelsListBox()
