@@ -223,5 +223,20 @@ namespace Lab.Math
 
             return (sum);
         }
+
+        /// <summary>
+        /// Checks if an integer is power of 2
+        /// </summary>
+
+        /// <param name="i">An int number to check</param>
+        /// <returns>true if i is power of 2, false if otherwise</returns>
+        public static bool IsPower2(int i)
+        {
+
+            return (i != 0) && ((i & -i) == i);
+
+        }
+
+
     }
 }
