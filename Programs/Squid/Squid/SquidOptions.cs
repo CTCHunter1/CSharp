@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using Lab.Drivers.Motors;
 
 namespace Squid
 {
@@ -12,8 +13,11 @@ namespace Squid
     {
         bool backupDCFrquencyCheckBox;
         DataSeries.AmpUnits backupAmpUnits;
+        decimal backupPretriggerSamples;
+        decimal backupNumReducedSamplesPow2;
+        bool backupRisingTrigger;
 
-        public SquidOptionsForm()
+        public SquidOptionsForm(IAxis[] iAxisArr)
         {
             InitializeComponent();
 
@@ -22,18 +26,42 @@ namespace Squid
             ampUnitsComboBox.Items.Add(DataSeries.AmpUnits.dBm);
 
             ampUnitsComboBox.SelectedItem = DataSeries.AmpUnits.V;
+
+            reducedSamplesPow2numeric_ValueChanged(null, null);
+
+            // add the motors to the combo box
+            if (iAxisArr != null)
+            {
+                zAxisMotorComboBox.Items.Add(iAxisArr);
+
+                if (iAxisArr.Length > 0)
+                {
+                    zAxisMotorComboBox.SelectedIndex = 0;
+                    // enable the z axis controls
+                    zAxisMotorComboBox.Enabled = true;
+                    zAxisNumPointsNumericUpDown.Enabled = true;
+                                        
+                }
+            }
         }
 
         private void SquidOptions_Shown(object sender, EventArgs e)
         {
             backupDCFrquencyCheckBox = DCFrequencyCheckBox.Checked;
             backupAmpUnits = (DataSeries.AmpUnits) ampUnitsComboBox.SelectedItem;
+            backupPretriggerSamples = pretriggerNumeric.Value;
+            backupNumReducedSamplesPow2 = reducedSamplesPow2numeric.Value;
+            backupRisingTrigger = risingRadioButton.Checked;
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
             DCFrequencyCheckBox.Checked = backupDCFrquencyCheckBox;
             ampUnitsComboBox.SelectedItem = backupAmpUnits;
+            pretriggerNumeric.Value = backupPretriggerSamples;
+            reducedSamplesPow2numeric.Value = backupNumReducedSamplesPow2;
+            risingRadioButton.Checked = backupRisingTrigger;
+            fallingRadioButton.Checked = !backupRisingTrigger;
         }
 
         public bool PlotDCFrequency
@@ -50,6 +78,35 @@ namespace Squid
             {
                 return (DataSeries.AmpUnits) ampUnitsComboBox.SelectedItem;
             }
+        }
+
+        public int NumPretriggerSamples
+        {
+            get
+            {
+                return (Convert.ToInt32(pretriggerNumeric.Value));
+            }
+        }
+
+        public int NumReducedSamples
+        {
+            get
+            {
+                return (Convert.ToInt32(Math.Pow(2, (Convert.ToDouble(reducedSamplesPow2numeric.Value)))));
+            }
+        }
+
+        public bool TriggerRising
+        {
+            get
+            {
+                return (risingRadioButton.Checked);
+            }
+        }
+
+        private void reducedSamplesPow2numeric_ValueChanged(object sender, EventArgs e)
+        {
+            numReducedSamplesLabel.Text = this.NumReducedSamples.ToString("0");
         }
     }
 }

@@ -1,6 +1,6 @@
 namespace Squid
 {
-    partial class MotorControl
+    partial class ChopperMotorControlForm
     {
         /// <summary>
         /// Required designer variable.

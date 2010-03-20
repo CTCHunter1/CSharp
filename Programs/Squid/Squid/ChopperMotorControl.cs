@@ -9,9 +9,9 @@ using NationalInstruments.DAQmx;
 
 namespace Squid
 {
-    public partial class MotorControl : Form
+    public partial class ChopperMotorControlForm : Form
     {
-        public MotorControl()
+        public ChopperMotorControlForm()
         {
             InitializeComponent();
 
@@ -35,19 +35,10 @@ namespace Squid
 
                 using (Task digitalWriteTask = new Task())
                 {
-                    digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[0], "",
-                        ChannelLineGrouping.OneChannelForAllLines);
-                    bool[] dataArray = new bool[8];
-                    dataArray[0] = reverseCheckBox.Checked;
-                    dataArray[1] = reverseCheckBox.Checked;
-                    dataArray[2] = reverseCheckBox.Checked;
-                    dataArray[3] = reverseCheckBox.Checked;
-                    dataArray[4] = reverseCheckBox.Checked;
-                    dataArray[5] = reverseCheckBox.Checked;
-                    dataArray[6] = reverseCheckBox.Checked;
-                    dataArray[7] = reverseCheckBox.Checked;
-                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                    writer.WriteSingleSampleMultiLine(true, dataArray);
+                    digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOLine, PhysicalChannelAccess.External)[0], "",
+                        ChannelLineGrouping.OneChannelForAllLines);       
+                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);                
+                    writer.WriteSingleSampleSingleLine(true, reverseCheckBox.Checked);
                 }
             }
 

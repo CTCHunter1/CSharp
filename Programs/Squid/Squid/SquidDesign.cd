@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Font Name="Tahoma" Size="8.25" />
+  <Class Name="Squid.MainForm">
+    <Position X="0.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>MainForm.cs</FileName>
+      <HashCode>DQCKlAAgCiCBAABERAKBRQACAAyIghsQACAJIUAiEAM=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Squid.DataSeries">
+    <Position X="2.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>DataSeries.cs</FileName>
+      <HashCode>RgAEAAACAAgQgNACJCXATAwCICQQAEDMBBFALAAQiIA=</HashCode>
+    </TypeIdentifier>
+    <NestedTypes>
+      <Enum Name="Squid.DataSeries.AmpUnits" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>DataSeries.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="Squid.DataSeries.Window" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>DataSeries.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+  </Class>
+  <Class Name="Squid.ZDataSeries">
+    <Position X="4.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>ZDataSeries.cs</FileName>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAABIAQA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Squid.AcquisitionController">
+    <Position X="6.25" Y="0.75" Width="2.5" />
+    <TypeIdentifier>
+      <FileName>AcquisitionController.cs</FileName>
+      <HashCode>IAACBAAACAAABIBAAgAIQCAAAgBAAgABAEAAAgBBEIA=</HashCode>
+    </TypeIdentifier>
+    <NestedTypes>
+      <Delegate Name="Squid.AcquisitionController.UIUpdateGraphDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>AcquisitionController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="Squid.AcquisitionController.UIFinishedContinousScan" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>AcquisitionController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+  </Class>
+</ClassDiagram>

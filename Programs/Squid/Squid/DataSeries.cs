@@ -29,14 +29,15 @@ namespace Squid
         private double[] yRealAvg_f;
         private double[] yImagAvg_f;
         private double[] yAbsAvg_f;
-        int numFFTs = 0;        // number of points averaged in for yRealAvg_f
-        int pointsToFFTAverage;
+        int numFFTs = 0;            // number of points averaged in for yRealAvg_f
 
         protected int ptIndex = 0;
         protected int mNumPts;
         protected int mDownsamplingFactor = 0;
         private double fSample;
         private double mResistance;
+
+        double zPosition;      // position on the scan axis
 
         // the transformer
         private RealFourierTransformation rftObj = new RealFourierTransformation(TransformationConvention.Matlab);
@@ -276,6 +277,34 @@ namespace Squid
             }
         }
 
+        public bool HasFFT
+        {
+            get
+            {
+                if (yAbs_f == null)
+                {
+                    return (false);
+                }
+                else
+                {
+                    return (true);
+                }
+
+            }
+        }
+
+        public double Z0
+        {
+            set
+            {
+                zPosition = Z0;
+            }
+            get
+            {
+                return (zPosition);
+            }
+        }
+
         private double[] HammingWindowFFT(double[] Y_t)
         {
             // assumes all are 1024 long.
@@ -300,18 +329,29 @@ namespace Squid
                 default:
                 case Window.NONE:
                     // YWindow_t = Y_t; already did this
-                    break;
+                    break;  
             }
 
-            rftObj.TransformForward(YWindow_t, out yReal_f, out yImag_f);
-            //rftObj.TransformForward(Y_t, out yReal_f, out yImag_f);
-            // any math that needs to be done should just be done in this function
-            yAbs_f = GetModulous(yReal_f, yImag_f);
-            // TODO: Implement Phase retrevial
+            // can't transform if the length isn't a a power of 2
+            if (Lab.Math.Functions.IsPower2(mNumPts))
+            {
+                rftObj.TransformForward(YWindow_t, out yReal_f, out yImag_f);
+                //rftObj.TransformForward(Y_t, out yReal_f, out yImag_f);
+                // any math that needs to be done should just be done in this function
+                yAbs_f = GetModulous(yReal_f, yImag_f);
+                // TODO: Implement Phase retrevial
 
-            // Check Power Conservation
-            double PTime = GetPowerTimeDomain(y_t);
-            double PFreq = GetPowerFrequencyDomaindBmV(yAbs_f);
+                // Check Power Conservation
+                double PTime = GetPowerTimeDomain(y_t);
+                double PFreq = GetPowerFrequencyDomaindBmV(yAbs_f);
+            }
+            else
+            {
+                yReal_f = null;
+                yImag_f = null;
+                yAbs_f = null;
+            }
+          
 
         }
 
@@ -402,6 +442,9 @@ namespace Squid
 
         private double[] GetHalfArr(double[] arr)
         {
+            if (arr == null)
+                return (null);
+
             double[] retArr = new double[arr.Length / 2];
 
             for (int i = 0; i < retArr.Length; i++)

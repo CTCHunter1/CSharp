@@ -40,12 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AcquisitionController.cs" />
     <Compile Include="DataSeries.cs" />
-    <Compile Include="MotorControl.cs">
+    <Compile Include="Decimator.cs" />
+    <Compile Include="ChopperMotorControl.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MotorControl.Designer.cs">
-      <DependentUpon>MotorControl.cs</DependentUpon>
+    <Compile Include="ChopperMotorControl.Designer.cs">
+      <DependentUpon>ChopperMotorControl.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -59,9 +61,9 @@
       <SubType>Designer</SubType>
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MotorControl.resx">
+    <EmbeddedResource Include="ChopperMotorControl.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>MotorControl.cs</DependentUpon>
+      <DependentUpon>ChopperMotorControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -75,11 +77,13 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="SquidDesign.cd" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -91,6 +95,8 @@
     <Compile Include="SquidOptions.Designer.cs">
       <DependentUpon>SquidOptions.cs</DependentUpon>
     </Compile>
+    <Compile Include="ZDataSeries.cs" />
+    <Compile Include="ZScanController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Libraries\GraphControl\GraphControl\GraphControl.csproj">
@@ -100,6 +106,10 @@
     <ProjectReference Include="..\..\..\Libraries\Lab.Drivers.DAQ\Lab.Drivers.DAQ.csproj">
       <Project>{20A289EB-5891-4A59-90D6-BEE35ED61578}</Project>
       <Name>Lab.Drivers.DAQ</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Libraries\Lab.Drivers.Motors\Lab.Drivers.Motors.csproj">
+      <Project>{206E8042-B072-4E9F-87C4-BC3090C91E62}</Project>
+      <Name>Lab.Drivers.Motors</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Libraries\Lab.Math\Lab.Math.csproj">
       <Project>{B1ABFB43-C135-45EE-B048-310B72895DCA}</Project>

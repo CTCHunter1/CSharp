@@ -4,22 +4,17 @@ using System.Text;
 
 namespace Squid
 {
-    class Decimator
+    public class Decimator
     {
-        int numPoints;          // number of points to collect
+        int numPoints;              // number of points to collect
         int numPretriggerPts;       // in ticks
-        int pretriggerIndex;        // this counts down
-        double[] reducedTrace;
-        int reducedTraceIndex = 0;
-        bool takingTrace = false;
-
-        bool previousValue = true;
+        
+        bool triggerRising = true;
 
         public Decimator(int numPoints, int numPretriggerPts)
         {
             this.numPoints = numPoints;
             this.numPretriggerPts = numPretriggerPts;
-            this.pretriggerIndex = numPretriggerPts;
         }
 
         public int PretriggerPoints
@@ -36,117 +31,83 @@ namespace Squid
         }
 
 
-        public void Update(DataSeries dataSeries, bool [] timingArr)
-        {           
-            int dataSeriesIndex = 0;
-
-            // still copying out form last trace
-            if (takingTrace == true)
+        public int NumPoints
+        {
+            set
             {
-                // check if there are enough points in the dataseries to trigger
-                if((dataSeries.NumPoints - pretriggerIndex) < 0)
-                {
-                    // not enough points to trigger advance trigger index
-                    pretriggerIndex -= dataSeries.NumPoints;
-                    return;
-                }
-                
-                // advance to the pretrigger index then start copying                
-                for (dataSeriesIndex = pretriggerIndex; 
-                    dataSeriesIndex < dataSeries.Y_t.Length; 
-                    dataSeriesIndex++)
-                {
-                    reducedTrace[reducedTraceIndex] = dataSeries.Y_t[dataSeriesIndex];
-                    reducedTraceIndex++;
-
-                    if ((reducedTraceIndex % numPoints) == 0)
-                    {
-                        takingTrace = false;
-                        reducedTraceIndex = 0;
-                        pretriggerIndex = numPretriggerPts;
-                        break;
-                    }
-                }
+                numPoints = value;
             }
-
-            if (dataSeriesIndex == 0)
+            get 
             {
-                // check the first item in the timing dataseries
-                if ((previousValue == false) &&
-                    timingArr[dataSeriesIndex] == true)
+                return (numPoints);
+            }
+        }
+
+        public bool TriggerRising
+        {
+            set
+            {
+                triggerRising = value;
+            }
+            get 
+            {
+                return (triggerRising);
+            }
+        }
+
+        public double [] Reduce(DataSeries dataSeries, bool [] timingArr)
+        {
+            // created the reduced array
+            double[] reducedArr = new double[numPoints];
+            int dataSeriesIndex = 0;
+            int reducedArrIndex = 0;
+
+            // find the trigger
+            for(;dataSeriesIndex < dataSeries.NumPoints - 1; dataSeriesIndex++)
+            {
+                if(triggerRising == true)
                 {
-                    takingTrace = true;
-
-                    // check if there are enough points in the dataseries to trigger
-                    if ((dataSeries.NumPoints - pretriggerIndex) < 0)
+                    if((timingArr[dataSeriesIndex] == false) && 
+                       (timingArr[dataSeriesIndex+1] == true))
                     {
-                        // not enough points to trigger advance trigger index
-                        pretriggerIndex -= dataSeries.NumPoints;
-                        return;
-                    }
-
-                    // advance to the pretrigger index then start copying                
-                    for (dataSeriesIndex = pretriggerIndex;
-                        dataSeriesIndex < dataSeries.Y_t.Length;
-                        dataSeriesIndex++)
-                    {
-                        reducedTrace[reducedTraceIndex] = dataSeries.Y_t[dataSeriesIndex];
-                        reducedTraceIndex++;
-
-                        // reset the reduced trace
-                        if ((reducedTraceIndex % numPoints) == 0)
+                        // triggered
+                        // advance to pretrigger
+                        dataSeriesIndex += numPretriggerPts;
+                        for (; dataSeriesIndex < dataSeries.NumPoints; dataSeriesIndex++)
                         {
-                            takingTrace = false;
-                            reducedTraceIndex = 0;
-                            pretriggerIndex = numPretriggerPts;
-                            reducedTrace = new double[numPoints];
-                            break;
+                            reducedArr[reducedArrIndex] = dataSeries.Y_t[dataSeriesIndex];
+                            reducedArrIndex++;
+
+                            if (reducedArrIndex > (numPoints -1))
+                            {
+                                return (reducedArr);
+                            }
                         }
                     }
                 }
                 else
                 {
-                    dataSeriesIndex++;
-                }
-            } 
-            // 
-            for (; dataSeriesIndex < dataSeries.NumPoints; dataSeriesIndex++)
-            {
-                // trigger on rising edge
-                if (timingArr[dataSeriesIndex - 1] == false &&
-                    timingArr[dataSeriesIndex] == true)
-                {
-                    takingTrace = true;
-
-                    // check if there are enough points in the dataseries to trigger
-                    if ((dataSeries.NumPoints - pretriggerIndex) < 0)
+                    if ((timingArr[dataSeriesIndex] == true) &&
+                       (timingArr[dataSeriesIndex + 1] == false))
                     {
-                        // not enough points to trigger advance trigger index
-                        pretriggerIndex -= dataSeries.NumPoints;
-                        return;
-                    }
-
-                    // advance to the pretrigger index then start copying                
-                    for (dataSeriesIndex = pretriggerIndex;
-                        dataSeriesIndex < dataSeries.NumPoints;
-                        dataSeriesIndex++)
-                    {
-                        reducedTrace[reducedTraceIndex] = dataSeries.Y_t[dataSeriesIndex];
-                        reducedTraceIndex++;
-
-                        if ((reducedTraceIndex % numPoints) == 0)
+                        // triggered
+                        // advance to pretrigger
+                        dataSeriesIndex += numPretriggerPts;
+                        for (; dataSeriesIndex < dataSeries.NumPoints; dataSeriesIndex++)
                         {
-                            takingTrace = false;
-                            reducedTraceIndex = 0;
-                            pretriggerIndex = numPretriggerPts;
-                            reducedTrace = new double[numPoints];
-                            break;
-                        }
+                            reducedArr[reducedArrIndex] = dataSeries.Y_t[dataSeriesIndex];
+                            reducedArrIndex++;
+                            
+                            if (reducedArrIndex > (numPoints - 1))
+                            {
+                                return (reducedArr);
+                            }
+                        }                        
                     }
-                }
+                }   
             }
 
-            previousValue = timingArr[dataSeriesIndex];
+            return (reducedArr);
         }
     }
 }
