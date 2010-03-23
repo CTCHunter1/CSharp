@@ -28,6 +28,8 @@ namespace Squid
         Mutex dataArrMutex;
         private DataSeries[] continousScanArr;
         private DataSeries[] reducedScanArr;
+        
+        private PrecisionDateTime timeStamp; // The time of the last taken sample
 
         Task digitalTask;
 
@@ -74,7 +76,7 @@ namespace Squid
             }
         }
 
-        public DataSeries[] ReducedTrace
+        public ZDataPoint ReducedTrace
         {
             get
             {
@@ -87,13 +89,16 @@ namespace Squid
                 nidaqControlObj.Rate,
                 squidOptionsObj.FrequencyAmpUnits,
                 50);
+
+                ZDataPoint returnDataPoint = new ZDataPoint(returnDataSeries, timeStamp);
+
                 dataArrMutex.ReleaseMutex();
 
-                return (returnDataSeries);
+                return (returnDataPoint);
             }
         }
 
-        public DataSeries[] CurrentTrace
+        public ZDataPoint CurrentTrace
         {
             get
             {
@@ -106,9 +111,11 @@ namespace Squid
                 squidOptionsObj.FrequencyAmpUnits,
                 50);
 
+                ZDataPoint returnDataPoint = new ZDataPoint(returnDataSeries, timeStamp);
+
                 dataArrMutex.ReleaseMutex();
 
-                return (returnDataSeries);
+                return (returnDataPoint);
             }
         }
 
@@ -127,7 +134,9 @@ namespace Squid
 
             DigitalSingleChannelReader digitalReader = new DigitalSingleChannelReader(digitalTask.Stream);
             DigitalWaveform digitalWaveform = digitalReader.ReadWaveform(nidaqControlObj.SamplesPerChannel);
-                        
+            
+
+            
             digitalData = new double[digitalWaveform.Samples.Count];
             digitalDataBool = new bool[digitalWaveform.Samples.Count];
 
@@ -156,11 +165,23 @@ namespace Squid
                 reducedDataSeries[i].UpdateFFT();
 
             }
+
+            if (dataSeriesArr.Length > 0)
+            {
+                timeStamp = multiChannelWaveformData[0].PrecisionTiming.TimeStamp;
+            }               
         }
 
         public void StartContinousUpdate(ContainerControl sender)
         {
-            nidaqControlObj.SingleShot = false;
+            // if it is already running then don't do anything
+            if (isRunning == true)
+            {
+                runContinousScan = true;
+                return;
+            }
+
+            nidaqControlObj.SingleShot = false;            
 
             continousScanThreadObj = new Thread(new ParameterizedThreadStart(ContinousScan));
             // contiousScanThreadObj.Priority = ThreadPriority.BelowNormal;

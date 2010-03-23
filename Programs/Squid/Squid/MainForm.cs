@@ -23,7 +23,12 @@ namespace Squid
         Decimator decimatorObj;
         
         AcquisitionController acquisitionControllerObj;
-        
+        ZScanController zScanControllerObj;
+
+        ZDataPoint zDataPoint = null;
+
+        SaveFileDialog sfdObj = new SaveFileDialog();
+            
 
         // UI Update Delegates old
         // delegate void UIUpdateStatusDelegate(String str_msg, int i_precent_comp);
@@ -50,6 +55,17 @@ namespace Squid
                 uiUpdateDaqDelegate,
                 uiUpdateReducedDelegate,
                 uiFinishedDelegate);
+
+            ZScanController.UIUpdateGraphDelegate uiUpdateZDataDelegate = new ZScanController.UIUpdateGraphDelegate(UpdateZScanGraph);
+            ZScanController.UIFinishedScan uiFinishZScanDelegaate = new ZScanController.UIFinishedScan(EnableContinousScan);
+
+            zScanControllerObj = new ZScanController(acquisitionControllerObj, 
+                uiUpdateZDataDelegate,
+                uiFinishZScanDelegaate);
+
+            sfdObj.Filter = "Matlab Files (*.mat)|*.mat|All Files|*.*";
+            // sets the inital directory for the save file dialog
+            sfdObj.InitialDirectory = Environment.CurrentDirectory; 
 
 
         }
@@ -118,7 +134,8 @@ namespace Squid
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             motorControlFromObj.Stop();
-            acquisitionControllerObj.StopContinousUpdate();            
+            zScanControllerObj.StopScan();
+            acquisitionControllerObj.StopContinousUpdate();
             
             Application.Exit();
         }
@@ -126,16 +143,7 @@ namespace Squid
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
-        }
-
-        private void starContinousToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            startContinousToolStripMenuItem.Enabled = false;
-            // add disable for saving here
-
-            // start the data acuisition, this will happen in a new thread
-            acquisitionControllerObj.StartContinousUpdate(this);
-        }
+        }        
 
         private void UpdateDAQGraph(DataSeries[] dataSeriesArr)
         {
@@ -224,13 +232,73 @@ namespace Squid
                 }
             }
         }
-        
+
+        private void UpdateZScanGraph(ZDataPoint zDataPoint)
+        {
+            // loop through all the data
+            DataSeries [] dataSeriesArr = zDataPoint.DataSeriesArr;
+            double[] freqHalfArr = null;
+
+            // check that the graph should be updated
+            if (enableCheckBox3.Checked == false)
+                return; 
+
+            for (int i = 0; i < dataSeriesArr.Length; i++)
+            {
+                if (freqRadioButton.Checked == true)
+                {
+                    if (squidOptionsFormObj.PlotDCFrequency == true)
+                    {
+                        zScanGraphControl.Plot("Data" + i.ToString(),
+                            dataSeriesArr[i].FrequencyHalfArr,
+                            dataSeriesArr[i].YAbs_fHalf,
+                            GetColorByIndex(i));
+                    }
+                    else
+                    {
+                        // if the new frequency array hasn't been created then create it
+                        if (freqHalfArr == null)
+                        {
+                            freqHalfArr = new double[dataSeriesArr[0].FrequencyHalfArr.Length - 2];
+
+                            for (int j = 0; i < dataSeriesArr[0].FrequencyHalfArr.Length - 2; j++)
+                            {
+                                freqHalfArr[j] = dataSeriesArr[0].FrequencyHalfArr[j + 2];
+                            }
+                        }
+
+                        // we need to copy out the array minus the first two numbers
+                        double[] YAbs_HalfArr = new double[dataSeriesArr[i].YAbs_fHalf.Length - 2];
+
+                        // copy out starting after first two points
+                        for (int j = 0; j < dataSeriesArr[i].YAbs_fHalf.Length - 2; j++)
+                        {
+                            YAbs_HalfArr[j] = dataSeriesArr[i].YAbs_fHalf[j + 2];
+                        }
+
+                        zScanGraphControl.Plot("Data" + i.ToString(),
+                            freqHalfArr,
+                            YAbs_HalfArr, 
+                            GetColorByIndex(i));
+                    }
+                }
+
+                if (timeRadioButton.Checked == true)
+                {
+                    zScanGraphControl.Plot("Data" + i.ToString(),
+                            dataSeriesArr[i].TimeArr,
+                            dataSeriesArr[i].Y_t,
+                            GetColorByIndex(i));
+                }
+            }
+        }
+
         private void EnableContinousScan()
         {
             startContinousToolStripMenuItem.Enabled = true;
+            startZScanToolStripMenuItem.Enabled = true;
         }
  
-
         private void stopContinousScanToolStripMenuItem_Click(object sender, EventArgs e)
         {
             acquisitionControllerObj.StopContinousUpdate();
@@ -247,7 +315,23 @@ namespace Squid
 
         private void startZScanToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            startZScanToolStripMenuItem.Enabled = false;
+            startContinousToolStripMenuItem.Enabled = false;
 
+            zScanControllerObj.StartScan(this, 
+                squidOptionsFormObj.ZAxis, 
+                squidOptionsFormObj.ZScanRadius * 2,
+                squidOptionsFormObj.ZScanNumPoints);
+        }
+
+        private void startContinousToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            startContinousToolStripMenuItem.Enabled = false;
+            startZScanToolStripMenuItem.Enabled = false;
+            // add disable for saving here
+
+            // start the data acuisition, this will happen in a new thread
+            acquisitionControllerObj.StartContinousUpdate(this);
         }
 
         private void stagesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -262,15 +346,44 @@ namespace Squid
 
         private void takeReducedButton_Click(object sender, EventArgs e)
         {
-            DataSeries[] dataArr = acquisitionControllerObj.ReducedTrace;
+            zDataPoint = acquisitionControllerObj.ReducedTrace;
+            DataSeries[] dataArr = zDataPoint.DataSeriesArr;
 
             if (dataArr != null)
             {
                 for (int i = 0; i < dataArr.Length; i++)
                 {
-                    graphControlSingle.Plot("Data" + i.ToString(), dataArr[i].TimeArr, dataArr[i].Y_t, GetColorByIndex(i));
+                    zScanGraphControl.Plot("Data" + i.ToString(), dataArr[i].TimeArr, dataArr[i].Y_t, GetColorByIndex(i));
                 }
             }
+        }
+
+        private void saveSingleScanToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (zDataPoint == null)
+                return;
+
+
+            if (sfdObj.ShowDialog() == DialogResult.OK)
+            {
+                zDataPoint.Save(sfdObj.FileName);
+            }
+        }
+
+        private void saveZAxisScanToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (zScanControllerObj.ZDataSeries == null)
+                return;
+
+            if (sfdObj.ShowDialog() == DialogResult.OK)
+            {
+                zScanControllerObj.ZDataSeries.Save(sfdObj.FileName);
+            }
+        }
+
+        private void stopZScanToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            zScanControllerObj.StopScan();
         }
     }
 }

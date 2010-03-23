@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.Math", "..\..\Libraries
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.Drivers.Motors", "..\..\Libraries\Lab.Drivers.Motors\Lab.Drivers.Motors.csproj", "{206E8042-B072-4E9F-87C4-BC3090C91E62}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.FileIO", "..\..\Libraries\Lab.FileIO\Lab.FileIO.csproj", "{6D2EAFF2-D9AA-48E2-AF4B-7EA6B396DE14}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{206E8042-B072-4E9F-87C4-BC3090C91E62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{206E8042-B072-4E9F-87C4-BC3090C91E62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{206E8042-B072-4E9F-87C4-BC3090C91E62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D2EAFF2-D9AA-48E2-AF4B-7EA6B396DE14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D2EAFF2-D9AA-48E2-AF4B-7EA6B396DE14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D2EAFF2-D9AA-48E2-AF4B-7EA6B396DE14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D2EAFF2-D9AA-48E2-AF4B-7EA6B396DE14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

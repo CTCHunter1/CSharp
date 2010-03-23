@@ -31,6 +31,8 @@ namespace Squid
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveSingleScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveZAxisScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.controlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chopperMotorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,6 +43,7 @@ namespace Squid
             this.startContinousToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopContinousScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startZScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.takeSingleTraceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopButton = new System.Windows.Forms.Button();
             this.enableCheckBox2 = new System.Windows.Forms.CheckBox();
             this.enableCheckBox1 = new System.Windows.Forms.CheckBox();
@@ -52,13 +55,13 @@ namespace Squid
             this.origionalRadioButton2 = new System.Windows.Forms.RadioButton();
             this.reducedRadioButton2 = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.origionalRadioButton3 = new System.Windows.Forms.RadioButton();
-            this.reducedRadioButton3 = new System.Windows.Forms.RadioButton();
-            this.graphControlSingle = new GraphControl.GraphControl();
+            this.timeRadioButton = new System.Windows.Forms.RadioButton();
+            this.freqRadioButton = new System.Windows.Forms.RadioButton();
+            this.takeReducedButton = new System.Windows.Forms.Button();
+            this.zScanGraphControl = new GraphControl.GraphControl();
             this.frequencyAxisGraphControl = new GraphControl.GraphControl();
             this.timeAxisGraphControl = new GraphControl.GraphControl();
-            this.takeSingleTraceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.takeReducedButton = new System.Windows.Forms.Button();
+            this.stopZScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.dataSelectedGroupBox1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -80,15 +83,31 @@ namespace Squid
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveSingleScanToolStripMenuItem,
+            this.saveZAxisScanToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
+            // saveSingleScanToolStripMenuItem
+            // 
+            this.saveSingleScanToolStripMenuItem.Name = "saveSingleScanToolStripMenuItem";
+            this.saveSingleScanToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.saveSingleScanToolStripMenuItem.Text = "Save Single Scan";
+            this.saveSingleScanToolStripMenuItem.Click += new System.EventHandler(this.saveSingleScanToolStripMenuItem_Click);
+            // 
+            // saveZAxisScanToolStripMenuItem
+            // 
+            this.saveZAxisScanToolStripMenuItem.Name = "saveZAxisScanToolStripMenuItem";
+            this.saveZAxisScanToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.saveZAxisScanToolStripMenuItem.Text = "Save Z Axis Scan";
+            this.saveZAxisScanToolStripMenuItem.Click += new System.EventHandler(this.saveZAxisScanToolStripMenuItem_Click);
+            // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -137,6 +156,7 @@ namespace Squid
             this.startContinousToolStripMenuItem,
             this.stopContinousScanToolStripMenuItem,
             this.startZScanToolStripMenuItem,
+            this.stopZScanToolStripMenuItem,
             this.takeSingleTraceToolStripMenuItem});
             this.controlToolStripMenuItem1.Name = "controlToolStripMenuItem1";
             this.controlToolStripMenuItem1.Size = new System.Drawing.Size(54, 20);
@@ -147,7 +167,7 @@ namespace Squid
             this.startContinousToolStripMenuItem.Name = "startContinousToolStripMenuItem";
             this.startContinousToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.startContinousToolStripMenuItem.Text = "Start Continous Scan";
-            this.startContinousToolStripMenuItem.Click += new System.EventHandler(this.starContinousToolStripMenuItem_Click);
+            this.startContinousToolStripMenuItem.Click += new System.EventHandler(this.startContinousToolStripMenuItem_Click);
             // 
             // stopContinousScanToolStripMenuItem
             // 
@@ -162,6 +182,13 @@ namespace Squid
             this.startZScanToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.startZScanToolStripMenuItem.Text = "Start Z Scan";
             this.startZScanToolStripMenuItem.Click += new System.EventHandler(this.startZScanToolStripMenuItem_Click);
+            // 
+            // takeSingleTraceToolStripMenuItem
+            // 
+            this.takeSingleTraceToolStripMenuItem.Name = "takeSingleTraceToolStripMenuItem";
+            this.takeSingleTraceToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.takeSingleTraceToolStripMenuItem.Text = "Take Single Trace";
+            this.takeSingleTraceToolStripMenuItem.Click += new System.EventHandler(this.takeSingleTraceToolStripMenuItem_Click);
             // 
             // stopButton
             // 
@@ -271,48 +298,58 @@ namespace Squid
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.origionalRadioButton3);
-            this.groupBox2.Controls.Add(this.reducedRadioButton3);
+            this.groupBox2.Controls.Add(this.timeRadioButton);
+            this.groupBox2.Controls.Add(this.freqRadioButton);
             this.groupBox2.Location = new System.Drawing.Point(93, 439);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(196, 37);
+            this.groupBox2.Size = new System.Drawing.Size(203, 37);
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Data Select";
             // 
-            // origionalRadioButton3
+            // timeRadioButton
             // 
-            this.origionalRadioButton3.AutoSize = true;
-            this.origionalRadioButton3.Checked = true;
-            this.origionalRadioButton3.Location = new System.Drawing.Point(110, 13);
-            this.origionalRadioButton3.Name = "origionalRadioButton3";
-            this.origionalRadioButton3.Size = new System.Drawing.Size(66, 17);
-            this.origionalRadioButton3.TabIndex = 1;
-            this.origionalRadioButton3.TabStop = true;
-            this.origionalRadioButton3.Text = "Origional";
-            this.origionalRadioButton3.UseVisualStyleBackColor = true;
+            this.timeRadioButton.AutoSize = true;
+            this.timeRadioButton.Checked = true;
+            this.timeRadioButton.Location = new System.Drawing.Point(110, 13);
+            this.timeRadioButton.Name = "timeRadioButton";
+            this.timeRadioButton.Size = new System.Drawing.Size(87, 17);
+            this.timeRadioButton.TabIndex = 1;
+            this.timeRadioButton.TabStop = true;
+            this.timeRadioButton.Text = "Time Domain";
+            this.timeRadioButton.UseVisualStyleBackColor = true;
             // 
-            // reducedRadioButton3
+            // freqRadioButton
             // 
-            this.reducedRadioButton3.AutoSize = true;
-            this.reducedRadioButton3.Location = new System.Drawing.Point(6, 13);
-            this.reducedRadioButton3.Name = "reducedRadioButton3";
-            this.reducedRadioButton3.Size = new System.Drawing.Size(69, 17);
-            this.reducedRadioButton3.TabIndex = 0;
-            this.reducedRadioButton3.Text = "Reduced";
-            this.reducedRadioButton3.UseVisualStyleBackColor = true;
+            this.freqRadioButton.AutoSize = true;
+            this.freqRadioButton.Location = new System.Drawing.Point(6, 13);
+            this.freqRadioButton.Name = "freqRadioButton";
+            this.freqRadioButton.Size = new System.Drawing.Size(85, 17);
+            this.freqRadioButton.TabIndex = 0;
+            this.freqRadioButton.Text = "Freq Domain";
+            this.freqRadioButton.UseVisualStyleBackColor = true;
             // 
-            // graphControlSingle
+            // takeReducedButton
             // 
-            this.graphControlSingle.AutoScale = true;
-            this.graphControlSingle.Location = new System.Drawing.Point(12, 475);
-            this.graphControlSingle.Name = "graphControlSingle";
-            this.graphControlSingle.Size = new System.Drawing.Size(561, 143);
-            this.graphControlSingle.TabIndex = 5;
-            this.graphControlSingle.XLim = new double[] {
+            this.takeReducedButton.Location = new System.Drawing.Point(498, 661);
+            this.takeReducedButton.Name = "takeReducedButton";
+            this.takeReducedButton.Size = new System.Drawing.Size(75, 23);
+            this.takeReducedButton.TabIndex = 11;
+            this.takeReducedButton.Text = "Take Reduced Data";
+            this.takeReducedButton.UseVisualStyleBackColor = true;
+            this.takeReducedButton.Click += new System.EventHandler(this.takeReducedButton_Click);
+            // 
+            // zScanGraphControl
+            // 
+            this.zScanGraphControl.AutoScale = true;
+            this.zScanGraphControl.Location = new System.Drawing.Point(12, 475);
+            this.zScanGraphControl.Name = "zScanGraphControl";
+            this.zScanGraphControl.Size = new System.Drawing.Size(561, 143);
+            this.zScanGraphControl.TabIndex = 5;
+            this.zScanGraphControl.XLim = new double[] {
         -10,
         10};
-            this.graphControlSingle.YLim = new double[] {
+            this.zScanGraphControl.YLim = new double[] {
         -10,
         10};
             // 
@@ -344,22 +381,12 @@ namespace Squid
         -10,
         10};
             // 
-            // takeSingleTraceToolStripMenuItem
+            // stopZScanToolStripMenuItem
             // 
-            this.takeSingleTraceToolStripMenuItem.Name = "takeSingleTraceToolStripMenuItem";
-            this.takeSingleTraceToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
-            this.takeSingleTraceToolStripMenuItem.Text = "Take Single Trace";
-            this.takeSingleTraceToolStripMenuItem.Click += new System.EventHandler(this.takeSingleTraceToolStripMenuItem_Click);
-            // 
-            // takeReducedButton
-            // 
-            this.takeReducedButton.Location = new System.Drawing.Point(498, 661);
-            this.takeReducedButton.Name = "takeReducedButton";
-            this.takeReducedButton.Size = new System.Drawing.Size(75, 23);
-            this.takeReducedButton.TabIndex = 11;
-            this.takeReducedButton.Text = "Take Reduced Data";
-            this.takeReducedButton.UseVisualStyleBackColor = true;
-            this.takeReducedButton.Click += new System.EventHandler(this.takeReducedButton_Click);
+            this.stopZScanToolStripMenuItem.Name = "stopZScanToolStripMenuItem";
+            this.stopZScanToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.stopZScanToolStripMenuItem.Text = "Stop Z Scan";
+            this.stopZScanToolStripMenuItem.Click += new System.EventHandler(this.stopZScanToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -373,7 +400,7 @@ namespace Squid
             this.Controls.Add(this.enableCheckBox3);
             this.Controls.Add(this.enableCheckBox1);
             this.Controls.Add(this.enableCheckBox2);
-            this.Controls.Add(this.graphControlSingle);
+            this.Controls.Add(this.zScanGraphControl);
             this.Controls.Add(this.frequencyAxisGraphControl);
             this.Controls.Add(this.timeAxisGraphControl);
             this.Controls.Add(this.stopButton);
@@ -411,7 +438,7 @@ namespace Squid
         private GraphControl.GraphControl frequencyAxisGraphControl;
         private System.Windows.Forms.ToolStripMenuItem stopContinousScanToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem squidOptionsToolStripMenuItem;
-        private GraphControl.GraphControl graphControlSingle;
+        private GraphControl.GraphControl zScanGraphControl;
         private System.Windows.Forms.CheckBox enableCheckBox2;
         private System.Windows.Forms.CheckBox enableCheckBox1;
         private System.Windows.Forms.CheckBox enableCheckBox3;
@@ -422,12 +449,15 @@ namespace Squid
         private System.Windows.Forms.RadioButton origionalRadioButton2;
         private System.Windows.Forms.RadioButton reducedRadioButton2;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.RadioButton origionalRadioButton3;
-        private System.Windows.Forms.RadioButton reducedRadioButton3;
+        private System.Windows.Forms.RadioButton timeRadioButton;
+        private System.Windows.Forms.RadioButton freqRadioButton;
         private System.Windows.Forms.ToolStripMenuItem startZScanToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stagesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem takeSingleTraceToolStripMenuItem;
         private System.Windows.Forms.Button takeReducedButton;
+        private System.Windows.Forms.ToolStripMenuItem saveSingleScanToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveZAxisScanToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem stopZScanToolStripMenuItem;
 
     }
 }

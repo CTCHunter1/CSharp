@@ -65,36 +65,18 @@
       <SubType>Designer</SubType>
       <DependentUpon>ChopperMotorControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="SquidOptions.resx">
       <SubType>Designer</SubType>
       <DependentUpon>SquidOptions.cs</DependentUpon>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
     <None Include="SquidDesign.cd" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
     <Compile Include="SquidOptions.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="SquidOptions.Designer.cs">
       <DependentUpon>SquidOptions.cs</DependentUpon>
     </Compile>
+    <Compile Include="ZDataPoint.cs" />
     <Compile Include="ZDataSeries.cs" />
     <Compile Include="ZScanController.cs" />
   </ItemGroup>
@@ -110,6 +92,10 @@
     <ProjectReference Include="..\..\..\Libraries\Lab.Drivers.Motors\Lab.Drivers.Motors.csproj">
       <Project>{206E8042-B072-4E9F-87C4-BC3090C91E62}</Project>
       <Name>Lab.Drivers.Motors</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Libraries\Lab.FileIO\Lab.FileIO.csproj">
+      <Project>{6D2EAFF2-D9AA-48E2-AF4B-7EA6B396DE14}</Project>
+      <Name>Lab.FileIO</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Libraries\Lab.Math\Lab.Math.csproj">
       <Project>{B1ABFB43-C135-45EE-B048-310B72895DCA}</Project>

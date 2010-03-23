@@ -37,8 +37,6 @@ namespace Squid
         private double fSample;
         private double mResistance;
 
-        double zPosition;      // position on the scan axis
-
         // the transformer
         private RealFourierTransformation rftObj = new RealFourierTransformation(TransformationConvention.Matlab);
 
@@ -290,18 +288,6 @@ namespace Squid
                     return (true);
                 }
 
-            }
-        }
-
-        public double Z0
-        {
-            set
-            {
-                zPosition = Z0;
-            }
-            get
-            {
-                return (zPosition);
             }
         }
 

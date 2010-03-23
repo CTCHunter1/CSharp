@@ -108,5 +108,29 @@ namespace Squid
         {
             numReducedSamplesLabel.Text = this.NumReducedSamples.ToString("0");
         }
+
+        public IAxis ZAxis
+        {
+            get
+            {
+                return ((IAxis) zAxisMotorComboBox.SelectedItem);
+            }
+        }
+
+        public double ZScanRadius
+        {
+            get
+            {
+                return Convert.ToDouble((zAxisRadiusNumericUpDown.Value)) / 1000;
+            }
+        }
+
+        public int ZScanNumPoints
+        {
+            get
+            {
+                return (Convert.ToInt32(zAxisNumPointsNumericUpDown.Value));
+            }
+        }
     }
 }
