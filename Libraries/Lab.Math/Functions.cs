@@ -232,9 +232,7 @@ namespace Lab.Math
         /// <returns>true if i is power of 2, false if otherwise</returns>
         public static bool IsPower2(int i)
         {
-
             return (i != 0) && ((i & -i) == i);
-
         }
 
 
