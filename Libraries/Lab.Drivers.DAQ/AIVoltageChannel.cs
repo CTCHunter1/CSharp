@@ -22,7 +22,7 @@ namespace Lab.Drivers.DAQ
                                 double maximumVoltage)
         {
             this.physicalChannelName = physicalChannelName;
-            this.nameToAsignChannel = nameToAsignChannel;
+            this.nameToAsignChannel = nameToAssignChannel;
             this.aiTerminalConfiguration = aiTerminalConfiguration;
             this.minimumVoltage = minimumVoltage;
             this.maximumVoltage = maximumVoltage;
