@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.FileIO.Test", "Lab.FileIO.Test\Lab.FileIO.Test.csproj", "{5933FF24-3099-4A58-BA4B-6C3EBEC0C75D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.FileIO", "..\Lab.FileIO\Lab.FileIO.csproj", "{6D2EAFF2-D9AA-48E2-AF4B-7EA6B396DE14}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5933FF24-3099-4A58-BA4B-6C3EBEC0C75D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5933FF24-3099-4A58-BA4B-6C3EBEC0C75D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5933FF24-3099-4A58-BA4B-6C3EBEC0C75D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5933FF24-3099-4A58-BA4B-6C3EBEC0C75D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D2EAFF2-D9AA-48E2-AF4B-7EA6B396DE14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D2EAFF2-D9AA-48E2-AF4B-7EA6B396DE14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D2EAFF2-D9AA-48E2-AF4B-7EA6B396DE14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D2EAFF2-D9AA-48E2-AF4B-7EA6B396DE14}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
