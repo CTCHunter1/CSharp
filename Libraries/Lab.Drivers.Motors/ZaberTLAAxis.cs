@@ -115,8 +115,9 @@ namespace Lab.Drivers.Motors
         }
 
         public void EndMoveAbsolute(IAsyncResult iAsyncResultObj)
-        {          
-            asyncMovePointerAbsoluteObj.EndInvoke(iAsyncResultObj);
+        {         
+            if(iAsyncResultAbsoluteObj != null)
+                asyncMovePointerAbsoluteObj.EndInvoke(iAsyncResultObj);
         }
     }
 }

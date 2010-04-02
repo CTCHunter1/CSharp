@@ -40,6 +40,7 @@ namespace Lab.Drivers.Motors
             this.setZeroButton = new System.Windows.Forms.Button();
             this.goHomeButton = new System.Windows.Forms.Button();
             this.hardwareLimitButton = new System.Windows.Forms.Button();
+            this.getButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // closeButton
@@ -68,6 +69,7 @@ namespace Lab.Drivers.Motors
             this.axisComboBox.Name = "axisComboBox";
             this.axisComboBox.Size = new System.Drawing.Size(210, 21);
             this.axisComboBox.TabIndex = 4;
+            this.axisComboBox.TextChanged += new System.EventHandler(this.axisComboBox_TextChanged);
             // 
             // positionTextBox
             // 
@@ -103,7 +105,7 @@ namespace Lab.Drivers.Motors
             // 
             // gotoButton
             // 
-            this.gotoButton.Location = new System.Drawing.Point(211, 42);
+            this.gotoButton.Location = new System.Drawing.Point(262, 43);
             this.gotoButton.Name = "gotoButton";
             this.gotoButton.Size = new System.Drawing.Size(48, 23);
             this.gotoButton.TabIndex = 10;
@@ -123,7 +125,7 @@ namespace Lab.Drivers.Motors
             // 
             // setZeroButton
             // 
-            this.setZeroButton.Location = new System.Drawing.Point(265, 42);
+            this.setZeroButton.Location = new System.Drawing.Point(316, 43);
             this.setZeroButton.Name = "setZeroButton";
             this.setZeroButton.Size = new System.Drawing.Size(64, 23);
             this.setZeroButton.TabIndex = 13;
@@ -148,12 +150,23 @@ namespace Lab.Drivers.Motors
             this.hardwareLimitButton.Text = "Hardware Limit";
             this.hardwareLimitButton.UseVisualStyleBackColor = true;
             // 
+            // getButton
+            // 
+            this.getButton.Location = new System.Drawing.Point(211, 43);
+            this.getButton.Name = "getButton";
+            this.getButton.Size = new System.Drawing.Size(48, 23);
+            this.getButton.TabIndex = 16;
+            this.getButton.Text = "Get";
+            this.getButton.UseVisualStyleBackColor = true;
+            this.getButton.Click += new System.EventHandler(this.getButton_Click);
+            // 
             // MotorControlForm
             // 
             this.AcceptButton = this.closeButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(381, 162);
+            this.Controls.Add(this.getButton);
             this.Controls.Add(this.hardwareLimitButton);
             this.Controls.Add(this.goHomeButton);
             this.Controls.Add(this.setZeroButton);
@@ -169,6 +182,7 @@ namespace Lab.Drivers.Motors
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "MotorControlForm";
             this.Text = "MotorControlForm";
+            this.Load += new System.EventHandler(this.MotorControlForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -188,5 +202,6 @@ namespace Lab.Drivers.Motors
         private System.Windows.Forms.Button setZeroButton;
         private System.Windows.Forms.Button goHomeButton;
         private System.Windows.Forms.Button hardwareLimitButton;
+        private System.Windows.Forms.Button getButton;
     }
 }

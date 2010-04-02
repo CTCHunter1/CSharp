@@ -34,8 +34,13 @@ namespace Lab.Drivers.Motors
             if (axisComboBox.Items.Count > 0)
                 axisComboBox.SelectedIndex = 0;
 
+            UpdateProperties();
+        }
+
+        private void UpdateProperties()
+        {
             if (motorsObj.Axes != null)
-            {                
+            {
 
                 positionTextBox.Text = ((IAxis)axisComboBox.SelectedItem).Position.ToString();
                 velocityTextBox.Text = ((IAxis)axisComboBox.SelectedItem).Velocity.ToString();
@@ -62,6 +67,21 @@ namespace Lab.Drivers.Motors
             IAxis selectedAxis = (IAxis)axisComboBox.SelectedItem;
             selectedAxis.Velocity = Convert.ToDouble(velocityTextBox.Text);
             velocityTextBox.Text = selectedAxis.Velocity.ToString();
+        }
+
+        private void MotorControlForm_Load(object sender, EventArgs e)
+        {
+            UpdateProperties();
+        }
+
+        private void getButton_Click(object sender, EventArgs e)
+        {
+            UpdateProperties();
+        }
+
+        private void axisComboBox_TextChanged(object sender, EventArgs e)
+        {
+            UpdateProperties(); // don't know if this is what change event should be used
         }
     }
 }
