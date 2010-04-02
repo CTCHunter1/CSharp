@@ -43,6 +43,7 @@ namespace Squid
             this.startContinousToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopContinousScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startZScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stopZScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.takeSingleTraceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopButton = new System.Windows.Forms.Button();
             this.enableCheckBox2 = new System.Windows.Forms.CheckBox();
@@ -61,7 +62,8 @@ namespace Squid
             this.zScanGraphControl = new GraphControl.GraphControl();
             this.frequencyAxisGraphControl = new GraphControl.GraphControl();
             this.timeAxisGraphControl = new GraphControl.GraphControl();
-            this.stopZScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.autoScaleCheckBox1 = new System.Windows.Forms.CheckBox();
+            this.autoScaleCheckBox2 = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.dataSelectedGroupBox1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -182,6 +184,13 @@ namespace Squid
             this.startZScanToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.startZScanToolStripMenuItem.Text = "Start Z Scan";
             this.startZScanToolStripMenuItem.Click += new System.EventHandler(this.startZScanToolStripMenuItem_Click);
+            // 
+            // stopZScanToolStripMenuItem
+            // 
+            this.stopZScanToolStripMenuItem.Name = "stopZScanToolStripMenuItem";
+            this.stopZScanToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.stopZScanToolStripMenuItem.Text = "Stop Z Scan";
+            this.stopZScanToolStripMenuItem.Click += new System.EventHandler(this.stopZScanToolStripMenuItem_Click);
             // 
             // takeSingleTraceToolStripMenuItem
             // 
@@ -381,18 +390,37 @@ namespace Squid
         -10,
         10};
             // 
-            // stopZScanToolStripMenuItem
+            // autoScaleCheckBox1
             // 
-            this.stopZScanToolStripMenuItem.Name = "stopZScanToolStripMenuItem";
-            this.stopZScanToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
-            this.stopZScanToolStripMenuItem.Text = "Stop Z Scan";
-            this.stopZScanToolStripMenuItem.Click += new System.EventHandler(this.stopZScanToolStripMenuItem_Click);
+            this.autoScaleCheckBox1.AutoSize = true;
+            this.autoScaleCheckBox1.Checked = true;
+            this.autoScaleCheckBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.autoScaleCheckBox1.Location = new System.Drawing.Point(295, 34);
+            this.autoScaleCheckBox1.Name = "autoScaleCheckBox1";
+            this.autoScaleCheckBox1.Size = new System.Drawing.Size(73, 17);
+            this.autoScaleCheckBox1.TabIndex = 12;
+            this.autoScaleCheckBox1.Text = "Autoscale";
+            this.autoScaleCheckBox1.UseVisualStyleBackColor = true;
+            // 
+            // autoScaleCheckBox2
+            // 
+            this.autoScaleCheckBox2.AutoSize = true;
+            this.autoScaleCheckBox2.Checked = true;
+            this.autoScaleCheckBox2.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.autoScaleCheckBox2.Location = new System.Drawing.Point(295, 235);
+            this.autoScaleCheckBox2.Name = "autoScaleCheckBox2";
+            this.autoScaleCheckBox2.Size = new System.Drawing.Size(73, 17);
+            this.autoScaleCheckBox2.TabIndex = 13;
+            this.autoScaleCheckBox2.Text = "Autoscale";
+            this.autoScaleCheckBox2.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(600, 696);
+            this.Controls.Add(this.autoScaleCheckBox2);
+            this.Controls.Add(this.autoScaleCheckBox1);
             this.Controls.Add(this.takeReducedButton);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -458,6 +486,8 @@ namespace Squid
         private System.Windows.Forms.ToolStripMenuItem saveSingleScanToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveZAxisScanToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stopZScanToolStripMenuItem;
+        private System.Windows.Forms.CheckBox autoScaleCheckBox1;
+        private System.Windows.Forms.CheckBox autoScaleCheckBox2;
 
     }
 }

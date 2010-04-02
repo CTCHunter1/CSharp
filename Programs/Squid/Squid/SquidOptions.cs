@@ -16,10 +16,13 @@ namespace Squid
         decimal backupPretriggerSamples;
         decimal backupNumReducedSamplesPow2;
         bool backupRisingTrigger;
+        Decimator decimatorObj;
 
         public SquidOptionsForm(IAxis[] iAxisArr)
         {
             InitializeComponent();
+
+            decimatorObj = new Decimator(NumReducedSamples, NumPretriggerSamples);   
 
             ampUnitsComboBox.Items.Add(DataSeries.AmpUnits.V);
             ampUnitsComboBox.Items.Add(DataSeries.AmpUnits.dBmV);
@@ -32,17 +35,18 @@ namespace Squid
             // add the motors to the combo box
             if (iAxisArr != null)
             {
-                zAxisMotorComboBox.Items.Add(iAxisArr);
-
+                zAxisMotorComboBox.Items.AddRange(iAxisArr);
+                                
                 if (iAxisArr.Length > 0)
                 {
                     zAxisMotorComboBox.SelectedIndex = 0;
                     // enable the z axis controls
                     zAxisMotorComboBox.Enabled = true;
+                    zAxisRadiusNumericUpDown.Enabled = true;
                     zAxisNumPointsNumericUpDown.Enabled = true;
                                         
                 }
-            }
+            }            
         }
 
         private void SquidOptions_Shown(object sender, EventArgs e)
@@ -52,6 +56,7 @@ namespace Squid
             backupPretriggerSamples = pretriggerNumeric.Value;
             backupNumReducedSamplesPow2 = reducedSamplesPow2numeric.Value;
             backupRisingTrigger = risingRadioButton.Checked;
+            UpdateDecimator();
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
@@ -62,6 +67,7 @@ namespace Squid
             reducedSamplesPow2numeric.Value = backupNumReducedSamplesPow2;
             risingRadioButton.Checked = backupRisingTrigger;
             fallingRadioButton.Checked = !backupRisingTrigger;
+            UpdateDecimator();
         }
 
         public bool PlotDCFrequency
@@ -107,6 +113,7 @@ namespace Squid
         private void reducedSamplesPow2numeric_ValueChanged(object sender, EventArgs e)
         {
             numReducedSamplesLabel.Text = this.NumReducedSamples.ToString("0");
+            UpdateDecimator();
         }
 
         public IAxis ZAxis
@@ -131,6 +138,31 @@ namespace Squid
             {
                 return (Convert.ToInt32(zAxisNumPointsNumericUpDown.Value));
             }
+        }
+
+        private void UpdateDecimator()
+        {
+            decimatorObj.NumPoints = NumReducedSamples;
+            decimatorObj.PretriggerPoints = NumPretriggerSamples;
+            decimatorObj.TriggerRising = TriggerRising;
+        }
+
+        public Decimator DecimatorObj
+        {
+            get
+            {
+                return (decimatorObj);
+            }
+        }
+
+        private void pretriggerNumeric_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateDecimator();
+        }
+
+        private void risingRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateDecimator();
         }
     }
 }

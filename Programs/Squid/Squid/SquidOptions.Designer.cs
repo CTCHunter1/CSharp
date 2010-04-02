@@ -39,8 +39,8 @@ namespace Squid
             this.reducedSamplesPow2numeric = new System.Windows.Forms.NumericUpDown();
             this.numReducedSamplesLabel = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.risingRadioButton = new System.Windows.Forms.RadioButton();
             this.fallingRadioButton = new System.Windows.Forms.RadioButton();
+            this.risingRadioButton = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.zAxisNumPointsNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label9 = new System.Windows.Forms.Label();
@@ -118,6 +118,7 @@ namespace Squid
             this.pretriggerNumeric.Name = "pretriggerNumeric";
             this.pretriggerNumeric.Size = new System.Drawing.Size(120, 20);
             this.pretriggerNumeric.TabIndex = 5;
+            this.pretriggerNumeric.ValueChanged += new System.EventHandler(this.pretriggerNumeric_ValueChanged);
             // 
             // label2
             // 
@@ -175,6 +176,16 @@ namespace Squid
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Trigger Edge";
             // 
+            // fallingRadioButton
+            // 
+            this.fallingRadioButton.AutoSize = true;
+            this.fallingRadioButton.Location = new System.Drawing.Point(66, 16);
+            this.fallingRadioButton.Name = "fallingRadioButton";
+            this.fallingRadioButton.Size = new System.Drawing.Size(55, 17);
+            this.fallingRadioButton.TabIndex = 12;
+            this.fallingRadioButton.Text = "Falling";
+            this.fallingRadioButton.UseVisualStyleBackColor = true;
+            // 
             // risingRadioButton
             // 
             this.risingRadioButton.AutoSize = true;
@@ -186,16 +197,7 @@ namespace Squid
             this.risingRadioButton.TabStop = true;
             this.risingRadioButton.Text = "Rising";
             this.risingRadioButton.UseVisualStyleBackColor = true;
-            // 
-            // fallingRadioButton
-            // 
-            this.fallingRadioButton.AutoSize = true;
-            this.fallingRadioButton.Location = new System.Drawing.Point(66, 16);
-            this.fallingRadioButton.Name = "fallingRadioButton";
-            this.fallingRadioButton.Size = new System.Drawing.Size(55, 17);
-            this.fallingRadioButton.TabIndex = 12;
-            this.fallingRadioButton.Text = "Falling";
-            this.fallingRadioButton.UseVisualStyleBackColor = true;
+            this.risingRadioButton.CheckedChanged += new System.EventHandler(this.risingRadioButton_CheckedChanged);
             // 
             // groupBox2
             // 

@@ -20,8 +20,6 @@ namespace Squid
         MotorControlForm motorControlFormObj;
         SquidOptionsForm squidOptionsFormObj;
         
-        Decimator decimatorObj;
-        
         AcquisitionController acquisitionControllerObj;
         ZScanController zScanControllerObj;
 
@@ -43,7 +41,7 @@ namespace Squid
                         
             motorControlFormObj = new MotorControlForm();
             squidOptionsFormObj = new SquidOptionsForm(motorControlFormObj.Axes);
-            decimatorObj = new Decimator(squidOptionsFormObj.NumReducedSamples, squidOptionsFormObj.NumPretriggerSamples);       
+            //decimatorObj = new Decimator(squidOptionsFormObj.NumReducedSamples, squidOptionsFormObj.NumPretriggerSamples);       
         
             AcquisitionController.UIUpdateGraphDelegate uiUpdateReducedDelegate = new AcquisitionController.UIUpdateGraphDelegate(UpdateReducedGraph);
             AcquisitionController.UIUpdateGraphDelegate uiUpdateDaqDelegate = new AcquisitionController.UIUpdateGraphDelegate(UpdateDAQGraph);
@@ -51,13 +49,12 @@ namespace Squid
 
             acquisitionControllerObj = new AcquisitionController(squidOptionsFormObj,
                 NIDAQControlFormObj,
-                decimatorObj,
                 uiUpdateDaqDelegate,
                 uiUpdateReducedDelegate,
                 uiFinishedDelegate);
 
             ZScanController.UIUpdateGraphDelegate uiUpdateZDataDelegate = new ZScanController.UIUpdateGraphDelegate(UpdateZScanGraph);
-            ZScanController.UIFinishedScan uiFinishZScanDelegaate = new ZScanController.UIFinishedScan(EnableContinousScan);
+            ZScanController.UIFinishedScan uiFinishZScanDelegaate = new ZScanController.UIFinishedScan(EnableZScan);
 
             zScanControllerObj = new ZScanController(acquisitionControllerObj, 
                 uiUpdateZDataDelegate,
@@ -159,6 +156,16 @@ namespace Squid
                 }
             }
 
+            if (autoScaleCheckBox1.Checked)
+                timeAxisGraphControl.AutoScale = true;
+            else
+                timeAxisGraphControl.AutoScale = false;
+
+            if (autoScaleCheckBox2.Checked)
+                frequencyAxisGraphControl.AutoScale = true;
+            else
+                frequencyAxisGraphControl.AutoScale = false;
+
             for (int i = 0; i < dataSeriesArr.Length; i++)
             {
                 if (origionalRadioButton1.Checked & enableCheckBox1.Checked)
@@ -210,7 +217,7 @@ namespace Squid
                     timeAxisGraphControl.Plot("Data" + i.ToString(), dataSeriesArr[i].TimeArr, dataSeriesArr[i].Y_t, GetColorByIndex(i));
                 }
 
-                if (reducedRadioButton1.Checked && dataSeriesArr[i].HasFFT == true && enableCheckBox2.Checked)
+                if (reducedRadioButton2.Checked && dataSeriesArr[i].HasFFT == true && enableCheckBox2.Checked)
                 {
                     if (squidOptionsFormObj.PlotDCFrequency == true)
                     {
@@ -296,6 +303,10 @@ namespace Squid
         private void EnableContinousScan()
         {
             startContinousToolStripMenuItem.Enabled = true;
+        }
+
+        private void EnableZScan()
+        {
             startZScanToolStripMenuItem.Enabled = true;
         }
  
@@ -307,15 +318,10 @@ namespace Squid
         private void squidOptionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             squidOptionsFormObj.ShowDialog();
-
-            decimatorObj.PretriggerPoints = squidOptionsFormObj.NumPretriggerSamples;
-            decimatorObj.NumPoints = squidOptionsFormObj.NumReducedSamples;
-            decimatorObj.TriggerRising = squidOptionsFormObj.TriggerRising;
         }
 
         private void startZScanToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            startZScanToolStripMenuItem.Enabled = false;
             startContinousToolStripMenuItem.Enabled = false;
 
             zScanControllerObj.StartScan(this, 
@@ -327,7 +333,6 @@ namespace Squid
         private void startContinousToolStripMenuItem_Click(object sender, EventArgs e)
         {
             startContinousToolStripMenuItem.Enabled = false;
-            startZScanToolStripMenuItem.Enabled = false;
             // add disable for saving here
 
             // start the data acuisition, this will happen in a new thread

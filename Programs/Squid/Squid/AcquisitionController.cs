@@ -41,14 +41,13 @@ namespace Squid
 
         public AcquisitionController(SquidOptionsForm squidOptionsObj,
             NI6251ControlForm  nidaqControlObj,
-            Decimator decimatorObj,
             UIUpdateGraphDelegate uiDataSeriesUpdateDelegte,
             UIUpdateGraphDelegate uiReduceDataSeriesUpdateDelegate,
             UIFinishedContinousScan uiFinishedContinousScanDelegate)
         {
             this.nidaqControlObj = nidaqControlObj;
             this.squidOptionsObj = squidOptionsObj;
-            this.decimatorObj = decimatorObj;
+            this.decimatorObj = squidOptionsObj.DecimatorObj;
             this.uiDataSeriesUpdateDelegate = uiDataSeriesUpdateDelegte;
             this.uiReducedDataSeriesUpdateDelegate = uiReduceDataSeriesUpdateDelegate;
             this.uiFinishedContinousScanDelegate = uiFinishedContinousScanDelegate;
@@ -235,6 +234,7 @@ namespace Squid
             catch (DaqException ex)
             {
                 MessageBox.Show(ex.Message);
+                dataArrMutex.ReleaseMutex();
             }
 
             // stop the task

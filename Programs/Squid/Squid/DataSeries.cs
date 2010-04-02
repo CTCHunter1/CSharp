@@ -309,7 +309,8 @@ namespace Squid
             switch(windowObj)
             {
                 case Window.HAMMING:
-                    YWindow_t = HammingWindowFFT(Y_t);
+                    if (mNumPts == 1024)
+                        YWindow_t = HammingWindowFFT(Y_t);
                     break;
 
                 default:
