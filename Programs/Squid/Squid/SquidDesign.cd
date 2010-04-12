@@ -5,14 +5,17 @@
     <Position X="0.75" Y="0.75" Width="1.5" />
     <TypeIdentifier>
       <FileName>MainForm.cs</FileName>
-      <HashCode>DQCKlAAgCiCBAABERAKBRQACAAyIghsQACAJIUAiEAM=</HashCode>
+      <HashCode>DQCKlRAACiCBBAJGwAKDxQECAAyIgBkQgCAIIUBiAgM=</HashCode>
     </TypeIdentifier>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
   </Class>
   <Class Name="Squid.DataSeries">
-    <Position X="2.75" Y="0.75" Width="1.5" />
+    <Position X="7" Y="0.75" Width="1.5" />
     <TypeIdentifier>
       <FileName>DataSeries.cs</FileName>
-      <HashCode>RgAEAAACAAgQgNACJCXATAwCICQQAEDMBBFALAAQiIA=</HashCode>
+      <HashCode>RgAEAAACAAgQgNACJCXATAwCICQAAEDMBBBALAAQiIA=</HashCode>
     </TypeIdentifier>
     <NestedTypes>
       <Enum Name="Squid.DataSeries.AmpUnits" Collapsed="true">
@@ -28,17 +31,17 @@
     </NestedTypes>
   </Class>
   <Class Name="Squid.ZDataSeries">
-    <Position X="4.5" Y="0.75" Width="1.5" />
+    <Position X="5.25" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <FileName>ZDataSeries.cs</FileName>
-      <HashCode>AAIAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAABIAQA=</HashCode>
+      <HashCode>AAIEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABIAQA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="Squid.AcquisitionController">
-    <Position X="6.25" Y="0.75" Width="2.5" />
+    <Position X="2.5" Y="0.75" Width="2.5" />
     <TypeIdentifier>
       <FileName>AcquisitionController.cs</FileName>
-      <HashCode>IAACBAAACAAABIBAAgAIQCAAAgBAAgABAEAAAgBBEIA=</HashCode>
+      <HashCode>IIACBgAACAAADIBAAgAIQCAAAgBAAiAAAEAAAgBAEIA=</HashCode>
     </TypeIdentifier>
     <NestedTypes>
       <Delegate Name="Squid.AcquisitionController.UIUpdateGraphDelegate" Collapsed="true">
@@ -52,5 +55,38 @@
         </TypeIdentifier>
       </Delegate>
     </NestedTypes>
+  </Class>
+  <Class Name="Squid.ZScanController">
+    <Position X="5.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>ZScanController.cs</FileName>
+      <HashCode>IwQAAAgAAAAAAABAAQAAEAAAAAAAAgEAAAAAAAEAQAA=</HashCode>
+    </TypeIdentifier>
+    <NestedTypes>
+      <Delegate Name="Squid.ZScanController.UIUpdateGraphDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ZScanController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="Squid.ZScanController.UIFinishedScan" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ZScanController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+  </Class>
+  <Class Name="Squid.ZDataPoint">
+    <Position X="5.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>ZDataPoint.cs</FileName>
+      <HashCode>AIAAAICAAAAAQAAAAEAAAAAAAAAAAQAAAAEAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Squid.Decimator">
+    <Position X="2.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Decimator.cs</FileName>
+      <HashCode>AIAAAEAAAACAAAAAgBAAAAAAAAAAAAAAABAAAAAQAAA=</HashCode>
+    </TypeIdentifier>
   </Class>
 </ClassDiagram>
