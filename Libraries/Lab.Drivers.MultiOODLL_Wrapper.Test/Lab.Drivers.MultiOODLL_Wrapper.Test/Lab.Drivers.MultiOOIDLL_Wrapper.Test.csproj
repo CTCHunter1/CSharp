@@ -82,7 +82,7 @@
       <Project>{B99E750E-EF0D-48B8-87A8-A09C90B35866}</Project>
       <Name>GraphControl</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Libraries\Lab.Drivers.MultiOOIDLL_Wrapper\MultiOOIDLL_Wrapper\Lab.Drivers.MultiOOIDLL_Wrapper.csproj">
+    <ProjectReference Include="..\..\Lab.Drivers.MultiOOIDLL_Wrapper\Lab.Drivers.MultiOOIDLL_Wrapper.csproj">
       <Project>{09EF300D-F56F-47F1-B19E-71BF1AF9B78C}</Project>
       <Name>Lab.Drivers.MultiOOIDLL_Wrapper</Name>
     </ProjectReference>

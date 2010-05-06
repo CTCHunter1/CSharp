@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphControl", "..\GraphControl\GraphControl\GraphControl.csproj", "{B99E750E-EF0D-48B8-87A8-A09C90B35866}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.Drivers.MultiOOIDLL_Wrapper", "..\Lab.Drivers.MultiOOIDLL_Wrapper\MultiOOIDLL_Wrapper\Lab.Drivers.MultiOOIDLL_Wrapper.csproj", "{09EF300D-F56F-47F1-B19E-71BF1AF9B78C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.Drivers.MultiOOIDLL_Wrapper.Test", "Lab.Drivers.MultiOODLL_Wrapper.Test\Lab.Drivers.MultiOOIDLL_Wrapper.Test.csproj", "{D504F843-AFDF-4D3F-AE10-66CB654954BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.Drivers.MultiOOIDLL_Wrapper", "..\Lab.Drivers.MultiOOIDLL_Wrapper\Lab.Drivers.MultiOOIDLL_Wrapper.csproj", "{09EF300D-F56F-47F1-B19E-71BF1AF9B78C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,14 +17,14 @@ Global
 		{B99E750E-EF0D-48B8-87A8-A09C90B35866}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B99E750E-EF0D-48B8-87A8-A09C90B35866}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B99E750E-EF0D-48B8-87A8-A09C90B35866}.Release|Any CPU.Build.0 = Release|Any CPU
-		{09EF300D-F56F-47F1-B19E-71BF1AF9B78C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{09EF300D-F56F-47F1-B19E-71BF1AF9B78C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{09EF300D-F56F-47F1-B19E-71BF1AF9B78C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{09EF300D-F56F-47F1-B19E-71BF1AF9B78C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D504F843-AFDF-4D3F-AE10-66CB654954BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D504F843-AFDF-4D3F-AE10-66CB654954BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D504F843-AFDF-4D3F-AE10-66CB654954BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D504F843-AFDF-4D3F-AE10-66CB654954BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09EF300D-F56F-47F1-B19E-71BF1AF9B78C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09EF300D-F56F-47F1-B19E-71BF1AF9B78C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09EF300D-F56F-47F1-B19E-71BF1AF9B78C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09EF300D-F56F-47F1-B19E-71BF1AF9B78C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
