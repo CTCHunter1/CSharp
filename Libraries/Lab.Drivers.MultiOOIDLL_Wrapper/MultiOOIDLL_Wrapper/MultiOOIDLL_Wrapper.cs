@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MultiOOIDLL_Wrapper
+namespace Lab.Drivers.MultiOOIDLL_Wrapper
 {
     public class MultiOOIDLL
     {

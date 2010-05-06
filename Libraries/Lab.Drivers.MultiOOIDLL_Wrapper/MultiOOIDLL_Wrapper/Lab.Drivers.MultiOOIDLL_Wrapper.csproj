@@ -7,8 +7,8 @@
     <ProjectGuid>{09EF300D-F56F-47F1-B19E-71BF1AF9B78C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MultiOOIDLL_Wrapper</RootNamespace>
-    <AssemblyName>MultiOOIDLL_Wrapper</AssemblyName>
+    <RootNamespace>Lab.Drivers.MultiOOIDLL_Wrapper</RootNamespace>
+    <AssemblyName>Lab.Drivers.MultiOOIDLL_Wrapper</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
