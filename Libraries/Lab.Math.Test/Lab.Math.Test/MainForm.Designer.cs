@@ -61,10 +61,10 @@ namespace Lab.Math.Test
             this.graphControl.Name = "graphControl";
             this.graphControl.Size = new System.Drawing.Size(422, 425);
             this.graphControl.TabIndex = 1;
-            this.graphControl.XLim = new float[] {
+            this.graphControl.XLim = new double[] {
         -10F,
         10F};
-            this.graphControl.YLim = new float[] {
+            this.graphControl.YLim = new double[] {
         -10F,
         10F};
             // 
