@@ -95,6 +95,26 @@ namespace Lab.Drivers.Motors
                             // exit this loop
                             return;
                         }
+                        
+                        if (str_resp == "ESP300")
+                        {
+                            // we found the controller
+                            spObj.Handshake = Handshake.RequestToSend;
+                            b_initalize = true;
+                            // find the number of axis
+                            numAxis = FindNumAxis();
+
+                            axisArr = new NewportESP100Axis[numAxis];
+
+                            // initalize the axis 
+                            for (int index = 0; index < numAxis; index++)
+                            {
+                                axisArr[index] = new NewportESP100Axis(index + 1, this);
+                            }
+
+                            // exit this loop
+                            return;
+                        }
                     }
                     catch
                     {
@@ -120,13 +140,26 @@ namespace Lab.Drivers.Motors
             int axisNum = 0;
             string modelNumber;
             string serialNumber;
-                       
-            do
-            {              
-                axisNum++;
-                ReadStageModelAndSerialNumber(axisNum, out modelNumber, out serialNumber);                                               
 
-            } while (modelNumber != "Unknown"); 
+            try
+            {
+                do
+                {
+                    axisNum++;
+                    ReadStageModelAndSerialNumber(axisNum, out modelNumber, out serialNumber);
+
+                } while (modelNumber != "Unknown");
+            }
+            catch
+            {
+                spObj.BaseStream.Flush();
+
+                if (axisNum > 0)
+                {
+                    spObj.WriteLine(1 + "ID?");
+                    string returnString = spObj.ReadLine();
+                }               
+            }
 
             // the last axis number doesn't exist so decrement by 1;
             axisNum--;
