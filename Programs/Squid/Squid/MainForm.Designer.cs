@@ -64,10 +64,16 @@ namespace Squid
             this.timeAxisGraphControl = new GraphControl.GraphControl();
             this.autoScaleCheckBox1 = new System.Windows.Forms.CheckBox();
             this.autoScaleCheckBox2 = new System.Windows.Forms.CheckBox();
+            this.yAxisMinNumeric = new System.Windows.Forms.NumericUpDown();
+            this.yAxisMaxNumeric = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.dataSelectedGroupBox1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.yAxisMinNumeric)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.yAxisMaxNumeric)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -212,7 +218,7 @@ namespace Squid
             // enableCheckBox2
             // 
             this.enableCheckBox2.AutoSize = true;
-            this.enableCheckBox2.Location = new System.Drawing.Point(28, 232);
+            this.enableCheckBox2.Location = new System.Drawing.Point(28, 255);
             this.enableCheckBox2.Name = "enableCheckBox2";
             this.enableCheckBox2.Size = new System.Drawing.Size(59, 17);
             this.enableCheckBox2.TabIndex = 6;
@@ -222,7 +228,7 @@ namespace Squid
             // enableCheckBox1
             // 
             this.enableCheckBox1.AutoSize = true;
-            this.enableCheckBox1.Location = new System.Drawing.Point(28, 27);
+            this.enableCheckBox1.Location = new System.Drawing.Point(28, 49);
             this.enableCheckBox1.Name = "enableCheckBox1";
             this.enableCheckBox1.Size = new System.Drawing.Size(59, 17);
             this.enableCheckBox1.TabIndex = 7;
@@ -232,7 +238,7 @@ namespace Squid
             // enableCheckBox3
             // 
             this.enableCheckBox3.AutoSize = true;
-            this.enableCheckBox3.Location = new System.Drawing.Point(28, 452);
+            this.enableCheckBox3.Location = new System.Drawing.Point(28, 475);
             this.enableCheckBox3.Name = "enableCheckBox3";
             this.enableCheckBox3.Size = new System.Drawing.Size(59, 17);
             this.enableCheckBox3.TabIndex = 8;
@@ -243,7 +249,7 @@ namespace Squid
             // 
             this.dataSelectedGroupBox1.Controls.Add(this.origionalRadioButton1);
             this.dataSelectedGroupBox1.Controls.Add(this.reducedRadioButton1);
-            this.dataSelectedGroupBox1.Location = new System.Drawing.Point(93, 21);
+            this.dataSelectedGroupBox1.Location = new System.Drawing.Point(93, 43);
             this.dataSelectedGroupBox1.Name = "dataSelectedGroupBox1";
             this.dataSelectedGroupBox1.Size = new System.Drawing.Size(196, 37);
             this.dataSelectedGroupBox1.TabIndex = 9;
@@ -276,7 +282,7 @@ namespace Squid
             // 
             this.groupBox1.Controls.Add(this.origionalRadioButton2);
             this.groupBox1.Controls.Add(this.reducedRadioButton2);
-            this.groupBox1.Location = new System.Drawing.Point(93, 221);
+            this.groupBox1.Location = new System.Drawing.Point(93, 244);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(196, 37);
             this.groupBox1.TabIndex = 10;
@@ -309,7 +315,7 @@ namespace Squid
             // 
             this.groupBox2.Controls.Add(this.timeRadioButton);
             this.groupBox2.Controls.Add(this.freqRadioButton);
-            this.groupBox2.Location = new System.Drawing.Point(93, 439);
+            this.groupBox2.Location = new System.Drawing.Point(93, 462);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(203, 37);
             this.groupBox2.TabIndex = 10;
@@ -351,7 +357,7 @@ namespace Squid
             // zScanGraphControl
             // 
             this.zScanGraphControl.AutoScale = true;
-            this.zScanGraphControl.Location = new System.Drawing.Point(12, 475);
+            this.zScanGraphControl.Location = new System.Drawing.Point(12, 498);
             this.zScanGraphControl.Name = "zScanGraphControl";
             this.zScanGraphControl.Size = new System.Drawing.Size(561, 143);
             this.zScanGraphControl.TabIndex = 5;
@@ -365,7 +371,7 @@ namespace Squid
             // frequencyAxisGraphControl
             // 
             this.frequencyAxisGraphControl.AutoScale = true;
-            this.frequencyAxisGraphControl.Location = new System.Drawing.Point(12, 255);
+            this.frequencyAxisGraphControl.Location = new System.Drawing.Point(12, 278);
             this.frequencyAxisGraphControl.Name = "frequencyAxisGraphControl";
             this.frequencyAxisGraphControl.Size = new System.Drawing.Size(561, 172);
             this.frequencyAxisGraphControl.TabIndex = 4;
@@ -379,7 +385,7 @@ namespace Squid
             // timeAxisGraphControl
             // 
             this.timeAxisGraphControl.AutoScale = true;
-            this.timeAxisGraphControl.Location = new System.Drawing.Point(12, 59);
+            this.timeAxisGraphControl.Location = new System.Drawing.Point(12, 81);
             this.timeAxisGraphControl.Name = "timeAxisGraphControl";
             this.timeAxisGraphControl.Size = new System.Drawing.Size(561, 163);
             this.timeAxisGraphControl.TabIndex = 3;
@@ -395,30 +401,101 @@ namespace Squid
             this.autoScaleCheckBox1.AutoSize = true;
             this.autoScaleCheckBox1.Checked = true;
             this.autoScaleCheckBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.autoScaleCheckBox1.Location = new System.Drawing.Point(295, 34);
+            this.autoScaleCheckBox1.Location = new System.Drawing.Point(295, 56);
             this.autoScaleCheckBox1.Name = "autoScaleCheckBox1";
             this.autoScaleCheckBox1.Size = new System.Drawing.Size(73, 17);
             this.autoScaleCheckBox1.TabIndex = 12;
             this.autoScaleCheckBox1.Text = "Autoscale";
             this.autoScaleCheckBox1.UseVisualStyleBackColor = true;
+            this.autoScaleCheckBox1.CheckedChanged += new System.EventHandler(this.autoScaleCheckBox1_CheckedChanged);
             // 
             // autoScaleCheckBox2
             // 
             this.autoScaleCheckBox2.AutoSize = true;
             this.autoScaleCheckBox2.Checked = true;
             this.autoScaleCheckBox2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.autoScaleCheckBox2.Location = new System.Drawing.Point(295, 235);
+            this.autoScaleCheckBox2.Location = new System.Drawing.Point(295, 258);
             this.autoScaleCheckBox2.Name = "autoScaleCheckBox2";
             this.autoScaleCheckBox2.Size = new System.Drawing.Size(73, 17);
             this.autoScaleCheckBox2.TabIndex = 13;
             this.autoScaleCheckBox2.Text = "Autoscale";
             this.autoScaleCheckBox2.UseVisualStyleBackColor = true;
             // 
+            // yAxisMinNumeric
+            // 
+            this.yAxisMinNumeric.DecimalPlaces = 3;
+            this.yAxisMinNumeric.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.yAxisMinNumeric.Location = new System.Drawing.Point(374, 55);
+            this.yAxisMinNumeric.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.yAxisMinNumeric.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            -2147483648});
+            this.yAxisMinNumeric.Name = "yAxisMinNumeric";
+            this.yAxisMinNumeric.Size = new System.Drawing.Size(64, 20);
+            this.yAxisMinNumeric.TabIndex = 14;
+            this.yAxisMinNumeric.ValueChanged += new System.EventHandler(this.yAxisNumeric_ValueChanged);
+            // 
+            // yAxisMaxNumeric
+            // 
+            this.yAxisMaxNumeric.DecimalPlaces = 3;
+            this.yAxisMaxNumeric.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.yAxisMaxNumeric.Location = new System.Drawing.Point(480, 55);
+            this.yAxisMaxNumeric.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.yAxisMaxNumeric.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            -2147483648});
+            this.yAxisMaxNumeric.Name = "yAxisMaxNumeric";
+            this.yAxisMaxNumeric.Size = new System.Drawing.Size(65, 20);
+            this.yAxisMaxNumeric.TabIndex = 15;
+            this.yAxisMaxNumeric.ValueChanged += new System.EventHandler(this.yAxisNumeric_ValueChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(371, 39);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(56, 13);
+            this.label1.TabIndex = 16;
+            this.label1.Text = "Y Axis Min";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(477, 39);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(59, 13);
+            this.label2.TabIndex = 17;
+            this.label2.Text = "Y Axis Max";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(600, 696);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.yAxisMaxNumeric);
+            this.Controls.Add(this.yAxisMinNumeric);
             this.Controls.Add(this.autoScaleCheckBox2);
             this.Controls.Add(this.autoScaleCheckBox1);
             this.Controls.Add(this.takeReducedButton);
@@ -446,6 +523,8 @@ namespace Squid
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.yAxisMinNumeric)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.yAxisMaxNumeric)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -488,6 +567,10 @@ namespace Squid
         private System.Windows.Forms.ToolStripMenuItem stopZScanToolStripMenuItem;
         private System.Windows.Forms.CheckBox autoScaleCheckBox1;
         private System.Windows.Forms.CheckBox autoScaleCheckBox2;
+        private System.Windows.Forms.NumericUpDown yAxisMinNumeric;
+        private System.Windows.Forms.NumericUpDown yAxisMaxNumeric;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
 
     }
 }

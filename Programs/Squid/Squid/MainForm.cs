@@ -156,10 +156,6 @@ namespace Squid
                 }
             }
 
-            if (autoScaleCheckBox1.Checked)
-                timeAxisGraphControl.AutoScale = true;
-            else
-                timeAxisGraphControl.AutoScale = false;
 
             if (autoScaleCheckBox2.Checked)
                 frequencyAxisGraphControl.AutoScale = true;
@@ -389,6 +385,38 @@ namespace Squid
         private void stopZScanToolStripMenuItem_Click(object sender, EventArgs e)
         {
             zScanControllerObj.StopScan();
+        }
+
+        private void autoScaleCheckBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (autoScaleCheckBox1.Checked)
+            {
+                yAxisMaxNumeric.Enabled = false;
+                yAxisMinNumeric.Enabled = false;
+                timeAxisGraphControl.AutoScale = true;
+            }
+            else
+            {
+                timeAxisGraphControl.AutoScale = false;
+                
+                // Get the y limits
+                double[] yLim = timeAxisGraphControl.YLim;
+
+                yAxisMinNumeric.Value = Convert.ToDecimal(yLim[0]);
+                yAxisMaxNumeric.Value = Convert.ToDecimal(yLim[1]);
+                yAxisMinNumeric.Enabled = true;
+                yAxisMaxNumeric.Enabled = true;
+            }
+        }
+
+        private void yAxisNumeric_ValueChanged(object sender, EventArgs e)
+        {
+            double[] yLim = new double[2];
+
+            yLim[0] = Convert.ToDouble(yAxisMinNumeric.Value);
+            yLim[1] = Convert.ToDouble(yAxisMaxNumeric.Value);
+
+            timeAxisGraphControl.YLim = yLim;
         }
     }
 }
