@@ -431,12 +431,12 @@ namespace Squid
             131072});
             this.yAxisMinNumeric.Location = new System.Drawing.Point(374, 55);
             this.yAxisMinNumeric.Maximum = new decimal(new int[] {
-            10,
+            15,
             0,
             0,
             0});
             this.yAxisMinNumeric.Minimum = new decimal(new int[] {
-            10,
+            15,
             0,
             0,
             -2147483648});
@@ -455,12 +455,12 @@ namespace Squid
             131072});
             this.yAxisMaxNumeric.Location = new System.Drawing.Point(480, 55);
             this.yAxisMaxNumeric.Maximum = new decimal(new int[] {
-            10,
+            15,
             0,
             0,
             0});
             this.yAxisMaxNumeric.Minimum = new decimal(new int[] {
-            10,
+            15,
             0,
             0,
             -2147483648});

@@ -62,9 +62,10 @@ namespace Squid
 
             sfdObj.Filter = "Matlab Files (*.mat)|*.mat|All Files|*.*";
             // sets the inital directory for the save file dialog
-            sfdObj.InitialDirectory = Environment.CurrentDirectory; 
+            sfdObj.InitialDirectory = Environment.CurrentDirectory;
 
-
+            autoScaleCheckBox1_CheckedChanged(this, null);
+            
         }
 
         private void chopperMotorToolStripMenuItem_Click(object sender, EventArgs e)
