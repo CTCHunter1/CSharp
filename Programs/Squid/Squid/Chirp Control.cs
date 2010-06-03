@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using NationalInstruments.DAQmx;
 using NationalInstruments;
@@ -47,11 +48,20 @@ namespace Squid
             }
         }
 
-        public void StartChirp()
+        public double TimeDuration
+        {
+            get
+            {
+                return (Convert.ToDouble(durationNumeric.Value));
+            }
+        }
+
+        public ZDataPoint StartChirp(AcquisitionController acqConObj)
         {
             double maxFrequency = Convert.ToDouble(stopFreqNumeric.Value);
             double minFrequency = Convert.ToDouble(startFreqNumeric.Value);
-
+            ZDataPoint zDataPoint = null;
+            
             if(maxFrequency < minFrequency)
             {
                 minFrequency = maxFrequency;
@@ -59,6 +69,7 @@ namespace Squid
             }
             
             sampleFreq = maxFrequency*10;
+
 
             try
             {
@@ -98,8 +109,64 @@ namespace Squid
                     new AnalogSingleChannelWriter(taskObj.Stream);
 
                 writer.WriteMultiSample(false, waveForm);
-                
-                taskObj.Start();                      
+
+                bool bRunning = acqConObj.IsRunning;
+
+                acqConObj.StartContinousUpdate(this);
+
+                taskObj.Start();
+
+                // make list of ZData Points to collect
+                List <ZDataPoint> dataList = new List<ZDataPoint>();
+                dataList.Add(acqConObj.CurrentTrace);
+                double T = dataList[0].DataSeriesArr[0].timeDuration;
+                double capTime = T;
+
+                // capture all the data
+                while(capTime < TimeDuration + T)
+                {
+                    while(acqConObj.CurrentTrace == dataList[dataList.Count-1])
+                    {
+                        // sleep for 1/4 the period
+                        Thread.Sleep((int) Math.Round(T*1000/4));
+                    }                    
+    
+                    dataList.Add(acqConObj.CurrentTrace);
+                    capTime += T;
+                }
+
+                // create the data series
+                List <DataSeries> dsList = new List<DataSeries>();
+
+                for(int i = 0; i < dataList[0].DataSeriesArr.Length; i++)
+                {
+                    DataSeries dataSerisObj = new DataSeries(dataList[0].DataSeriesArr[i].NumPoints*dataList.Count,
+                        dataList[0].DataSeriesArr[i].SampleRate,
+                        DataSeries.AmpUnits.dBmV,
+                        50);
+
+                    dsList.Add(dataSerisObj);
+                }
+
+                // copy the data into the dsLists
+                int index = 0;
+                for(int i = 0; i < dataList.Count; i++)
+                {
+                    for(int j = 0; j < dataList[i].DataSeriesArr[0].NumPoints; j++)
+                    {
+                        for(int k = 0; k < dsList.Count; k++)
+                        {
+                            dsList[k].Y_t[index] = dataList[i].DataSeriesArr[k].Y_t[j];
+                        }
+                        index++;
+                    }
+                }
+
+                // convert it to a continous array
+                zDataPoint = new ZDataPoint(dsList.ToArray());
+
+                if (bRunning == false)
+                    acqConObj.StopContinousUpdate();
             }
             catch (DaqException ex)
             {
@@ -107,6 +174,8 @@ namespace Squid
                 taskObj.Dispose();
                 taskObj = null;
             }
+
+            return (zDataPoint);
         }
 
         private double[] GenerateWaveformData(double fStart, double fStop, double tDuration, double fSample)

@@ -425,7 +425,7 @@ namespace Squid
 
         private void chrpWaveformToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            chirpContolObj.StartChirp();
+            zDataPoint = chirpContolObj.StartChirp(acquisitionControllerObj);
         }
 
         private void chirpControlToolStripMenuItem_Click(object sender, EventArgs e)

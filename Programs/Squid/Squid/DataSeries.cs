@@ -207,6 +207,14 @@ namespace Squid
             }
         }
 
+        public double timeDuration
+        {
+            get
+            {
+                return (fSample * mNumPts);
+            }
+        }
+
         public double[] YAbs_f
         {
             get
