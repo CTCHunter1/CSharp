@@ -27,7 +27,9 @@ namespace Squid
         ZDataPoint zDataPoint = null;
 
         SaveFileDialog sfdObj = new SaveFileDialog();
-            
+
+        public delegate void UIUpdateGraphDelegate(ZDataPoint dataSeriesArr);
+        public delegate void UIFinished();
 
         // UI Update Delegates old
         // delegate void UIUpdateStatusDelegate(String str_msg, int i_precent_comp);
@@ -57,7 +59,9 @@ namespace Squid
             ZScanController.UIUpdateGraphDelegate uiUpdateZDataDelegate = new ZScanController.UIUpdateGraphDelegate(UpdateZScanGraph);
             ZScanController.UIFinishedScan uiFinishZScanDelegaate = new ZScanController.UIFinishedScan(EnableZScan);
 
-            chirpContolObj = new ChirpControl();
+            UIUpdateGraphDelegate uiUpdatePlot3 = new UIUpdateGraphDelegate(UpdateZScanGraph);
+
+            chirpContolObj = new ChirpControl(acquisitionControllerObj, uiUpdatePlot3);
 
             zScanControllerObj = new ZScanController(acquisitionControllerObj, 
                 uiUpdateZDataDelegate,
@@ -425,7 +429,7 @@ namespace Squid
 
         private void chrpWaveformToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            zDataPoint = chirpContolObj.StartChirp(acquisitionControllerObj);
+            chirpContolObj.StartChirpAsyc(this);
         }
 
         private void chirpControlToolStripMenuItem_Click(object sender, EventArgs e)

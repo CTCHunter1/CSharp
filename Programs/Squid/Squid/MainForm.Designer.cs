@@ -246,6 +246,8 @@ namespace Squid
             // enableCheckBox1
             // 
             this.enableCheckBox1.AutoSize = true;
+            this.enableCheckBox1.Checked = true;
+            this.enableCheckBox1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.enableCheckBox1.Location = new System.Drawing.Point(28, 49);
             this.enableCheckBox1.Name = "enableCheckBox1";
             this.enableCheckBox1.Size = new System.Drawing.Size(59, 17);
@@ -256,6 +258,8 @@ namespace Squid
             // enableCheckBox3
             // 
             this.enableCheckBox3.AutoSize = true;
+            this.enableCheckBox3.Checked = true;
+            this.enableCheckBox3.CheckState = System.Windows.Forms.CheckState.Checked;
             this.enableCheckBox3.Location = new System.Drawing.Point(28, 475);
             this.enableCheckBox3.Name = "enableCheckBox3";
             this.enableCheckBox3.Size = new System.Drawing.Size(59, 17);

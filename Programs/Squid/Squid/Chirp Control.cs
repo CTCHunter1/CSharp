@@ -15,11 +15,21 @@ namespace Squid
     {
         private Task taskObj;
         private double sampleFreq = 0;
+        private bool runScan = false;
+        private bool isRunning = false;
+        private AcquisitionController acqController; 
+        //MainForm.UIFinished uiFinishedDelegate;
+        MainForm.UIUpdateGraphDelegate uiUpdateGraphDelegate;
+        Thread chirpThreadObj;
 
-        public ChirpControl()
+        public ChirpControl(AcquisitionController  acqControllerObj,
+            MainForm.UIUpdateGraphDelegate  uiUpdateGraphDelegate)
         {
             InitializeComponent();
 
+            this.acqController = acqControllerObj;
+            this.uiUpdateGraphDelegate = uiUpdateGraphDelegate;
+                       
             physicalChannelComboBox.Items.AddRange(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.AO, PhysicalChannelAccess.External));
             if (physicalChannelComboBox.Items.Count > 0)
                 physicalChannelComboBox.SelectedIndex = 1;
@@ -56,7 +66,38 @@ namespace Squid
             }
         }
 
-        public ZDataPoint StartChirp(AcquisitionController acqConObj)
+        public void StartChirpAsyc(ContainerControl sender)
+        {
+            // if is running just return
+            if (isRunning == true)
+            {
+                runScan = true;
+                return;
+            }
+
+            // start the aquisition thread if it isn't already
+            acqController.StartContinousUpdate(sender);
+
+            chirpThreadObj = new Thread(new ParameterizedThreadStart(ParameterizedThreadStartChirp));
+            // contiousScanThreadObj.Priority = ThreadPriority.BelowNormal;
+            runScan = true;
+            isRunning = true;
+            chirpThreadObj.Start((object)new object[] {sender});
+        }
+
+        private void ParameterizedThreadStartChirp(object parameters)
+        {
+            // this function is ment to be called in the newly created thread
+            // mabye microsoft will fix the parameterized thread start
+
+            Object[] objArr = (Object[])parameters;
+            // pull out the parameters
+            ContainerControl sender = (ContainerControl)objArr[0];
+
+            StartChirp(sender);
+        }
+
+        public void StartChirp(ContainerControl sender)
         {
             double maxFrequency = Convert.ToDouble(stopFreqNumeric.Value);
             double minFrequency = Convert.ToDouble(startFreqNumeric.Value);
@@ -110,30 +151,44 @@ namespace Squid
 
                 writer.WriteMultiSample(false, waveForm);
 
-                bool bRunning = acqConObj.IsRunning;
 
-                acqConObj.StartContinousUpdate(this);
+                acqController.StartContinousUpdate(sender);
+                ZDataPoint thisTrace = acqController.CurrentTrace;
+
+
+                while (acqController.CurrentTrace == thisTrace)
+                {
+                    Thread.Sleep(5);
+                }
+
+                /*
+                thisTrace = acqConObj.CurrentTrace;
+                while (acqConObj.CurrentTrace == thisTrace)
+                {
+                    Thread.Sleep(5);
+                }*/
 
                 taskObj.Start();
 
                 // make list of ZData Points to collect
                 List <ZDataPoint> dataList = new List<ZDataPoint>();
-                dataList.Add(acqConObj.CurrentTrace);
+                dataList.Add(acqController.CurrentTrace);
                 double T = dataList[0].DataSeriesArr[0].timeDuration;
                 double capTime = T;
 
                 // capture all the data
                 while(capTime < TimeDuration + T)
                 {
-                    while(acqConObj.CurrentTrace == dataList[dataList.Count-1])
+                    while (acqController.CurrentTrace == dataList[dataList.Count - 1])
                     {
                         // sleep for 1/4 the period
                         Thread.Sleep((int) Math.Round(T*1000/4));
-                    }                    
-    
-                    dataList.Add(acqConObj.CurrentTrace);
+                    }
+
+                    dataList.Add(acqController.CurrentTrace);
                     capTime += T;
                 }
+
 
                 // create the data series
                 List <DataSeries> dsList = new List<DataSeries>();
@@ -165,8 +220,7 @@ namespace Squid
                 // convert it to a continous array
                 zDataPoint = new ZDataPoint(dsList.ToArray());
 
-                if (bRunning == false)
-                    acqConObj.StopContinousUpdate();
+                sender.BeginInvoke(uiUpdateGraphDelegate, new object[] { zDataPoint });                 
             }
             catch (DaqException ex)
             {
@@ -174,8 +228,6 @@ namespace Squid
                 taskObj.Dispose();
                 taskObj = null;
             }
-
-            return (zDataPoint);
         }
 
         private double[] GenerateWaveformData(double fStart, double fStop, double tDuration, double fSample)

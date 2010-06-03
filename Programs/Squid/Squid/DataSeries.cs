@@ -211,7 +211,7 @@ namespace Squid
         {
             get
             {
-                return (fSample * mNumPts);
+                return (1/fSample * mNumPts);
             }
         }
 
