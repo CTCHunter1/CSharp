@@ -39,12 +39,14 @@ namespace Squid
             this.nI6251ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.squidOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chirpControlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.controlToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.startContinousToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopContinousScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startZScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopZScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.takeSingleTraceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chrpWaveformToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopButton = new System.Windows.Forms.Button();
             this.enableCheckBox2 = new System.Windows.Forms.CheckBox();
             this.enableCheckBox1 = new System.Windows.Forms.CheckBox();
@@ -68,8 +70,6 @@ namespace Squid
             this.yAxisMaxNumeric = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.chirpControlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.chrpWaveformToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.dataSelectedGroupBox1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -161,6 +161,13 @@ namespace Squid
             this.stagesToolStripMenuItem.Text = "Stages";
             this.stagesToolStripMenuItem.Click += new System.EventHandler(this.stagesToolStripMenuItem_Click);
             // 
+            // chirpControlToolStripMenuItem
+            // 
+            this.chirpControlToolStripMenuItem.Name = "chirpControlToolStripMenuItem";
+            this.chirpControlToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.chirpControlToolStripMenuItem.Text = "Chirp Control";
+            this.chirpControlToolStripMenuItem.Click += new System.EventHandler(this.chirpControlToolStripMenuItem_Click);
+            // 
             // controlToolStripMenuItem1
             // 
             this.controlToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -208,6 +215,13 @@ namespace Squid
             this.takeSingleTraceToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.takeSingleTraceToolStripMenuItem.Text = "Take Single Trace";
             this.takeSingleTraceToolStripMenuItem.Click += new System.EventHandler(this.takeSingleTraceToolStripMenuItem_Click);
+            // 
+            // chrpWaveformToolStripMenuItem
+            // 
+            this.chrpWaveformToolStripMenuItem.Name = "chrpWaveformToolStripMenuItem";
+            this.chrpWaveformToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.chrpWaveformToolStripMenuItem.Text = "Chrp Waveform";
+            this.chrpWaveformToolStripMenuItem.Click += new System.EventHandler(this.chrpWaveformToolStripMenuItem_Click);
             // 
             // stopButton
             // 
@@ -490,19 +504,6 @@ namespace Squid
             this.label2.Size = new System.Drawing.Size(59, 13);
             this.label2.TabIndex = 17;
             this.label2.Text = "Y Axis Max";
-            // 
-            // chirpControlToolStripMenuItem
-            // 
-            this.chirpControlToolStripMenuItem.Name = "chirpControlToolStripMenuItem";
-            this.chirpControlToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
-            this.chirpControlToolStripMenuItem.Text = "Chirp Control";
-            // 
-            // chrpWaveformToolStripMenuItem
-            // 
-            this.chrpWaveformToolStripMenuItem.Name = "chrpWaveformToolStripMenuItem";
-            this.chrpWaveformToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
-            this.chrpWaveformToolStripMenuItem.Text = "Chrp Waveform";
-            this.chrpWaveformToolStripMenuItem.Click += new System.EventHandler(this.chrpWaveformToolStripMenuItem_Click);
             // 
             // MainForm
             // 

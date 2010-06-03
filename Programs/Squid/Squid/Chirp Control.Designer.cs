@@ -187,7 +187,7 @@ namespace Squid
             this.maxValueNumeric.Size = new System.Drawing.Size(114, 20);
             this.maxValueNumeric.TabIndex = 6;
             this.maxValueNumeric.Value = new decimal(new int[] {
-            10,
+            1,
             0,
             0,
             0});
@@ -210,7 +210,7 @@ namespace Squid
             this.minValueNumeric.Size = new System.Drawing.Size(114, 20);
             this.minValueNumeric.TabIndex = 5;
             this.minValueNumeric.Value = new decimal(new int[] {
-            10,
+            1,
             0,
             0,
             -2147483648});
@@ -252,6 +252,7 @@ namespace Squid
             // 
             // OK_button
             // 
+            this.OK_button.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.OK_button.Location = new System.Drawing.Point(26, 316);
             this.OK_button.Name = "OK_button";
             this.OK_button.Size = new System.Drawing.Size(75, 23);

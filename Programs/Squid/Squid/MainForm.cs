@@ -427,5 +427,10 @@ namespace Squid
         {
             chirpContolObj.StartChirp();
         }
+
+        private void chirpControlToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            chirpContolObj.ShowDialog();
+        }
     }
 }

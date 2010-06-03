@@ -63,9 +63,12 @@ namespace Squid
             try
             {
                 if (taskObj != null)
+                {
                     taskObj.WaitUntilDone();
+                    taskObj.Dispose();
+                }
 
-                taskObj = new Task();
+                taskObj = new Task("Chrip Task");
 
                 // setup the channel
                 taskObj.AOChannels.CreateVoltageChannel(physicalChannelComboBox.Text,
@@ -87,7 +90,7 @@ namespace Squid
                 taskObj.Timing.ConfigureSampleClock("",
                     sampleFreq,
                     SampleClockActiveEdge.Rising,
-                    SampleQuantityMode.ContinuousSamples, waveForm.Length);
+                    SampleQuantityMode.FiniteSamples, waveForm.Length);
 
                 taskObj.Timing.SampleTimingType = SampleTimingType.SampleClock;
                 
@@ -102,6 +105,7 @@ namespace Squid
             {
                 MessageBox.Show(ex.Message);
                 taskObj.Dispose();
+                taskObj = null;
             }
         }
 
@@ -114,7 +118,7 @@ namespace Squid
             double maxValue = MaxValue;
             
 
-            double amplitude = maxValue - minValue;
+            double amplitude = (maxValue - minValue)/2;
             double offset =  (minValue + maxValue)/2;
             // chirp parameters f = a*t+b
             double b = fStop;
@@ -124,7 +128,7 @@ namespace Squid
 
             for (int i = 0; i < numSamples; i++)
             {
-                t = i*fSample; // the time point
+                t = i/fSample; // the time point
                 f = a * t + b; // the frequency
                 
                 // the cosine wave
