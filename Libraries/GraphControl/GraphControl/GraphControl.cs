@@ -55,8 +55,21 @@ namespace GraphControl
             }
             set
             {
+                double[] yLim = new double[2] { value[0], value[1] };
 
-                axis_obj.YLim = new double[2] { value[0], value[1] };
+                if (value[0] == value[1])
+                {
+                    yLim[0] = value[0] - value[0] / 2;
+                    yLim[1] = value[1] + value[1] / 2;
+                }
+
+                if (value[0] > value[1])
+                {
+                    yLim[0] = value[1];
+                    yLim[1] = value[0];
+                }
+
+                  axis_obj.YLim = yLim;
                 graph_data_list.Resize(axis_obj);
                 this.Invalidate();
             }
