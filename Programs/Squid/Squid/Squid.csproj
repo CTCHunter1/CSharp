@@ -41,6 +41,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AcquisitionController.cs" />
+    <Compile Include="Chirp Control.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Chirp Control.Designer.cs">
+      <DependentUpon>Chirp Control.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataSeries.cs" />
     <Compile Include="Decimator.cs" />
     <Compile Include="ChopperMotorControl.cs">
@@ -57,6 +63,10 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Chirp Control.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Chirp Control.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>MainForm.cs</DependentUpon>

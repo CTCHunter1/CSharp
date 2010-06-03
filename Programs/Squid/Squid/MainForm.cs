@@ -19,7 +19,8 @@ namespace Squid
         NI6251ControlForm NIDAQControlFormObj = new NI6251ControlForm();
         MotorControlForm motorControlFormObj;
         SquidOptionsForm squidOptionsFormObj;
-        
+        ChirpControl chirpContolObj; 
+
         AcquisitionController acquisitionControllerObj;
         ZScanController zScanControllerObj;
 
@@ -55,6 +56,8 @@ namespace Squid
 
             ZScanController.UIUpdateGraphDelegate uiUpdateZDataDelegate = new ZScanController.UIUpdateGraphDelegate(UpdateZScanGraph);
             ZScanController.UIFinishedScan uiFinishZScanDelegaate = new ZScanController.UIFinishedScan(EnableZScan);
+
+            chirpContolObj = new ChirpControl();
 
             zScanControllerObj = new ZScanController(acquisitionControllerObj, 
                 uiUpdateZDataDelegate,
@@ -418,6 +421,11 @@ namespace Squid
             yLim[1] = Convert.ToDouble(yAxisMaxNumeric.Value);
 
             timeAxisGraphControl.YLim = yLim;
+        }
+
+        private void chrpWaveformToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            chirpContolObj.StartChirp();
         }
     }
 }

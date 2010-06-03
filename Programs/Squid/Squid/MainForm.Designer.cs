@@ -68,6 +68,8 @@ namespace Squid
             this.yAxisMaxNumeric = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.chirpControlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chrpWaveformToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.dataSelectedGroupBox1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -125,7 +127,8 @@ namespace Squid
             this.chopperMotorToolStripMenuItem,
             this.nI6251ToolStripMenuItem,
             this.squidOptionsToolStripMenuItem,
-            this.stagesToolStripMenuItem});
+            this.stagesToolStripMenuItem,
+            this.chirpControlToolStripMenuItem});
             this.controlToolStripMenuItem.Name = "controlToolStripMenuItem";
             this.controlToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
             this.controlToolStripMenuItem.Text = "Options";
@@ -165,7 +168,8 @@ namespace Squid
             this.stopContinousScanToolStripMenuItem,
             this.startZScanToolStripMenuItem,
             this.stopZScanToolStripMenuItem,
-            this.takeSingleTraceToolStripMenuItem});
+            this.takeSingleTraceToolStripMenuItem,
+            this.chrpWaveformToolStripMenuItem});
             this.controlToolStripMenuItem1.Name = "controlToolStripMenuItem1";
             this.controlToolStripMenuItem1.Size = new System.Drawing.Size(54, 20);
             this.controlToolStripMenuItem1.Text = "Control";
@@ -487,6 +491,19 @@ namespace Squid
             this.label2.TabIndex = 17;
             this.label2.Text = "Y Axis Max";
             // 
+            // chirpControlToolStripMenuItem
+            // 
+            this.chirpControlToolStripMenuItem.Name = "chirpControlToolStripMenuItem";
+            this.chirpControlToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.chirpControlToolStripMenuItem.Text = "Chirp Control";
+            // 
+            // chrpWaveformToolStripMenuItem
+            // 
+            this.chrpWaveformToolStripMenuItem.Name = "chrpWaveformToolStripMenuItem";
+            this.chrpWaveformToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.chrpWaveformToolStripMenuItem.Text = "Chrp Waveform";
+            this.chrpWaveformToolStripMenuItem.Click += new System.EventHandler(this.chrpWaveformToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -571,6 +588,8 @@ namespace Squid
         private System.Windows.Forms.NumericUpDown yAxisMaxNumeric;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ToolStripMenuItem chirpControlToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem chrpWaveformToolStripMenuItem;
 
     }
 }
