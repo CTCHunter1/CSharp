@@ -15,7 +15,7 @@ namespace Squid
     {
         private Task taskObj;
         private double sampleFreq = 0;
-        private bool runScan = false;
+        private bool runChirp = false;
         private bool isRunning = false;
         private AcquisitionController acqController; 
         //MainForm.UIFinished uiFinishedDelegate;
@@ -71,7 +71,7 @@ namespace Squid
             // if is running just return
             if (isRunning == true)
             {
-                runScan = true;
+                runChirp = true;
                 return;
             }
 
@@ -80,9 +80,19 @@ namespace Squid
 
             chirpThreadObj = new Thread(new ParameterizedThreadStart(ParameterizedThreadStartChirp));
             // contiousScanThreadObj.Priority = ThreadPriority.BelowNormal;
-            runScan = true;
+            runChirp = true;
             isRunning = true;
             chirpThreadObj.Start((object)new object[] {sender});
+        }
+
+        public void StopChirp()
+        {
+            if (isRunning == true)
+            {
+                runChirp = false;
+                // wait for other thread to terminate
+                chirpThreadObj.Join();
+            }
         }
 
         private void ParameterizedThreadStartChirp(object parameters)
@@ -151,7 +161,6 @@ namespace Squid
 
                 writer.WriteMultiSample(false, waveForm);
 
-
                 acqController.StartContinousUpdate(sender);
                 ZDataPoint thisTrace = acqController.CurrentTrace;
 
@@ -173,11 +182,11 @@ namespace Squid
                 // make list of ZData Points to collect
                 List <ZDataPoint> dataList = new List<ZDataPoint>();
                 dataList.Add(acqController.CurrentTrace);
-                double T = dataList[0].DataSeriesArr[0].timeDuration;
+                double T = acqController.TimeDuration_s;
                 double capTime = T;
 
                 // capture all the data
-                while(capTime < TimeDuration + T)
+                while(capTime < TimeDuration + T & runChirp == true)
                 {
                     while (acqController.CurrentTrace == dataList[dataList.Count - 1])
                     {
@@ -228,6 +237,9 @@ namespace Squid
                 taskObj.Dispose();
                 taskObj = null;
             }
+
+            isRunning = false;
+            runChirp = false;
         }
 
         private double[] GenerateWaveformData(double fStart, double fStop, double tDuration, double fSample)

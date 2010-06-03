@@ -70,6 +70,7 @@ namespace Squid
             this.yAxisMaxNumeric = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.stopChirpWaveformToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.dataSelectedGroupBox1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -176,7 +177,8 @@ namespace Squid
             this.startZScanToolStripMenuItem,
             this.stopZScanToolStripMenuItem,
             this.takeSingleTraceToolStripMenuItem,
-            this.chrpWaveformToolStripMenuItem});
+            this.chrpWaveformToolStripMenuItem,
+            this.stopChirpWaveformToolStripMenuItem});
             this.controlToolStripMenuItem1.Name = "controlToolStripMenuItem1";
             this.controlToolStripMenuItem1.Size = new System.Drawing.Size(54, 20);
             this.controlToolStripMenuItem1.Text = "Control";
@@ -184,43 +186,43 @@ namespace Squid
             // startContinousToolStripMenuItem
             // 
             this.startContinousToolStripMenuItem.Name = "startContinousToolStripMenuItem";
-            this.startContinousToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.startContinousToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.startContinousToolStripMenuItem.Text = "Start Continous Scan";
             this.startContinousToolStripMenuItem.Click += new System.EventHandler(this.startContinousToolStripMenuItem_Click);
             // 
             // stopContinousScanToolStripMenuItem
             // 
             this.stopContinousScanToolStripMenuItem.Name = "stopContinousScanToolStripMenuItem";
-            this.stopContinousScanToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.stopContinousScanToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.stopContinousScanToolStripMenuItem.Text = "Stop Continous Scan";
             this.stopContinousScanToolStripMenuItem.Click += new System.EventHandler(this.stopContinousScanToolStripMenuItem_Click);
             // 
             // startZScanToolStripMenuItem
             // 
             this.startZScanToolStripMenuItem.Name = "startZScanToolStripMenuItem";
-            this.startZScanToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.startZScanToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.startZScanToolStripMenuItem.Text = "Start Z Scan";
             this.startZScanToolStripMenuItem.Click += new System.EventHandler(this.startZScanToolStripMenuItem_Click);
             // 
             // stopZScanToolStripMenuItem
             // 
             this.stopZScanToolStripMenuItem.Name = "stopZScanToolStripMenuItem";
-            this.stopZScanToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.stopZScanToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.stopZScanToolStripMenuItem.Text = "Stop Z Scan";
             this.stopZScanToolStripMenuItem.Click += new System.EventHandler(this.stopZScanToolStripMenuItem_Click);
             // 
             // takeSingleTraceToolStripMenuItem
             // 
             this.takeSingleTraceToolStripMenuItem.Name = "takeSingleTraceToolStripMenuItem";
-            this.takeSingleTraceToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.takeSingleTraceToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.takeSingleTraceToolStripMenuItem.Text = "Take Single Trace";
             this.takeSingleTraceToolStripMenuItem.Click += new System.EventHandler(this.takeSingleTraceToolStripMenuItem_Click);
             // 
             // chrpWaveformToolStripMenuItem
             // 
             this.chrpWaveformToolStripMenuItem.Name = "chrpWaveformToolStripMenuItem";
-            this.chrpWaveformToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
-            this.chrpWaveformToolStripMenuItem.Text = "Chrp Waveform";
+            this.chrpWaveformToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.chrpWaveformToolStripMenuItem.Text = "Start Chrip Waveform";
             this.chrpWaveformToolStripMenuItem.Click += new System.EventHandler(this.chrpWaveformToolStripMenuItem_Click);
             // 
             // stopButton
@@ -509,6 +511,13 @@ namespace Squid
             this.label2.TabIndex = 17;
             this.label2.Text = "Y Axis Max";
             // 
+            // stopChirpWaveformToolStripMenuItem
+            // 
+            this.stopChirpWaveformToolStripMenuItem.Name = "stopChirpWaveformToolStripMenuItem";
+            this.stopChirpWaveformToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.stopChirpWaveformToolStripMenuItem.Text = "Stop Chirp Waveform";
+            this.stopChirpWaveformToolStripMenuItem.Click += new System.EventHandler(this.stopChirpWaveformToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -595,6 +604,7 @@ namespace Squid
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ToolStripMenuItem chirpControlToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem chrpWaveformToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem stopChirpWaveformToolStripMenuItem;
 
     }
 }

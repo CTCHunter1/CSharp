@@ -75,6 +75,7 @@ namespace Squid
             }
         }
 
+        
         public ZDataPoint ReducedTrace
         {
             get
@@ -115,6 +116,13 @@ namespace Squid
                 dataArrMutex.ReleaseMutex();
 
                 return (returnDataPoint);
+            }
+        }
+
+        public double TimeDuration_s
+        {
+            get{
+                return (nidaqControlObj.SamplesPerChannel / nidaqControlObj.Rate);
             }
         }
 

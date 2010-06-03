@@ -436,5 +436,10 @@ namespace Squid
         {
             chirpContolObj.ShowDialog();
         }
+
+        private void stopChirpWaveformToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            chirpContolObj.StopChirp();
+        }
     }
 }
