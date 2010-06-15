@@ -28,7 +28,10 @@ namespace Squid
         Mutex dataArrMutex;
         private DataSeries[] continousScanArr;
         private DataSeries[] reducedScanArr;
-        
+
+        bool bDataReady = false;
+        Mutex dataReadyMutex;
+
         private PrecisionDateTime timeStamp; // The time of the last taken sample
 
         Task digitalTask;
@@ -61,6 +64,8 @@ namespace Squid
             digitalTask.Control(TaskAction.Verify);
 
             dataArrMutex = new Mutex();
+
+            dataReadyMutex = new Mutex();
         }
 
         public bool IsRunning
@@ -74,12 +79,11 @@ namespace Squid
                 isRunning = value;
             }
         }
-
         
         public ZDataPoint ReducedTrace
         {
             get
-            {
+            {                
                 /// get the data array
                 dataArrMutex.WaitOne();
                 DataSeries[] returnDataSeries = reducedScanArr;
@@ -93,6 +97,7 @@ namespace Squid
                 ZDataPoint returnDataPoint = new ZDataPoint(returnDataSeries, timeStamp);
 
                 dataArrMutex.ReleaseMutex();
+                // restart the mutex, it won't be cleared until the next data comes
 
                 return (returnDataPoint);
             }
@@ -101,11 +106,19 @@ namespace Squid
         public ZDataPoint CurrentTrace
         {
             get
-            {
+            {                             
+                dataReadyMutex.WaitOne();
+                while (bDataReady == false)
+                {
+                    dataReadyMutex.ReleaseMutex();
+                    Thread.Sleep(10);
+                    dataReadyMutex.WaitOne();
+                }                      
+
                 dataArrMutex.WaitOne();
                 DataSeries[] returnDataSeries = continousScanArr;
                 // create a new data series array to replace this one with
-                continousScanArr = continousScanArr = DataSeries.CreateDataSeriesArray(nidaqControlObj.AIChannels.Length,
+                continousScanArr = DataSeries.CreateDataSeriesArray(nidaqControlObj.AIChannels.Length,
                 nidaqControlObj.SamplesPerChannel,
                 nidaqControlObj.Rate,
                 squidOptionsObj.FrequencyAmpUnits,
@@ -113,8 +126,12 @@ namespace Squid
 
                 ZDataPoint returnDataPoint = new ZDataPoint(returnDataSeries, timeStamp);
 
+                bDataReady = false;
+                dataReadyMutex.ReleaseMutex();
+
                 dataArrMutex.ReleaseMutex();
 
+               
                 return (returnDataPoint);
             }
         }
@@ -122,7 +139,7 @@ namespace Squid
         public double TimeDuration_s
         {
             get{
-                return (nidaqControlObj.SamplesPerChannel / nidaqControlObj.Rate);
+                return (double)nidaqControlObj.SamplesPerChannel / (double) nidaqControlObj.Rate;
             }
         }
 
@@ -236,7 +253,18 @@ namespace Squid
                     sender.BeginInvoke(uiReducedDataSeriesUpdateDelegate, new object[]{ reducedScanArr});
                     // must call BeginInovke using the sender not the delegate, would be nice if it could
                     // just be called on the delegate
+
+
                     dataArrMutex.ReleaseMutex();
+
+                    dataReadyMutex.WaitOne();
+                    if (bDataReady == false)
+                    {
+                        bDataReady = true;
+                    }
+                    dataReadyMutex.ReleaseMutex();
+
+
                 } while(runContinousScan);
             }
             catch (DaqException ex)

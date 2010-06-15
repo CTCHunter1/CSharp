@@ -131,10 +131,10 @@ namespace Squid
             0,
             0});
             this.startFreqNumeric.Minimum = new decimal(new int[] {
-            1,
+            100000,
             0,
             0,
-            0});
+            -2147483648});
             this.startFreqNumeric.Name = "startFreqNumeric";
             this.startFreqNumeric.Size = new System.Drawing.Size(112, 20);
             this.startFreqNumeric.TabIndex = 1;
@@ -142,7 +142,7 @@ namespace Squid
             100,
             0,
             0,
-            0});
+            -2147483648});
             // 
             // frequencyLabel
             // 
@@ -197,23 +197,23 @@ namespace Squid
             this.minValueNumeric.DecimalPlaces = 3;
             this.minValueNumeric.Location = new System.Drawing.Point(118, 60);
             this.minValueNumeric.Maximum = new decimal(new int[] {
-            10,
+            17,
             0,
             0,
-            0});
+            65536});
             this.minValueNumeric.Minimum = new decimal(new int[] {
-            10,
+            15,
             0,
             0,
-            -2147483648});
+            65536});
             this.minValueNumeric.Name = "minValueNumeric";
             this.minValueNumeric.Size = new System.Drawing.Size(114, 20);
             this.minValueNumeric.TabIndex = 5;
             this.minValueNumeric.Value = new decimal(new int[] {
-            1,
+            15,
             0,
             0,
-            -2147483648});
+            65536});
             // 
             // physicalChannelComboBox
             // 

@@ -441,5 +441,18 @@ namespace Squid
         {
             chirpContolObj.StopChirp();
         }
+
+        private void saveChirpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            zDataPoint = chirpContolObj.ZDataPoint;
+
+            if (zDataPoint != null)
+            {
+                if (sfdObj.ShowDialog() == DialogResult.OK)
+                {
+                    zDataPoint.Save(sfdObj.FileName);
+                }
+            }
+        }
     }
 }

@@ -21,6 +21,7 @@ namespace Squid
         //MainForm.UIFinished uiFinishedDelegate;
         MainForm.UIUpdateGraphDelegate uiUpdateGraphDelegate;
         Thread chirpThreadObj;
+        ZDataPoint zDataPoint = null;
 
         public ChirpControl(AcquisitionController  acqControllerObj,
             MainForm.UIUpdateGraphDelegate  uiUpdateGraphDelegate)
@@ -66,12 +67,19 @@ namespace Squid
             }
         }
 
+        public ZDataPoint ZDataPoint
+        {
+            get
+            {
+                return (this.zDataPoint);
+            }
+        }
+
         public void StartChirpAsyc(ContainerControl sender)
         {
             // if is running just return
             if (isRunning == true)
             {
-                runChirp = true;
                 return;
             }
 
@@ -92,6 +100,7 @@ namespace Squid
                 runChirp = false;
                 // wait for other thread to terminate
                 chirpThreadObj.Join();
+                isRunning = false;
             }
         }
 
@@ -111,7 +120,6 @@ namespace Squid
         {
             double maxFrequency = Convert.ToDouble(stopFreqNumeric.Value);
             double minFrequency = Convert.ToDouble(startFreqNumeric.Value);
-            ZDataPoint zDataPoint = null;
             
             if(maxFrequency < minFrequency)
             {
@@ -121,6 +129,11 @@ namespace Squid
             
             sampleFreq = maxFrequency*10;
 
+            if (acqController.IsRunning == false)
+            {
+                acqController.StartContinousUpdate(sender);
+                zDataPoint = acqController.CurrentTrace;
+            }
 
             try
             {
@@ -135,8 +148,8 @@ namespace Squid
                 // setup the channel
                 taskObj.AOChannels.CreateVoltageChannel(physicalChannelComboBox.Text,
                     "",
-                    Convert.ToDouble(minValueNumeric.Value),
-                    Convert.ToDouble(maxValueNumeric.Value),
+                    -10,
+                    10,
                     AOVoltageUnits.Volts);
 
                 taskObj.Control(TaskAction.Verify);
@@ -157,27 +170,12 @@ namespace Squid
                 taskObj.Timing.SampleTimingType = SampleTimingType.SampleClock;
                 
                 AnalogSingleChannelWriter writer =
-                    new AnalogSingleChannelWriter(taskObj.Stream);
+                    new AnalogSingleChannelWriter(taskObj.Stream);                              
+                
 
                 writer.WriteMultiSample(false, waveForm);
-
-                acqController.StartContinousUpdate(sender);
-                ZDataPoint thisTrace = acqController.CurrentTrace;
-
-
-                while (acqController.CurrentTrace == thisTrace)
-                {
-                    Thread.Sleep(5);
-                }
-
-                /*
-                thisTrace = acqConObj.CurrentTrace;
-                while (acqConObj.CurrentTrace == thisTrace)
-                {
-                    Thread.Sleep(5);
-                }*/
-
                 taskObj.Start();
+
 
                 // make list of ZData Points to collect
                 List <ZDataPoint> dataList = new List<ZDataPoint>();
@@ -186,14 +184,8 @@ namespace Squid
                 double capTime = T;
 
                 // capture all the data
-                while(capTime < TimeDuration + T & runChirp == true)
-                {
-                    while (acqController.CurrentTrace == dataList[dataList.Count - 1])
-                    {
-                        // sleep for 1/4 the period
-                        Thread.Sleep((int) Math.Round(T*1000/4));
-                    }
-
+                while(capTime < TimeDuration + T*3 && runChirp == true)
+                {                   
                     dataList.Add(acqController.CurrentTrace);
                     capTime += T;
                 }
@@ -254,7 +246,7 @@ namespace Squid
             double amplitude = (maxValue - minValue)/2;
             double offset =  (minValue + maxValue)/2;
             // chirp parameters f = a*t+b
-            double b = fStop;
+            double b = fStart;
             double a = (fStop - fStart) / tDuration;
             double t = 0;
             double f = fStart;
