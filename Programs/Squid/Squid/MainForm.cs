@@ -19,7 +19,8 @@ namespace Squid
         NI6251ControlForm NIDAQControlFormObj = new NI6251ControlForm();
         MotorControlForm motorControlFormObj;
         SquidOptionsForm squidOptionsFormObj;
-        ChirpControl chirpContolObj; 
+        ChirpControl chirpContolObj;
+        FeedbackController feedbackControllerObj;
 
         AcquisitionController acquisitionControllerObj;
         ZScanController zScanControllerObj;
@@ -45,7 +46,8 @@ namespace Squid
             motorControlFormObj = new MotorControlForm();
             squidOptionsFormObj = new SquidOptionsForm(motorControlFormObj.Axes);
             //decimatorObj = new Decimator(squidOptionsFormObj.NumReducedSamples, squidOptionsFormObj.NumPretriggerSamples);       
-        
+            feedbackControllerObj = new FeedbackController(NIDAQControlFormObj);
+
             AcquisitionController.UIUpdateGraphDelegate uiUpdateReducedDelegate = new AcquisitionController.UIUpdateGraphDelegate(UpdateReducedGraph);
             AcquisitionController.UIUpdateGraphDelegate uiUpdateDaqDelegate = new AcquisitionController.UIUpdateGraphDelegate(UpdateDAQGraph);
             AcquisitionController.UIFinishedContinousScan uiFinishedDelegate = new AcquisitionController.UIFinishedContinousScan(EnableContinousScan);
@@ -102,7 +104,13 @@ namespace Squid
                     if (NIDAQControlFormObj != null)
                         NIDAQControlFormObj.Dispose();
 
+                    NIDAQControlFormObj = new NI6251ControlForm();
+
                     MessageBox.Show("Error: No DAQ detected.");
+                }
+                else if (ex.Error == -200077)
+                {                    
+                    MessageBox.Show(ex.Message);
                 }
                 else
                     throw (ex);
@@ -454,5 +462,21 @@ namespace Squid
                 }
             }
         }
+
+        private void startFeedbackControllerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            feedbackControllerObj.StartAsyc(this);
+        }
+
+        private void stopFeedbackControllerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            feedbackControllerObj.Stop();
+        }
+
+        private void feedbackControlToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            feedbackControllerObj.ShowDialog();
+        }
+
     }
 }

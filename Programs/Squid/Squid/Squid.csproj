@@ -55,6 +55,12 @@
     <Compile Include="ChopperMotorControl.Designer.cs">
       <DependentUpon>ChopperMotorControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="FeedbackController.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FeedbackController.Designer.cs">
+      <DependentUpon>FeedbackController.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -66,6 +72,10 @@
     <EmbeddedResource Include="Chirp Control.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Chirp Control.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeedbackController.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FeedbackController.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <SubType>Designer</SubType>

@@ -328,7 +328,7 @@ namespace Squid
             }
 
             // can't transform if the length isn't a a power of 2
-            if (Lab.Math.Functions.IsPower2(mNumPts))
+            if (Lab.Math.Functions.IsPower2(mNumPts) & (mNumPts > 1))
             {
                 rftObj.TransformForward(YWindow_t, out yReal_f, out yImag_f);
                 //rftObj.TransformForward(Y_t, out yReal_f, out yImag_f);
