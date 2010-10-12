@@ -26,12 +26,16 @@ namespace Pipit
             string[] deviceNames = deviceMgrObj.GetDeviceNames();   // then get the names of the devices
             deviceComboBox.Items.AddRange(deviceNames);             // and populate them into the device combo box
 
-            
+
             if (deviceComboBox.Items.Count > 0)
             {
                 deviceComboBox.SelectedIndex = 0;
 
                 InitalizeDTDAQ();
+            }
+            else
+            {
+                MessageBox.Show("No Devices ");
             }
         }
 
@@ -147,6 +151,11 @@ namespace Pipit
 
         private void setVoltageButton_Click(object sender, EventArgs e)
         {
+            SetVoltageFromControls();
+        }
+
+        private void SetVoltageFromControls()
+        {
             // populate the array with the voltage values
             // don't worry about if the channel doesn't exist
             // that problem is dealt with in the voltage output
@@ -156,7 +165,13 @@ namespace Pipit
             volts[1] = Convert.ToDouble(ao1numeric.Value);
             volts[2] = Convert.ToDouble(ao2numeric.Value);
 
-            SetDAQVoltages(volts);
+            SetDAQVoltages(volts);            
         }
+
+        private void aonumeric_ValueChanged(object sender, EventArgs e)
+        {
+            SetVoltageFromControls();
+        }
+
     }
 }

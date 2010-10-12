@@ -35,7 +35,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.setVoltageButton = new System.Windows.Forms.Button();
             this.deviceComboBox = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ao0numeric)).BeginInit();
@@ -60,6 +59,7 @@
             this.ao0numeric.Name = "ao0numeric";
             this.ao0numeric.Size = new System.Drawing.Size(93, 20);
             this.ao0numeric.TabIndex = 0;
+            this.ao0numeric.ValueChanged += new System.EventHandler(this.aonumeric_ValueChanged);
             // 
             // ao1numeric
             // 
@@ -73,6 +73,7 @@
             this.ao1numeric.Name = "ao1numeric";
             this.ao1numeric.Size = new System.Drawing.Size(93, 20);
             this.ao1numeric.TabIndex = 1;
+            this.ao1numeric.ValueChanged += new System.EventHandler(this.aonumeric_ValueChanged);
             // 
             // ao2numeric
             // 
@@ -86,6 +87,7 @@
             this.ao2numeric.Name = "ao2numeric";
             this.ao2numeric.Size = new System.Drawing.Size(93, 20);
             this.ao2numeric.TabIndex = 2;
+            this.ao2numeric.ValueChanged += new System.EventHandler(this.aonumeric_ValueChanged);
             // 
             // label1
             // 
@@ -114,16 +116,6 @@
             this.label3.TabIndex = 5;
             this.label3.Text = "Analog Out 2";
             // 
-            // setVoltageButton
-            // 
-            this.setVoltageButton.Location = new System.Drawing.Point(12, 219);
-            this.setVoltageButton.Name = "setVoltageButton";
-            this.setVoltageButton.Size = new System.Drawing.Size(75, 23);
-            this.setVoltageButton.TabIndex = 6;
-            this.setVoltageButton.Text = "Set Voltage";
-            this.setVoltageButton.UseVisualStyleBackColor = true;
-            this.setVoltageButton.Click += new System.EventHandler(this.setVoltageButton_Click);
-            // 
             // deviceComboBox
             // 
             this.deviceComboBox.FormattingEnabled = true;
@@ -145,10 +137,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(202, 265);
+            this.ClientSize = new System.Drawing.Size(157, 249);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.deviceComboBox);
-            this.Controls.Add(this.setVoltageButton);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -175,7 +166,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button setVoltageButton;
         private System.Windows.Forms.ComboBox deviceComboBox;
         private System.Windows.Forms.Label label4;
     }
