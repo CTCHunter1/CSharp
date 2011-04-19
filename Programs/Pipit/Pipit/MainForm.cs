@@ -13,76 +13,37 @@ namespace Pipit
 {
     public partial class MainForm : Form
     {
-        DeviceMgr deviceMgrObj = null;
-        Device daqDevice = null;
-        AnalogOutputSubsystem aoSubObj = null;
+        DTDaq dtDaqObj; 
 
         public MainForm()
         {
             InitializeComponent();
 
-            deviceMgrObj = DeviceMgr.Get();     // first need to get the device manager
+            dtDaqObj = new DTDaq();
             
-            string[] deviceNames = deviceMgrObj.GetDeviceNames();   // then get the names of the devices
-            deviceComboBox.Items.AddRange(deviceNames);             // and populate them into the device combo box
+            
+            deviceComboBox.Items.AddRange(dtDaqObj.DAQDevices);             // and populate them into the device combo box
 
-
-            if (deviceComboBox.Items.Count > 0)
+            if (dtDaqObj.DAQDevices.Length > 0)
             {
                 deviceComboBox.SelectedIndex = 0;
-
-                InitalizeDTDAQ();
+                SetVoltageFromControls();
             }
             else
             {
-                MessageBox.Show("No Devices ");
+                MessageBox.Show("No Output Channels");
             }
         }
 
         public void InitalizeDTDAQ()
         {
-            // this can only be done if there was a device detected
-            // there was a device detected of the device combo box is populated
-            if (deviceComboBox.Items.Count <= 0)
-                return; // no device detected just return
-
-            // if there was already a AO subsystem device dispose of it
-            if (aoSubObj != null)
-            {
-                aoSubObj.Dispose();
-                aoSubObj = null;
-            }
-
-            // if there was already a daq device dispose of it
-            if (daqDevice != null)
-            {
-                daqDevice.Dispose();
-                daqDevice = null;
-            }
-
-
-            daqDevice = deviceMgrObj.GetDevice((string) deviceComboBox.SelectedItem);
-
-            // check if this device has an analog out subsystem
-            if (daqDevice.GetNumSubsystemElements(SubsystemType.AnalogOutput) == 0)
-            {
-                // this device has no analog output subsystems
-                Exception ex = new Exception("DT Device Error: Not Analog Output on Device");
-                throw(ex);
-            }
-
-            // get the first subsystem
-            aoSubObj = daqDevice.AnalogOutputSubsystem(0);
-
-            aoSubObj.DataFlow = DataFlow.SingleValue;
-            aoSubObj.ChannelType = ChannelType.SingleEnded;
-            aoSubObj.Config();
+            dtDaqObj.Initalize();
 
             // if the device has less than 3 channels 
             // enable the numbe of channels numeric only for the number of channels in use
-            if (aoSubObj.NumberOfChannels <= 3)
+            if (dtDaqObj.NumberOutputChannels <= 3)
             {
-                if (aoSubObj.NumberOfChannels <= 0)
+                if (dtDaqObj.NumberOutputChannels <= 0)
                 {
                     ao0numeric.Enabled = false;
                     ao1numeric.Enabled = false;
@@ -90,7 +51,7 @@ namespace Pipit
                 }
                 else
                 {
-                    switch(aoSubObj.NumberOfChannels)
+                    switch (dtDaqObj.NumberOutputChannels)
                     {
                         case 1:
                             ao0numeric.Enabled = true;
@@ -124,23 +85,12 @@ namespace Pipit
             setVoltageButton_Click(this, null);
         }
 
-        public void SetDAQVoltages(double []chVolts)
-        {
-            int numChannels = aoSubObj.NumberOfChannels;
-
-            // iterate through the volts loop to get the channels
-            for (int i = 0; i < chVolts.Length && i < numChannels; i++)
-            {
-                aoSubObj.SetSingleValueAsVolts(i, chVolts[i]);
-            }
-        }
-
         public void Exit()
         {
-            if (daqDevice != null)
+            if (dtDaqObj != null)
             {
-                daqDevice.Dispose();
-                daqDevice = null;
+                dtDaqObj.Dispose();
+                dtDaqObj = null;
             }
         }
 
@@ -165,12 +115,25 @@ namespace Pipit
             volts[1] = Convert.ToDouble(ao1numeric.Value);
             volts[2] = Convert.ToDouble(ao2numeric.Value);
 
-            SetDAQVoltages(volts);            
+            dtDaqObj.SetDAQVoltagesArr(volts);         
         }
 
         private void aonumeric_ValueChanged(object sender, EventArgs e)
         {
             SetVoltageFromControls();
+        }
+
+        private void initalizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dtDaqObj.Initalize();
+
+            if (dtDaqObj.Initalized == true)
+            {
+                deviceComboBox.Items.Clear();
+                deviceComboBox.Items.AddRange(dtDaqObj.DAQDevices);
+
+                SetVoltageFromControls();
+            }
         }
 
     }
