@@ -34,6 +34,7 @@ namespace Lab.Drivers.Motors.Test
             this.zaberAxisButton = new System.Windows.Forms.Button();
             this.motorsButton = new System.Windows.Forms.Button();
             this.motorControlFormButton = new System.Windows.Forms.Button();
+            this.asiControlForm = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -96,9 +97,20 @@ namespace Lab.Drivers.Motors.Test
             this.motorControlFormButton.UseVisualStyleBackColor = true;
             this.motorControlFormButton.Click += new System.EventHandler(this.motorControlFormButton_Click);
             // 
+            // asiControlForm
+            // 
+            this.asiControlForm.Location = new System.Drawing.Point(12, 197);
+            this.asiControlForm.Name = "asiControlForm";
+            this.asiControlForm.Size = new System.Drawing.Size(131, 25);
+            this.asiControlForm.TabIndex = 8;
+            this.asiControlForm.Text = "ASI_LV4000";
+            this.asiControlForm.UseVisualStyleBackColor = true;
+            this.asiControlForm.Click += new System.EventHandler(this.asiControlForm_Click);
+            // 
             // MainTestForm
             // 
             this.ClientSize = new System.Drawing.Size(159, 383);
+            this.Controls.Add(this.asiControlForm);
             this.Controls.Add(this.motorControlFormButton);
             this.Controls.Add(this.motorsButton);
             this.Controls.Add(this.zaberAxisButton);
@@ -118,5 +130,6 @@ namespace Lab.Drivers.Motors.Test
         private System.Windows.Forms.Button zaberAxisButton;
         private System.Windows.Forms.Button motorsButton;
         private System.Windows.Forms.Button motorControlFormButton;
+        private System.Windows.Forms.Button asiControlForm;
     }
 }

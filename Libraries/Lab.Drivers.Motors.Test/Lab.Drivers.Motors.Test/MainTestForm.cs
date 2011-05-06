@@ -55,5 +55,13 @@ namespace Lab.Drivers.Motors.Test
 
             formObj.ShowDialog();
         }
+
+        private void asiControlForm_Click(object sender, EventArgs e)
+        {
+            ASI_LV4000TestForm formObj = new ASI_LV4000TestForm();
+
+            formObj.ShowDialog();
+
+        }
     }
 }

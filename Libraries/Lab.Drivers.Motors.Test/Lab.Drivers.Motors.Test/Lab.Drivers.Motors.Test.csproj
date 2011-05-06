@@ -1,4 +1,5 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,6 +11,12 @@
     <RootNamespace>Lab.Drivers.Motors.Test</RootNamespace>
     <AssemblyName>Lab.Drivers.Motors.Test</AssemblyName>
     <StartupObject>Lab.Drivers.Motors.Test.Program</StartupObject>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <ApplicationRevision>0</ApplicationRevision>
+    <UpgradeBackupLocation />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,6 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ASI_LV4000TestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ASI_LV4000TestForm.Designer.cs">
+      <DependentUpon>ASI_LV4000TestForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainTestForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -69,6 +82,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ASI_LV4000TestForm.resx">
+      <DependentUpon>ASI_LV4000TestForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainTestForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>MainTestForm.cs</DependentUpon>

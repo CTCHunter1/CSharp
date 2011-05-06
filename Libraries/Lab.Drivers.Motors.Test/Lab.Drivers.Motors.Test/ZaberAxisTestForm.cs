@@ -16,9 +16,18 @@ namespace Lab.Drivers.Motors.Test
         public ZaberAxisTestForm()
         {
             InitializeComponent();
+            int numAxis = 0;
 
-            ZaberDLLWrapper.Motor_Init((IntPtr)null, (string)null);
-            int numAxis = ZaberDLLWrapper.Motor_NumAxes();
+            try
+            {
+                ZaberDLLWrapper.Motor_Init((IntPtr)null, (string)null);
+                numAxis = ZaberDLLWrapper.Motor_NumAxes();
+            }
+            catch (DllNotFoundException)
+            {
+                MessageBox.Show("ZaberDLL.dll Not Found");
+            }
+
 
             zaberAxisArr = new ZaberTLAAxis[numAxis];
 

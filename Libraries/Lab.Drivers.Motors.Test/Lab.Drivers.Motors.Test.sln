@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C# Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.Drivers.Motors", "..\Lab.Drivers.Motors\Lab.Drivers.Motors.csproj", "{206E8042-B072-4E9F-87C4-BC3090C91E62}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.Drivers.Motors.Test", "Lab.Drivers.Motors.Test\Lab.Drivers.Motors.Test.csproj", "{3B7629AA-8C56-40AE-ABA6-B55383867F0A}"
