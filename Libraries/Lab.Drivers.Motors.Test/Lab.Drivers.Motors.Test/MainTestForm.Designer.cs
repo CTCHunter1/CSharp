@@ -35,6 +35,7 @@ namespace Lab.Drivers.Motors.Test
             this.motorsButton = new System.Windows.Forms.Button();
             this.motorControlFormButton = new System.Windows.Forms.Button();
             this.asiControlForm = new System.Windows.Forms.Button();
+            this.asiLV4000Axis_button = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -79,7 +80,7 @@ namespace Lab.Drivers.Motors.Test
             // 
             // motorsButton
             // 
-            this.motorsButton.Location = new System.Drawing.Point(12, 139);
+            this.motorsButton.Location = new System.Drawing.Point(12, 252);
             this.motorsButton.Name = "motorsButton";
             this.motorsButton.Size = new System.Drawing.Size(131, 23);
             this.motorsButton.TabIndex = 6;
@@ -89,7 +90,7 @@ namespace Lab.Drivers.Motors.Test
             // 
             // motorControlFormButton
             // 
-            this.motorControlFormButton.Location = new System.Drawing.Point(12, 168);
+            this.motorControlFormButton.Location = new System.Drawing.Point(12, 281);
             this.motorControlFormButton.Name = "motorControlFormButton";
             this.motorControlFormButton.Size = new System.Drawing.Size(131, 23);
             this.motorControlFormButton.TabIndex = 7;
@@ -99,7 +100,7 @@ namespace Lab.Drivers.Motors.Test
             // 
             // asiControlForm
             // 
-            this.asiControlForm.Location = new System.Drawing.Point(12, 197);
+            this.asiControlForm.Location = new System.Drawing.Point(12, 139);
             this.asiControlForm.Name = "asiControlForm";
             this.asiControlForm.Size = new System.Drawing.Size(131, 25);
             this.asiControlForm.TabIndex = 8;
@@ -107,9 +108,20 @@ namespace Lab.Drivers.Motors.Test
             this.asiControlForm.UseVisualStyleBackColor = true;
             this.asiControlForm.Click += new System.EventHandler(this.asiControlForm_Click);
             // 
+            // asiLV4000Axis_button
+            // 
+            this.asiLV4000Axis_button.Location = new System.Drawing.Point(12, 170);
+            this.asiLV4000Axis_button.Name = "asiLV4000Axis_button";
+            this.asiLV4000Axis_button.Size = new System.Drawing.Size(131, 25);
+            this.asiLV4000Axis_button.TabIndex = 9;
+            this.asiLV4000Axis_button.Text = "ASI LV4000 Axis";
+            this.asiLV4000Axis_button.UseVisualStyleBackColor = true;
+            this.asiLV4000Axis_button.Click += new System.EventHandler(this.asiLV4000Axis_button_Click);
+            // 
             // MainTestForm
             // 
-            this.ClientSize = new System.Drawing.Size(159, 383);
+            this.ClientSize = new System.Drawing.Size(159, 328);
+            this.Controls.Add(this.asiLV4000Axis_button);
             this.Controls.Add(this.asiControlForm);
             this.Controls.Add(this.motorControlFormButton);
             this.Controls.Add(this.motorsButton);
@@ -131,5 +143,6 @@ namespace Lab.Drivers.Motors.Test
         private System.Windows.Forms.Button motorsButton;
         private System.Windows.Forms.Button motorControlFormButton;
         private System.Windows.Forms.Button asiControlForm;
+        private System.Windows.Forms.Button asiLV4000Axis_button;
     }
 }

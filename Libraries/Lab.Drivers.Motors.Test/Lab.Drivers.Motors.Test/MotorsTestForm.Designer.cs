@@ -44,6 +44,8 @@ namespace Lab.Drivers.Motors.Test
             this.beginMoveTextBox = new System.Windows.Forms.TextBox();
             this.callbackTextBox = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.exceptionTextBox = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // closeButton
@@ -68,7 +70,7 @@ namespace Lab.Drivers.Motors.Test
             // 
             // numAxisTextBox
             // 
-            this.numAxisTextBox.Location = new System.Drawing.Point(218, 31);
+            this.numAxisTextBox.Location = new System.Drawing.Point(144, 31);
             this.numAxisTextBox.Name = "numAxisTextBox";
             this.numAxisTextBox.Size = new System.Drawing.Size(43, 20);
             this.numAxisTextBox.TabIndex = 2;
@@ -76,7 +78,7 @@ namespace Lab.Drivers.Motors.Test
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(215, 15);
+            this.label1.Location = new System.Drawing.Point(141, 15);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(55, 13);
             this.label1.TabIndex = 3;
@@ -101,7 +103,7 @@ namespace Lab.Drivers.Motors.Test
             // 
             // moveAbsoluteButton
             // 
-            this.moveAbsoluteButton.Location = new System.Drawing.Point(52, 162);
+            this.moveAbsoluteButton.Location = new System.Drawing.Point(52, 124);
             this.moveAbsoluteButton.Name = "moveAbsoluteButton";
             this.moveAbsoluteButton.Size = new System.Drawing.Size(86, 23);
             this.moveAbsoluteButton.TabIndex = 6;
@@ -112,7 +114,7 @@ namespace Lab.Drivers.Motors.Test
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(155, 149);
+            this.label3.Location = new System.Drawing.Point(155, 111);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(44, 13);
             this.label3.TabIndex = 8;
@@ -120,7 +122,7 @@ namespace Lab.Drivers.Motors.Test
             // 
             // positionTextBox
             // 
-            this.positionTextBox.Location = new System.Drawing.Point(158, 165);
+            this.positionTextBox.Location = new System.Drawing.Point(158, 127);
             this.positionTextBox.Name = "positionTextBox";
             this.positionTextBox.Size = new System.Drawing.Size(49, 20);
             this.positionTextBox.TabIndex = 7;
@@ -144,7 +146,7 @@ namespace Lab.Drivers.Motors.Test
             // 
             // beginMoveButton
             // 
-            this.beginMoveButton.Location = new System.Drawing.Point(52, 216);
+            this.beginMoveButton.Location = new System.Drawing.Point(52, 178);
             this.beginMoveButton.Name = "beginMoveButton";
             this.beginMoveButton.Size = new System.Drawing.Size(86, 23);
             this.beginMoveButton.TabIndex = 11;
@@ -155,7 +157,7 @@ namespace Lab.Drivers.Motors.Test
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(155, 200);
+            this.label5.Location = new System.Drawing.Point(155, 162);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(44, 13);
             this.label5.TabIndex = 13;
@@ -163,7 +165,7 @@ namespace Lab.Drivers.Motors.Test
             // 
             // beginMoveTextBox
             // 
-            this.beginMoveTextBox.Location = new System.Drawing.Point(158, 216);
+            this.beginMoveTextBox.Location = new System.Drawing.Point(158, 178);
             this.beginMoveTextBox.Name = "beginMoveTextBox";
             this.beginMoveTextBox.Size = new System.Drawing.Size(49, 20);
             this.beginMoveTextBox.TabIndex = 12;
@@ -171,7 +173,7 @@ namespace Lab.Drivers.Motors.Test
             // 
             // callbackTextBox
             // 
-            this.callbackTextBox.Location = new System.Drawing.Point(237, 218);
+            this.callbackTextBox.Location = new System.Drawing.Point(237, 180);
             this.callbackTextBox.Name = "callbackTextBox";
             this.callbackTextBox.Size = new System.Drawing.Size(143, 20);
             this.callbackTextBox.TabIndex = 14;
@@ -179,11 +181,28 @@ namespace Lab.Drivers.Motors.Test
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(234, 202);
+            this.label6.Location = new System.Drawing.Point(234, 164);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(93, 13);
             this.label6.TabIndex = 15;
             this.label6.Text = "Callback Text Box";
+            // 
+            // exceptionTextBox
+            // 
+            this.exceptionTextBox.Location = new System.Drawing.Point(52, 232);
+            this.exceptionTextBox.Multiline = true;
+            this.exceptionTextBox.Name = "exceptionTextBox";
+            this.exceptionTextBox.Size = new System.Drawing.Size(265, 91);
+            this.exceptionTextBox.TabIndex = 16;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(49, 216);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(54, 13);
+            this.label7.TabIndex = 17;
+            this.label7.Text = "Exception";
             // 
             // MotorsTestForm
             // 
@@ -191,6 +210,8 @@ namespace Lab.Drivers.Motors.Test
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(392, 382);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.exceptionTextBox);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.callbackTextBox);
             this.Controls.Add(this.label5);
@@ -234,5 +255,7 @@ namespace Lab.Drivers.Motors.Test
         private System.Windows.Forms.TextBox beginMoveTextBox;
         private System.Windows.Forms.TextBox callbackTextBox;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox exceptionTextBox;
+        private System.Windows.Forms.Label label7;
     }
 }

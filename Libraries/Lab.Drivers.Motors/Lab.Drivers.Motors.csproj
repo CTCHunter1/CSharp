@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ASILV4000.cs" />
+    <Compile Include="ASILV4000Axis.cs" />
     <Compile Include="IAxis.cs" />
     <Compile Include="MotorControlForm.cs">
       <SubType>Form</SubType>

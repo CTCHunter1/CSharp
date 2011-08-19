@@ -10,6 +10,8 @@ namespace Lab.Drivers.Motors
         NewportESP100 newportObj = null;
         ZaberTLAAxis [] zaberAxes = null;
         NewportESP100Axis[] newportAxes = null;
+        ASILV4000 asilv4000_obj = null;
+        ASILV4000Axis[] asilv4000_axes = null;
 
         IAxis []axes = null;
 
@@ -17,36 +19,57 @@ namespace Lab.Drivers.Motors
         public Motors()
         {
             // donno if this should be in the constructor
-            FindAxes();
+            FindAxes();           
+            
+            if (axes == null)
+            {
+                Exception motorEx = new Exception("No Motors Found");
+                throw (motorEx);
+            }
         }
 
         public void FindAxes()
         {
             newportAxes = FindNewportMotors();
             zaberAxes = FindZaberMotors();
-            
+
+            try
+            {
+                asilv4000_obj = new ASILV4000();
+                // found a controller
+                asilv4000_axes = asilv4000_obj.GetAxes();
+
+            }
+            catch { }
+
             // figure out if both are attached
-            if (zaberAxes == null && newportAxes == null)
+            if (zaberAxes == null && newportAxes == null && asilv4000_axes == null)
             {
                // no motors found
                 axes = null;
                 return;
             }
 
-            if (zaberAxes == null)
+            if (zaberAxes == null && newportAxes == null && asilv4000_axes != null)
+            {
+                axes = asilv4000_axes;
+                return;
+            }
+
+            if (zaberAxes == null && asilv4000_axes == null)
             {
                 axes = newportAxes;
                 return;
             }
 
-            if (newportAxes == null)
+            if (newportAxes == null && asilv4000_axes == null)
             {
                 axes = zaberAxes;
                 return;
-            }
-            
+            }            
+
             // both are attached, put them together in the axes list
-            int numAxis = newportAxes.Length + zaberAxes.Length;
+            int numAxis = newportAxes.Length + zaberAxes.Length + asilv4000_axes.Length;
             axes = new IAxis[numAxis];
 
             int axesIndex = 0;
@@ -63,6 +86,13 @@ namespace Lab.Drivers.Motors
                 axes[axesIndex] = zaberAxes[i];
                 axesIndex++;
             }
+
+            // copy the ASILV4000 axes
+            for (int i = 0; i < asilv4000_axes.Length; i++)
+            {
+                axes[axesIndex] = asilv4000_axes[i];
+                axesIndex++;
+            }
         }
 
         public NewportESP100Axis[] FindNewportMotors()
@@ -73,13 +103,21 @@ namespace Lab.Drivers.Motors
             {
                 if(newportObj == null)
                     newportObj = new NewportESP100();
-                
-                newportMotorCount = newportObj.Axes.Length;
+
+                if (newportObj.Axes != null)
+                {
+                    newportMotorCount = newportObj.Axes.Length;
+                }
+                else
+                {
+                    newportMotorCount = 0;
+                }
             }
             catch (Exception ex)
             {
 
                 newportObj = null;
+                newportMotorCount = 0;
                 return (null);
             }
 
@@ -133,8 +171,19 @@ namespace Lab.Drivers.Motors
 
         public void Dispose()
         {
-            newportObj.Dispose();
-            ZaberDLLWrapper.Motor_Exit();
+            if (newportObj != null)
+            {
+                newportObj.Dispose();
+            }
+
+            try
+            {
+
+                ZaberDLLWrapper.Motor_Exit();
+            }
+                // will throw error if ZaberDLL not found
+            catch { }
+
         }
 
         #endregion

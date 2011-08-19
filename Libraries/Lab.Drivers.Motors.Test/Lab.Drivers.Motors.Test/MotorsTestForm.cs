@@ -10,8 +10,8 @@ namespace Lab.Drivers.Motors.Test
 {
     public partial class MotorsTestForm : Form
     {
-        Motors motorsObj;
-        IAxis []axes; 
+        Motors motorsObj = null;
+        IAxis []axes = null; 
 
         public MotorsTestForm()
         {
@@ -20,16 +20,24 @@ namespace Lab.Drivers.Motors.Test
 
         private void initalizeButton_Click(object sender, EventArgs e)
         {
-            motorsObj = new Motors();
+            try
+            {
+                motorsObj = new Motors();
 
-            numAxisTextBox.Text = motorsObj.Axes.Length.ToString();
+                numAxisTextBox.Text = motorsObj.Axes.Length.ToString();
 
-            axes = motorsObj.Axes;
+                axes = motorsObj.Axes;
 
-            axisComboBox.Items.AddRange(axes); // put the axes into the combo box
+                axisComboBox.Items.Clear();
+                axisComboBox.Items.AddRange(axes); // put the axes into the combo box
 
-            if (axes.Length > 0)
-                axisComboBox.SelectedIndex = 0;
+                if (axes.Length > 0)
+                    axisComboBox.SelectedIndex = 0;
+            }
+            catch (Exception ex)
+            {
+                exceptionTextBox.Text = ex.Message;
+            }
         }
 
         private void moveAbsoluteButton_Click(object sender, EventArgs e)
@@ -72,8 +80,10 @@ namespace Lab.Drivers.Motors.Test
 
         private void MotorsTestForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            motorsObj.Dispose();
-;
+            if (motorsObj != null)
+            {
+                motorsObj.Dispose();
+            }
         }
     }
 }

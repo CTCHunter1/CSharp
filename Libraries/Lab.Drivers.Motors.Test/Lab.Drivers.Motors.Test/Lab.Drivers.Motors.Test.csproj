@@ -44,6 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ASILV4000AxisTestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ASILV4000AxisTestForm.Designer.cs">
+      <DependentUpon>ASILV4000AxisTestForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ASI_LV4000TestForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,6 +88,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ASILV4000AxisTestForm.resx">
+      <DependentUpon>ASILV4000AxisTestForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ASI_LV4000TestForm.resx">
       <DependentUpon>ASI_LV4000TestForm.cs</DependentUpon>
     </EmbeddedResource>

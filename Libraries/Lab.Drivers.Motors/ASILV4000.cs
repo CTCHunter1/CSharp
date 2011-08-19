@@ -16,7 +16,7 @@ namespace Lab.Drivers.Motors
         private SerialPort spObj;
         public bool b_initalize = false;
 
-        NewportESP100Axis[] axisArr = null;
+        ASILV4000Axis[] axisArr = null;
         int numAxis = 0;
 
         public enum MoveStatus { STOPED, MOVING }; 
@@ -32,8 +32,12 @@ namespace Lab.Drivers.Motors
             spObj.Parity = Parity.None;
             // sp_obj.Handshake = Handshake.RequestToSend; // necessary but don't enable before we know
                                                            // where the contoller is
-            spObj.NewLine = "\r\n";                        // all commands are terminated with for the ASI controller
-                                                           // this makes them execute
+
+            // controller sends \r \n EOT(End of Text) after each line
+            spObj.NewLine = "\r\n" + Convert.ToChar(0x03);      // all commands are terminated with for the ASI controller
+            //spObj.NewLine = "\r\n";  
+            
+            // this makes them execute
             spObj.ReadTimeout = 100;
             
             Initalize();       
@@ -65,7 +69,7 @@ namespace Lab.Drivers.Motors
                     // clear the com port object
                     spObj.DiscardInBuffer();
 
-                    ReadMovementStatus();
+                    ReadMovementStatusXY();
                     
                     //spObj.BaseStream.Flush();                   
                     
@@ -74,7 +78,9 @@ namespace Lab.Drivers.Motors
                 }
                 catch (Exception ex)
                 {
-                    spObj.BaseStream.Flush();  
+                    if(spObj.IsOpen == true)
+                       spObj.BaseStream.Flush();   // this can only be performed on an open port
+                    
                     spObj.Close();
                 }
             }
@@ -86,12 +92,32 @@ namespace Lab.Drivers.Motors
         }
 
      
-        public NewportESP100Axis []Axes
+        public ASILV4000Axis [] GetAxes()
         {
-            get
-            {
-                return (axisArr);
-            }
+           spObj.DiscardInBuffer();
+           spObj.DiscardOutBuffer();
+
+            
+           List<ASILV4000Axis> axisList =  new List<ASILV4000Axis>();
+           for(int i = 1; i <= 3; i++)
+           {
+               try
+               {
+                   ASILV4000Axis newAxisObj = new ASILV4000Axis(i, this);
+                   axisList.Add(newAxisObj);
+               }
+               catch { }
+           }
+
+           // return all the axis found
+           if (axisList.Count >= 1)
+           {
+               return (axisList.ToArray());
+           }
+           else
+           {
+               return (null);
+           }
         }
 
         public int ReadTimeout
@@ -107,19 +133,25 @@ namespace Lab.Drivers.Motors
             }
         }
 
-        public MoveStatus ReadMovementStatus()
+        public MoveStatus ReadMovementStatusXY()
         {
             // clear the com port object
-            // spObj.DiscardInBuffer();
-            spObj.BaseStream.Flush();
+            //spObj.DiscardInBuffer();
+            //spObj.BaseStream.Flush();
             spObj.Write("2H/\r");
             
             string returnString = spObj.ReadLine();
+            //string returnString = spObj.ReadExisting();
+            
+            //string returnStringLine2 = spObj.ReadLine();
+
+            char c1 = '\0';
+            char c2 = '\0';
 
             if (returnString.Length >= 2)
             {
-                char c1 = returnString[0];
-                char c2 = returnString[1];
+                c1 = returnString[0];
+                c2 = returnString[1];
             }
 
             if (returnString == "B")
@@ -132,7 +164,7 @@ namespace Lab.Drivers.Motors
             throw (ex);
         }
  
-        public double [] ReadPosition()
+        public double [] ReadPositionXY()
         {
             // clear the com port object
             //spObj.BaseStream.Flush();
@@ -153,13 +185,84 @@ namespace Lab.Drivers.Motors
             return (statePos);            
         }
 
-        public void Move(double xPos, double yPos)
+        public double[] ReadSpeedXY()
         {
             // clear the com port object
-           // spObj.BaseStream.Flush();
-           // spObj.DiscardInBuffer();
+            //spObj.BaseStream.Flush();
+            // spObj.DiscardInBuffer();
 
-            string moveCmd = string.Format("2HM X={0} Y={1}\r", xPos, yPos);
+            char[] delimiterChars = { ' ', '=' };
+
+            spObj.Write("2HS X? Y?\r");
+            string returnString = spObj.ReadLine();
+
+            string[] stringArr = returnString.Split(delimiterChars);
+
+            double[] statePos = new double[2];
+
+            statePos[0] = Convert.ToDouble(stringArr[2]);
+            statePos[1] = Convert.ToDouble(stringArr[4]);
+
+            return (statePos);
+        }
+
+        public double ReadSpeedX()
+        {
+            // clear the com port object
+            //spObj.BaseStream.Flush();
+            // spObj.DiscardInBuffer();
+
+            char[] delimiterChars = { ' ', '=' };
+
+            spObj.Write("2HS X?\r");
+            string returnString = spObj.ReadLine();
+
+            string[] stringArr = returnString.Split(delimiterChars);
+
+            double statePos = Convert.ToDouble(stringArr[2]);
+
+            return (statePos);
+        }
+
+        public double ReadSpeedY()
+        {
+            // clear the com port object
+            //spObj.BaseStream.Flush();
+            // spObj.DiscardInBuffer();
+
+            char[] delimiterChars = { ' ', '=' };
+
+            spObj.Write("2HS Y?\r");
+            string returnString = spObj.ReadLine();
+
+            string[] stringArr = returnString.Split(delimiterChars);
+
+            double statePos = Convert.ToDouble(stringArr[2]);
+
+            return (statePos);
+        }
+
+        public double ReadSpeedZ()
+        {
+            // clear the com port object
+            //spObj.BaseStream.Flush();
+            // spObj.DiscardInBuffer();
+
+            char[] delimiterChars = { ' ', '=' };
+
+            spObj.Write("1HS Z?\r");
+            string returnString = spObj.ReadLine();
+
+            string[] stringArr = returnString.Split(delimiterChars);
+                        
+            double statePos = Convert.ToDouble(stringArr[2]);
+
+            return (statePos);
+        }
+
+        public void SetSpeedXY(double xSpeed, double ySpeed)
+        {
+            string moveCmd = string.Format("2HS X={0} Y={1}\r", Math.Round(xSpeed, 2), Math.Round(ySpeed, 2));
 
             spObj.Write(moveCmd);
 
@@ -172,6 +275,503 @@ namespace Lab.Drivers.Motors
 
                 // expected return string
                 if (returnString == "A ")
+                {
+                    return;
+                }
+                else
+                {
+                    Exception ex = new Exception(returnString);
+                    throw (ex);
+                }
+            }
+        }
+
+        public void SetSpeedX(double speed)
+        {
+            string moveCmd = string.Format("2HS X={0}\r", Math.Round(speed, 2));
+
+            spObj.Write(moveCmd);
+
+            char c = Convert.ToChar(spObj.ReadChar());
+
+            if (c == ':')
+            {
+
+                string returnString = spObj.ReadLine();
+
+                // expected return string
+                if (returnString == "A ")
+                {
+                    return;
+                }
+                else
+                {
+                    Exception ex = new Exception(returnString);
+                    throw (ex);
+                }
+            }
+        }
+
+        public void SetSpeedY(double speed)
+        {
+            string moveCmd = string.Format("2HS Y={0}\r", Math.Round(speed, 2));
+
+            spObj.Write(moveCmd);
+
+            char c = Convert.ToChar(spObj.ReadChar());
+
+            if (c == ':')
+            {
+
+                string returnString = spObj.ReadLine();
+
+                // expected return string
+                if (returnString == "A ")
+                {
+                    return;
+                }
+                else
+                {
+                    Exception ex = new Exception(returnString);
+                    throw (ex);
+                }
+            }
+        }
+
+        public void SetSpeedZ(double speed)
+        {
+            string moveCmd = string.Format("1HS Z={0}\r", Math.Round(speed, 2));
+
+            spObj.Write(moveCmd);
+
+            char c = Convert.ToChar(spObj.ReadChar());
+
+            if (c == ':')
+            {
+
+                string returnString = spObj.ReadLine();
+
+                // expected return string
+                if (returnString == "A ")
+                {
+                    return;
+                }
+                else
+                {
+                    Exception ex = new Exception(returnString);
+                    throw (ex);
+                }
+            }
+        }
+
+        public double ReadPositionX()
+        {
+            // clear the com port object
+            //spObj.BaseStream.Flush();
+            // spObj.DiscardInBuffer();
+
+            char[] delimiterChars = { ' ' };
+
+            spObj.Write("2HW X\r");
+            string returnString = spObj.ReadLine();
+
+            string[] stringArr = returnString.Split(delimiterChars);
+
+            double pos = 0;
+
+            pos = Convert.ToDouble(stringArr[1]);
+
+            return (pos);
+        }
+
+        public double ReadPositionY()
+        {
+            // clear the com port object
+            //spObj.BaseStream.Flush();
+            // spObj.DiscardInBuffer();
+
+            char[] delimiterChars = { ' ' };
+
+            spObj.Write("2HW Y\r");
+            string returnString = spObj.ReadLine();
+
+            string[] stringArr = returnString.Split(delimiterChars);
+
+            double pos = 0;
+
+            pos = Convert.ToDouble(stringArr[1]);
+
+            return (pos);
+        }
+
+        public double ReadPositionZ()
+        {
+            // clear the com port object
+            //spObj.BaseStream.Flush();
+            // spObj.DiscardInBuffer();
+
+            char[] delimiterChars = { ' ' };
+
+            spObj.Write("1HW Z\r");
+            string returnString = spObj.ReadLine();
+
+            string[] stringArr = returnString.Split(delimiterChars);
+
+            double pos = 0;
+
+            pos = Convert.ToDouble(stringArr[1]);
+
+            return (pos);
+        }
+
+        public void MoveX(double pos)
+        {
+            // clear the com port object
+            // spObj.BaseStream.Flush();
+            // spObj.DiscardInBuffer();
+
+            string moveCmd = string.Format("2HM X={0}\r", Math.Round(pos, 1));
+
+            spObj.Write(moveCmd);
+
+            char c = Convert.ToChar(spObj.ReadChar());
+
+            if (c == ':')
+            {
+
+                string returnString = spObj.ReadLine();
+
+                // expected return string
+                if (returnString == "A ")
+                {
+                    return;
+                }
+                else
+                {
+                    Exception ex = new Exception(returnString);
+                    throw (ex);
+                }
+            }
+        }
+
+        public void MoveY(double pos)
+        {
+            // clear the com port object
+            // spObj.BaseStream.Flush();
+            // spObj.DiscardInBuffer();
+
+            string moveCmd = string.Format("2HM Y={0}\r", Math.Round(pos, 1));
+
+            spObj.Write(moveCmd);
+
+            char c = Convert.ToChar(spObj.ReadChar());
+
+            if (c == ':')
+            {
+
+                string returnString = spObj.ReadLine();
+
+                // expected return string
+                if (returnString == "A ")
+                {
+                    return;
+                }
+                else
+                {
+                    Exception ex = new Exception(returnString);
+                    throw (ex);
+                }
+            }
+        }
+
+        public void MoveZ(double zPos)
+        {
+            // clear the com port object
+            // spObj.BaseStream.Flush();
+            // spObj.DiscardInBuffer();
+
+            string moveCmd = string.Format("1HM Z={0}\r", Math.Round(zPos, 1));
+
+            spObj.Write(moveCmd);
+
+            char c = Convert.ToChar(spObj.ReadChar());
+
+            if (c == ':')
+            {
+
+                string returnString = spObj.ReadLine();
+
+                // expected return string
+                if (returnString == "A ")
+                {
+                    return;
+                }
+                else
+                {
+                    Exception ex = new Exception(returnString);
+                    throw (ex);
+                }
+            }
+        }
+
+        public void MoveRelativeX(double pos)
+        {
+            // clear the com port object
+            // spObj.BaseStream.Flush();
+            // spObj.DiscardInBuffer();
+
+            string moveCmd = string.Format("2HR X={0}\r", Math.Round(pos, 1));
+
+            spObj.Write(moveCmd);
+
+            char c = Convert.ToChar(spObj.ReadChar());
+
+            if (c == ':')
+            {
+
+                string returnString = spObj.ReadLine();
+
+                // expected return string
+                if (returnString == "A " || returnString == "A")
+                {
+                    return;
+                }
+                else
+                {
+                    Exception ex = new Exception(returnString);
+                    throw (ex);
+                }
+            }
+        }
+
+        public void MoveRelativeY(double pos)
+        {
+            // clear the com port object
+            // spObj.BaseStream.Flush();
+            // spObj.DiscardInBuffer();
+
+            string moveCmd = string.Format("2HR Y={0}\r", Math.Round(pos, 1));
+
+            spObj.Write(moveCmd);
+
+            char c = Convert.ToChar(spObj.ReadChar());
+
+            if (c == ':')
+            {
+
+                string returnString = spObj.ReadLine();
+
+                // expected return string
+                if (returnString == "A " || returnString == "A")
+                {
+                    return;
+                }
+                else
+                {
+                    Exception ex = new Exception(returnString);
+                    throw (ex);
+                }
+            }
+        }
+    
+        public void MoveRelativeZ(double zPos)
+        {
+            // clear the com port object
+            // spObj.BaseStream.Flush();
+            // spObj.DiscardInBuffer();
+
+            string moveCmd = string.Format("1HR Z={0}\r", Math.Round(zPos, 1));
+
+            spObj.Write(moveCmd);
+
+            char c = Convert.ToChar(spObj.ReadChar());
+
+            if (c == ':')
+            {
+
+                string returnString = spObj.ReadLine();
+
+                // expected return string
+                if (returnString == "A ")
+                {
+                    return;
+                }
+                else
+                {
+                    Exception ex = new Exception(returnString);
+                    throw (ex);
+                }
+            }
+        }
+
+        public void MoveXY(double xPos, double yPos)
+        {
+
+            // clear the com port object
+           // spObj.BaseStream.Flush();
+           // spObj.DiscardInBuffer();
+
+            string moveCmd = string.Format("2HM X={0} Y={1}\r", Math.Round(xPos,1), Math.Round(yPos,1));
+
+            spObj.Write(moveCmd);
+
+            char c = Convert.ToChar(spObj.ReadChar());
+
+            if (c == ':')
+            {
+
+                string returnString = spObj.ReadLine();
+
+                // expected return string
+                if (returnString == "A ")
+                {
+                    return;
+                }
+                else
+                {
+                    Exception ex = new Exception(returnString);
+                    throw (ex);
+                }
+            }
+        }
+
+        public void MoveRelativeXY(double xPos, double yPos)
+        {
+
+            // clear the com port object
+            // spObj.BaseStream.Flush();
+            // spObj.DiscardInBuffer();
+
+            string moveCmd = string.Format("2HR X={0} Y={1}\r", Math.Round(xPos, 1), Math.Round(yPos, 1));
+
+            spObj.Write(moveCmd);
+
+            char c = Convert.ToChar(spObj.ReadChar());
+
+            if (c == ':')
+            {
+
+                string returnString = spObj.ReadLine();
+
+                // expected return string
+                if (returnString == "A ")
+                {
+                    return;
+                }
+                else if (returnString == "A")
+                {
+                    return;
+                }
+                else
+                {
+                    Exception ex = new Exception(returnString);
+                    throw (ex);
+                }
+            }
+        }
+
+        public void ZeroXY()
+        {
+            spObj.Write("2HZ\r");
+
+            char c = Convert.ToChar(spObj.ReadChar());
+
+            if (c == ':')
+            {
+
+                string returnString = spObj.ReadLine();
+
+                // expected return string
+                if (returnString == "A ")
+                {
+                    return;
+                }
+                else if (returnString == "A")
+                {
+                    return;
+                }
+                else
+                {
+                    Exception ex = new Exception("Unexpected Response to Zero: " + returnString);
+                    throw (ex);
+                }
+            }
+        }
+
+        public void ZeroZ()
+        {
+            spObj.Write("1HZ\r");
+
+            char c = Convert.ToChar(spObj.ReadChar());
+
+            if (c == ':')
+            {
+
+                string returnString = spObj.ReadLine();
+
+                // expected return string
+                if (returnString == "A ")
+                {
+                    return;
+                }
+                else if (returnString == "A")
+                {
+                    return;
+                }
+                else
+                {
+                    Exception ex = new Exception("Unexpected Response to Zero: " + returnString);
+                    throw (ex);
+                }
+            }
+        }
+
+        public void HaltZ()
+        {
+            spObj.Write("1H\\\r");
+
+            char c = Convert.ToChar(spObj.ReadChar());
+
+            if (c == ':')
+            {
+
+                string returnString = spObj.ReadLine();
+
+                // expected return string
+                if (returnString == "N-21 ")
+                {
+                    return;
+                }
+                else if (returnString == "N-21")
+                {
+                    return;
+                }
+                else
+                {
+                    Exception ex = new Exception(returnString);
+                    throw (ex);
+                }
+            }
+        }
+
+
+        public void HaltXY()
+        {
+            spObj.Write("2H\\\r");
+
+            char c = Convert.ToChar(spObj.ReadChar());
+
+            if (c == ':')
+            {
+
+                string returnString = spObj.ReadLine();
+
+                // expected return string
+                if (returnString == "N-21")
+                {
+                    return;
+                }
+                else if (returnString == "N-21")
                 {
                     return;
                 }
