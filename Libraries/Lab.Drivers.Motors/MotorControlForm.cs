@@ -20,8 +20,8 @@ namespace Lab.Drivers.Motors
 
             if (motorsObj.Axes == null)
             {
-                MessageBox.Show("No Motors Found.");
-                Application.Exit();
+                Exception ex = new Exception("No Motors Found");
+                throw (ex);
             }
 
             if (motorsObj.Axes != null)

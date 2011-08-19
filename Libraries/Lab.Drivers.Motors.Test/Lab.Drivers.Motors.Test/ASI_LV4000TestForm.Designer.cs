@@ -77,6 +77,8 @@
             this.relMoveXnumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label11 = new System.Windows.Forms.Label();
             this.relMoveYNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.movmentStatuszTextBox = new System.Windows.Forms.TextBox();
+            this.getZStatusButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.xPosNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.yPosNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.zPositionUpDown)).BeginInit();
@@ -622,11 +624,30 @@
             this.relMoveYNumericUpDown.Size = new System.Drawing.Size(70, 20);
             this.relMoveYNumericUpDown.TabIndex = 48;
             // 
+            // movmentStatuszTextBox
+            // 
+            this.movmentStatuszTextBox.Location = new System.Drawing.Point(196, 438);
+            this.movmentStatuszTextBox.Name = "movmentStatuszTextBox";
+            this.movmentStatuszTextBox.Size = new System.Drawing.Size(87, 20);
+            this.movmentStatuszTextBox.TabIndex = 51;
+            // 
+            // getZStatusButton
+            // 
+            this.getZStatusButton.Location = new System.Drawing.Point(108, 435);
+            this.getZStatusButton.Name = "getZStatusButton";
+            this.getZStatusButton.Size = new System.Drawing.Size(75, 23);
+            this.getZStatusButton.TabIndex = 50;
+            this.getZStatusButton.Text = "Get Z Status";
+            this.getZStatusButton.UseVisualStyleBackColor = true;
+            this.getZStatusButton.Click += new System.EventHandler(this.getZStatusButton_Click);
+            // 
             // ASI_LV4000TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(490, 612);
+            this.Controls.Add(this.movmentStatuszTextBox);
+            this.Controls.Add(this.getZStatusButton);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.relMoveYNumericUpDown);
             this.Controls.Add(this.label7);
@@ -743,5 +764,7 @@
         private System.Windows.Forms.NumericUpDown relMoveXnumericUpDown;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.NumericUpDown relMoveYNumericUpDown;
+        private System.Windows.Forms.TextBox movmentStatuszTextBox;
+        private System.Windows.Forms.Button getZStatusButton;
     }
 }

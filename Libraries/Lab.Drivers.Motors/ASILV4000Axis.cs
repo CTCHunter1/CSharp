@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Windows.Forms;
+
 
 namespace Lab.Drivers.Motors
 {
@@ -101,7 +104,7 @@ namespace Lab.Drivers.Motors
                         break;
                 }
 
-                return (posRet);
+                return (posRet/10000.0);
             }
         }
 
@@ -171,17 +174,34 @@ namespace Lab.Drivers.Motors
 
         public void MoveAbsolute(double position)
         {
+            // ASI LV 4000 position has units of tenths of micron
+            // API input value of position is (mm) 
+            // convert (mm) to tenths of microns
+            position = position * 10000;  
             switch (axisIndex)
             {
 
                 case 1:
                     asilv4000_obj.MoveX(position);
+                    while (ASILV4000.MoveStatus.MOVING == asilv4000_obj.ReadMovementStatusXY())
+                    {
+                        Thread.Sleep(10);
+                    }
                     break;
                 case 2:
                     asilv4000_obj.MoveY(position);
+                    while (ASILV4000.MoveStatus.MOVING == asilv4000_obj.ReadMovementStatusXY())
+                    {
+                        Thread.Sleep(10);
+                    }
                     break;
                 case 3:
                     asilv4000_obj.MoveZ(position);
+                    while (ASILV4000.MoveStatus.MOVING == asilv4000_obj.ReadMovementStatusZ())
+                    {
+                        Thread.Sleep(10);
+                    }
+
                     break;
             }
         }
@@ -200,14 +220,45 @@ namespace Lab.Drivers.Motors
             }
         }
 
+        // this code is taken from NewportESP100Axis
+        // function pointers are wierd in C#, delegate implementaion wraps them into
+        // a psudo object
+        private delegate void AsyncMovePointer(double position, AsyncCallback ackObj, Control sender);
+        IAsyncResult iAysncResultAbsoluteObj;
+        private AsyncMovePointer asyncMovePointerAbsoluteeObj;
+
         public IAsyncResult BeginMoveAbsolute(double position, AsyncCallback acbObj, System.Windows.Forms.Control sender)
         {
-            throw new NotImplementedException();
+            // used to be AsyncMovePointer Here
+            asyncMovePointerAbsoluteeObj = new AsyncMovePointer(AsyncMoveAbsolute);
+            // Begin Invoke on a delegate takes the delegate parameters followed by the 
+            // a callback and then a object array
+            // the callback and object array are null, eventhough the move() suports a callback
+            // the callback is invoked inside of the MoveAbsolute function so that it can be
+            // invoked on the senders thread instead of the new thread creatd in this beginInvoke
+            iAysncResultAbsoluteObj = asyncMovePointerAbsoluteeObj.BeginInvoke(position, acbObj, sender, null, null);
+            return (iAysncResultAbsoluteObj);         
+        }
+
+        private void AsyncMoveAbsolute(double position, AsyncCallback ackObj, Control sender)
+        {
+            MoveAbsolute(position);
+
+            // call the call back, if there is no callback do nothing
+            if ((ackObj != null) && (sender != null))
+            {
+                sender.BeginInvoke(ackObj, new object[1] { iAysncResultAbsoluteObj });
+            }
         }
 
         public void EndMoveAbsolute(IAsyncResult iascResultObj)
         {
-            throw new NotImplementedException();
+            Halt();
+
+            if (iascResultObj != null)
+            {
+                asyncMovePointerAbsoluteeObj.EndInvoke(iascResultObj);
+            }
         }
     }
 }

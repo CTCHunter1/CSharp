@@ -163,6 +163,37 @@ namespace Lab.Drivers.Motors
             Exception ex = new Exception("Invalid Response");
             throw (ex);
         }
+
+        public MoveStatus ReadMovementStatusZ()
+        {
+            // clear the com port object
+            //spObj.DiscardInBuffer();
+            //spObj.BaseStream.Flush();
+            spObj.Write("1H/\r");
+
+            string returnString = spObj.ReadLine();
+            //string returnString = spObj.ReadExisting();
+
+            //string returnStringLine2 = spObj.ReadLine();
+
+            char c1 = '\0';
+            char c2 = '\0';
+
+            if (returnString.Length >= 2)
+            {
+                c1 = returnString[0];
+                c2 = returnString[1];
+            }
+
+            if (returnString == "B")
+                return (MoveStatus.MOVING);
+
+            if (returnString == "N")
+                return (MoveStatus.STOPED);
+
+            Exception ex = new Exception("Invalid Response");
+            throw (ex);
+        }
  
         public double [] ReadPositionXY()
         {
@@ -773,6 +804,11 @@ namespace Lab.Drivers.Motors
                 }
                 else if (returnString == "N-21")
                 {
+                    return;
+                }
+                else if (returnString == "A")
+                {
+                    // device is not moving
                     return;
                 }
                 else

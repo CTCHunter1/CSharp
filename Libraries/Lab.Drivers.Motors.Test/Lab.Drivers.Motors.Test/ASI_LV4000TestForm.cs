@@ -55,6 +55,24 @@ namespace Lab.Drivers.Motors.Test
 
        }
 
+        private void getZStatusButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                ASILV4000.MoveStatus status = asilv4000_obj.ReadMovementStatusZ();
+
+                if (status == ASILV4000.MoveStatus.STOPED)
+                    movmentStatuszTextBox.Text = "Ready";
+                if (status == ASILV4000.MoveStatus.MOVING)
+                    movmentStatuszTextBox.Text = "Moving";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
         private void getPositionButton_Click(object sender, EventArgs e)
         {           
             try
@@ -365,8 +383,7 @@ namespace Lab.Drivers.Motors.Test
             {
                 exceptionTextBox.Text = ex.ToString();
             }
-        }
-        
+        }       
 
     }
 }

@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 using NationalInstruments;
@@ -58,17 +59,29 @@ namespace Lab.Programs.Bullet
 
             InitalizeListView();
             SizeFormControls();
-            motorControlFormObj = new MotorControlForm();
-            scanOptionsFormObj = new ScanOptionsForm(motorControlFormObj.Axes);
+
+            try
+            {
+                motorControlFormObj = new MotorControlForm();
+                scanOptionsFormObj = new ScanOptionsForm(motorControlFormObj.Axes);
             
 
-            if (scanOptionsFormObj.ZAxisScan == true)
-            {
-                zScanToolStripMenuItem.Enabled = true;
+                if (scanOptionsFormObj.ZAxisScan == true)
+                {
+                    zScanToolStripMenuItem.Enabled = true;
+                }
+                else
+                {
+                    zScanToolStripMenuItem.Enabled = false;
+                }
+
             }
-            else
+            catch(Exception ex)
             {
-                zScanToolStripMenuItem.Enabled = false;
+                MessageBox.Show("Exception: " + ex.Message);
+                Application.Exit(); // does nothing
+                Thread.CurrentThread.Abort();  // actually exits the program
+                return;
             }
 
             //tcdObj = new TraceCompletedDelegate(TraceCompletedCallback);
