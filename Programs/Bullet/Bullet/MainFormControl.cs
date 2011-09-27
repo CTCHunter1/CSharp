@@ -24,19 +24,28 @@ namespace Lab.Programs.Bullet
         private TraceCompletedDelegate singleTraceCompletedDelegateObj;
         // object to place incoming data in
         private DataSeries [] singleScanArr;    // each index in this array coresonds to a different channel
-        private ZDataSeries[] zDataSeriesArr; 
+        private ZDataSeries[] zDataSeriesArr;
+        private ZDataSeries[] yDataSeriesArr;
         //private List <DataSeries[]> zScanArr;   // each index of this array corespoonds to a different z point
 
         double startingCuttingPosition;
         double sigleScanStartingCuttingPosition;
         double cuttingAxisLeftPosition;
+
+        double startingYPosition;
         double startingZPosition;
         double zScanMinPosition;
+        double yScanMinPosition;
+        double dY;
         double dZ;
-        double pointIndex = 0;
+        double pointZIndex = 0;
+        double pointYIndex = 0;
 
         bool bZScan = false;
+        bool bYScan = false;
         bool bSingleScan = false;
+
+        string save2DFolderName = "";
 
         private void TakeSingleTrace(double centerPosition, TraceCompletedDelegate tcdObj)
         {
@@ -57,50 +66,66 @@ namespace Lab.Programs.Bullet
 
         private void TakeSingleTraceMoving(double centerPosition)
         {
-            // store the currently set velocity
-            double cuttingAxisVelocity = scanOptionsFormObj.CuttingAxisMotor.Velocity;
-            
-            // needed more for a single scan
-            sigleScanStartingCuttingPosition = scanOptionsFormObj.CuttingAxisMotor.Position;
+            try
+            {
+                // store the currently set velocity
+                double cuttingAxisVelocity = scanOptionsFormObj.CuttingAxisMotor.Velocity;
 
-            // store the current poistion
-            double zPosition = scanOptionsFormObj.ZAxisMotor.Position;
-            // need to create a data series object for each channel coming in off the DAQ            
+                // needed more for a single scan
+                sigleScanStartingCuttingPosition = scanOptionsFormObj.CuttingAxisMotor.Position;
 
-            // create a array to store the read data in
-            singleScanArr = CreateDataSeriesArray(NIDAQControlFormObj.AIChannels,
-                zPosition,
-                NIDAQControlFormObj.Rate,
-                cuttingAxisVelocity);
+                // store the current poistion
+                double secondAxisPos = 0;
 
-            // get the radius to cut through the beam
-            double cuttingAxisRadius = scanOptionsFormObj.CuttingAxisRadius / 1000;   // to put in in (mm)
+                if (bYScan == true)
+                {
+                    secondAxisPos = scanOptionsFormObj.TwoAxisMotor.Position;         
+                }
+                else
+                {
+                    secondAxisPos = scanOptionsFormObj.ZAxisMotor.Position;                
+                }
+                // need to create a data series object for each channel coming in off the DAQ            
 
-            NIDAQControlFormObj.TaskObj.Control(TaskAction.Stop);
+                // create a array to store the read data in
+                singleScanArr = CreateDataSeriesArray(NIDAQControlFormObj.AIChannels,
+                    secondAxisPos,
+                    NIDAQControlFormObj.Rate,
+                    cuttingAxisVelocity);
 
-            // Setup the NI-DAQ for the configured task and start aquisition to the analogCallback
-            analogInReader = new AnalogMultiChannelReader(NIDAQControlFormObj.TaskObj.Stream);
-            analogCallback = new AsyncCallback(AnalogInCallback);       // function to call when data ready
-            motorDoneCallback = new AsyncCallback(CuttingMotorDoneCallback);    // function to call when motor is done moving
-                        
-            scanOptionsFormObj.CuttingAxisMotor.Velocity = 2.5; // up the motor velocity to get to the starting position            
-            
-            // this needs to be shoved into a thread
-            // first synchronously move backward
-            cuttingAxisLeftPosition = centerPosition - cuttingAxisRadius;
-            scanOptionsFormObj.CuttingAxisMotor.MoveAbsolute(cuttingAxisLeftPosition);
-            scanOptionsFormObj.CuttingAxisMotor.EndMoveAbsolute(null);
+                // get the radius to cut through the beam
+                double cuttingAxisRadius = scanOptionsFormObj.CuttingAxisRadius / 1000;   // to put in in (mm)
 
-            scanOptionsFormObj.CuttingAxisMotor.Velocity = cuttingAxisVelocity;
-            // start reading the waveform
-            iAsyncResultObj = analogInReader.BeginReadWaveform(NIDAQControlFormObj.SamplesPerChannel, analogCallback, NIDAQControlFormObj.TaskObj);
-            NIDAQControlFormObj.TaskObj.Stream.Timeout = -1;
+                NIDAQControlFormObj.TaskObj.Control(TaskAction.Stop);
+
+                // Setup the NI-DAQ for the configured task and start aquisition to the analogCallback
+                analogInReader = new AnalogMultiChannelReader(NIDAQControlFormObj.TaskObj.Stream);
+                analogCallback = new AsyncCallback(AnalogInCallback);       // function to call when data ready
+                motorDoneCallback = new AsyncCallback(CuttingMotorDoneCallback);    // function to call when motor is done moving
+
+                scanOptionsFormObj.CuttingAxisMotor.Velocity = 2.5; // up the motor velocity to get to the starting position            
+
+                // this needs to be shoved into a thread
+                // first synchronously move backward
+                cuttingAxisLeftPosition = centerPosition - cuttingAxisRadius;
+                scanOptionsFormObj.CuttingAxisMotor.MoveAbsolute(cuttingAxisLeftPosition);
+                scanOptionsFormObj.CuttingAxisMotor.EndMoveAbsolute(null);
+
+                scanOptionsFormObj.CuttingAxisMotor.Velocity = cuttingAxisVelocity;
+                // start reading the waveform
+                iAsyncResultObj = analogInReader.BeginReadWaveform(NIDAQControlFormObj.SamplesPerChannel, analogCallback, NIDAQControlFormObj.TaskObj);
+                NIDAQControlFormObj.TaskObj.Stream.Timeout = -1;
 
 
-            // now asynchronously move forward
-            scanOptionsFormObj.CuttingAxisMotor.BeginMoveAbsolute(cuttingAxisLeftPosition + cuttingAxisRadius*2, motorDoneCallback, this);
+                // now asynchronously move forward
+                scanOptionsFormObj.CuttingAxisMotor.BeginMoveAbsolute(cuttingAxisLeftPosition + cuttingAxisRadius * 2, motorDoneCallback, this);
 
-            acquireData = true;
+                acquireData = true;
+            } 
+            catch(Exception ex)
+            {   
+                MessageBox.Show("Take Single Trace Exception: " + ex.Message);
+            }
 
         }
 
@@ -136,16 +161,27 @@ namespace Lab.Programs.Bullet
             cuttingAxisGraph.XLim = new double[] {dataSeriesArr[0].x[0], dataSeriesArr[0].x[dataSeriesArr[0].x.Length-1] };
             cuttingAxisGraph.YLim = new double[] {yMin, yMax };
 
-            // invoke the fit erffit for the data series array
-            for (int i = 0; i < dataSeriesArr.Length; i++)
+            if (scanOptionsFormObj.ErfFit == true)
             {
-                dataSeriesArr[i].GetFit();
-                ListViewAddItem(dataSeriesArr[i].AIVoltageChannel.PhysicalChannelName,
-                    dataSeriesArr[i].Waist,
-                    dataSeriesArr[i].CentroidDisplacement);
-                cuttingAxisGraph.AutoScale = false;
-                cuttingAxisGraph.Plot("Fit " + i.ToString(), dataSeriesArr[i].x, dataSeriesArr[i].ERFFitResult.YDataFit, Color.Red);
+                // invoke the fit erffit for the data series array
+                for (int i = 0; i < dataSeriesArr.Length; i++)
+                {
+                    dataSeriesArr[i].GetFit();
+                    ListViewAddItem(dataSeriesArr[i].AIVoltageChannel.PhysicalChannelName,
+                        dataSeriesArr[i].Waist,
+                        dataSeriesArr[i].CentroidDisplacement);
+                    cuttingAxisGraph.AutoScale = false;
+                    cuttingAxisGraph.Plot("Fit " + i.ToString(), dataSeriesArr[i].x, dataSeriesArr[i].ERFFitResult.YDataFit, Color.Red);
+                }
             }
+            else
+            {
+                for(int i = 0; i < dataSeriesArr.Length; i++)
+                {
+                    cuttingAxisGraph.ClearData("Fit " + i.ToString());
+                }
+            }
+
             // move back to the starting cutting position
             scanOptionsFormObj.CuttingAxisMotor.MoveAbsolute(sigleScanStartingCuttingPosition);
             scanOptionsFormObj.CuttingAxisMotor.EndMoveAbsolute(null);
@@ -168,7 +204,8 @@ namespace Lab.Programs.Bullet
             }
 
             bZScan = true;
-            pointIndex = 0;
+            bYScan = false;
+            pointZIndex = 0;
             
             startingCuttingPosition = scanOptionsFormObj.CuttingAxisMotor.Position;
             startingZPosition = scanOptionsFormObj.ZAxisMotor.Position;
@@ -177,8 +214,63 @@ namespace Lab.Programs.Bullet
 
             // move to the begining of the scan
             zScanMinPosition = startingZPosition - scanOptionsFormObj.ZAxisRadius/1000;
-            scanOptionsFormObj.ZAxisMotor.MoveAbsolute(zScanMinPosition);
-            TakeSingleTrace(startingCuttingPosition, new TraceCompletedDelegate(ZScanTraceCompletedCallback));
+
+            try
+            {
+                scanOptionsFormObj.ZAxisMotor.MoveAbsolute(zScanMinPosition);
+                TakeSingleTrace(startingCuttingPosition, new TraceCompletedDelegate(ZScanTraceCompletedCallback));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception: " + ex.Message);
+            }
+
+        }
+
+        private void Take2DZScan(string folderName)
+        {
+            save2DFolderName = folderName;
+
+            waistListView.Items.Clear();
+
+            // assume there are two axis, otherwise this will cause funky behavior
+
+            // create a new 2D Scan array
+            yDataSeriesArr = new ZDataSeries[NIDAQControlFormObj.AIChannels.Length];
+            // initalize the array
+            for (int i = 0; i < yDataSeriesArr.Length; i++)
+            {
+                yDataSeriesArr[i] = new ZDataSeries();
+            }
+
+            bZScan = true;
+            bYScan = true; // used to initalize the z values correctly         
+            pointZIndex = 0;
+
+            startingCuttingPosition = scanOptionsFormObj.CuttingAxisMotor.Position;
+            startingZPosition = scanOptionsFormObj.ZAxisMotor.Position;
+            // find the distance between the z_axis points
+            dZ = (scanOptionsFormObj.ZAxisRadius * 2) / (1000 * (scanOptionsFormObj.ZAxisNumPoints - 1));
+
+            startingYPosition = scanOptionsFormObj.TwoAxisMotor.Position;
+            dY = (scanOptionsFormObj.TwoAxisRadius * 2) / (1000 * (scanOptionsFormObj.TwoAxisNumPoints - 1));
+
+            // move to the begining of the scan
+            zScanMinPosition = startingZPosition - scanOptionsFormObj.ZAxisRadius / 1000;
+            yScanMinPosition = startingYPosition - scanOptionsFormObj.TwoAxisRadius / 1000;
+
+            try
+            {
+                // move to starting position on both axiss
+                scanOptionsFormObj.TwoAxisMotor.MoveAbsolute(yScanMinPosition);
+                scanOptionsFormObj.ZAxisMotor.MoveAbsolute(zScanMinPosition);
+                TakeSingleTrace(startingCuttingPosition, new TraceCompletedDelegate(TwoAxisScanTraceCompletedCallback));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception: " + ex.Message);
+            }
+
         }
 
         private void ZScanTraceCompletedCallback(DataSeries[] dataSeriesArr)
@@ -189,91 +281,103 @@ namespace Lab.Programs.Bullet
                 zDataSeriesArr[i].Add(dataSeriesArr[i]);
             }
 
-            // Get the fit for each of the data points
-            for(int i = 0 ; i < dataSeriesArr.Length; i++)
+            if (scanOptionsFormObj.ErfFit == true)
             {
-                dataSeriesArr[i].GetFit();
-                // put the fit paramters in the list view
-                ListViewAddItem(dataSeriesArr[i].AIVoltageChannel.PhysicalChannelName,
-                    dataSeriesArr[i].Waist,
-                    dataSeriesArr[i].CentroidDisplacement);
-            }
-
-            if (viewTypeObj == ViewType.PlotWaistsAndCentroid || viewTypeObj == ViewType.PlotWaists)
-            {
-                // loop through and find the minumum and maximum
-                double yCenterMin = Functions.Min(zDataSeriesArr[0].CentroidDisplacements);
-                double yCenterMax = Functions.Max(zDataSeriesArr[0].CentroidDisplacements);
-                double yWaistMin = Functions.Min(zDataSeriesArr[0].Waists);
-                double yWaistMax = Functions.Max(zDataSeriesArr[0].Waists);
-
-                for (int i = 0; i < zDataSeriesArr.Length; i++)
+                // Get the fit for each of the data points
+                for (int i = 0; i < dataSeriesArr.Length; i++)
                 {
-                    double yCenterMinLoop = Functions.Min(zDataSeriesArr[i].CentroidDisplacements);
-                    double yCenterMaxLoop = Functions.Max(zDataSeriesArr[i].CentroidDisplacements);
-                    double yWaistMinLoop = Functions.Min(zDataSeriesArr[i].Waists);
-                    double yWaistMaxLoop = Functions.Max(zDataSeriesArr[i].Waists);
-
-                    // if the new values are bigger than the max or less than the min
-                    // update the min and max with those values
-                    if (yCenterMinLoop < yCenterMin)
-                        yCenterMin = yCenterMinLoop;
-
-                    if (yCenterMaxLoop > yCenterMax)
-                        yCenterMax = yCenterMaxLoop;
-
-                    if (yWaistMinLoop < yWaistMin)
-                        yWaistMin = yWaistMinLoop;
-
-                    if(yWaistMaxLoop > yWaistMax)
-                        yWaistMax = yWaistMaxLoop;
+                    dataSeriesArr[i].GetFit();
+                    // put the fit paramters in the list view
+                    ListViewAddItem(dataSeriesArr[i].AIVoltageChannel.PhysicalChannelName,
+                        dataSeriesArr[i].Waist,
+                        dataSeriesArr[i].CentroidDisplacement);
                 }
 
-                // set the centroid graph limits
-                waistsGraph.AutoScale = false;
-                waistsGraph.XLim = new double[]{zDataSeriesArr[0].ZPositions[0] ,
+                if (viewTypeObj == ViewType.PlotWaistsAndCentroid || viewTypeObj == ViewType.PlotWaists)
+                {
+                    // loop through and find the minumum and maximum
+                    double yCenterMin = Functions.Min(zDataSeriesArr[0].CentroidDisplacements);
+                    double yCenterMax = Functions.Max(zDataSeriesArr[0].CentroidDisplacements);
+                    double yWaistMin = Functions.Min(zDataSeriesArr[0].Waists);
+                    double yWaistMax = Functions.Max(zDataSeriesArr[0].Waists);
+
+                    for (int i = 0; i < zDataSeriesArr.Length; i++)
+                    {
+                        double yCenterMinLoop = Functions.Min(zDataSeriesArr[i].CentroidDisplacements);
+                        double yCenterMaxLoop = Functions.Max(zDataSeriesArr[i].CentroidDisplacements);
+                        double yWaistMinLoop = Functions.Min(zDataSeriesArr[i].Waists);
+                        double yWaistMaxLoop = Functions.Max(zDataSeriesArr[i].Waists);
+
+                        // if the new values are bigger than the max or less than the min
+                        // update the min and max with those values
+                        if (yCenterMinLoop < yCenterMin)
+                            yCenterMin = yCenterMinLoop;
+
+                        if (yCenterMaxLoop > yCenterMax)
+                            yCenterMax = yCenterMaxLoop;
+
+                        if (yWaistMinLoop < yWaistMin)
+                            yWaistMin = yWaistMinLoop;
+
+                        if (yWaistMaxLoop > yWaistMax)
+                            yWaistMax = yWaistMaxLoop;
+                    }
+
+                    // set the centroid graph limits
+                    waistsGraph.AutoScale = false;
+                    waistsGraph.XLim = new double[]{zDataSeriesArr[0].ZPositions[0] ,
                     zDataSeriesArr[0].ZPositions[zDataSeriesArr[0].ZPositions.Length - 1]};
-                waistsGraph.YLim = new double[] { yWaistMin, yWaistMax };
+                    waistsGraph.YLim = new double[] { yWaistMin, yWaistMax };
 
 
-                // set the centroid graph limits
-                centroidGraph.AutoScale = false;
-                centroidGraph.XLim = new double[]{zDataSeriesArr[0].ZPositions[0] ,
+                    // set the centroid graph limits
+                    centroidGraph.AutoScale = false;
+                    centroidGraph.XLim = new double[]{zDataSeriesArr[0].ZPositions[0] ,
                     zDataSeriesArr[0].ZPositions[zDataSeriesArr[0].ZPositions.Length - 1]};
-                centroidGraph.YLim = new double[] { yCenterMin, yCenterMax };
-            }
+                    centroidGraph.YLim = new double[] { yCenterMin, yCenterMax };
+                }
 
-            // plot the fits and then plot the waist position
-            for (int i = 0; i < dataSeriesArr.Length; i++)
+
+                // plot the fits and then plot the waist position
+                for (int i = 0; i < dataSeriesArr.Length; i++)
+                {
+                    // plot the fit in red
+                    cuttingAxisGraph.Plot("Fit " + i.ToString(), dataSeriesArr[i].x, dataSeriesArr[i].ERFFitResult.YDataFit, Color.Red);
+
+                    if (viewTypeObj == ViewType.PlotWaists || viewTypeObj == ViewType.PlotWaistsAndCentroid)
+                    {
+                        waistsGraph.Plot("Waist" + i.ToString(), zDataSeriesArr[i].ZPositions,
+                          zDataSeriesArr[i].Waists, GetColorByIndex(i));
+
+                        // waistsGraph.Plot("SecondMoment" + i.ToString(), zDataSeriesArr[i].ZPositions,
+                        //  zDataSeriesArr[i].SecondMoments, GetColorByIndex(2*i+1));
+                        //waistsGraph.AutoScale = false;
+                        // waistsGraph.YLim = new double[] { Functions.Min(zDataSeriesArr[i].SecondMoments), Functions.Max(zDataSeriesArr[i].SecondMoments) };
+
+                    }
+
+                    // plot the zDataPoints
+                    if (viewTypeObj == ViewType.PlotWaistsAndCentroid)
+                    {
+                        centroidGraph.Plot("Centroid" + i.ToString(), zDataSeriesArr[i].ZPositions,
+                            zDataSeriesArr[i].CentroidDisplacements, GetColorByIndex(i));
+                    }
+                }
+            }
+            else
             {
-                // plot the fit in red
-                cuttingAxisGraph.Plot("Fit " + i.ToString(), dataSeriesArr[i].x, dataSeriesArr[i].ERFFitResult.YDataFit, Color.Red);
-
-                if (viewTypeObj == ViewType.PlotWaists || viewTypeObj == ViewType.PlotWaistsAndCentroid)
+                for(int i = 0; i < dataSeriesArr.Length; i++)
                 {
-                   waistsGraph.Plot("Waist" + i.ToString(), zDataSeriesArr[i].ZPositions,
-                     zDataSeriesArr[i].Waists, GetColorByIndex(i));
-
-                   // waistsGraph.Plot("SecondMoment" + i.ToString(), zDataSeriesArr[i].ZPositions,
-                   //  zDataSeriesArr[i].SecondMoments, GetColorByIndex(2*i+1));
-                    //waistsGraph.AutoScale = false;
-                   // waistsGraph.YLim = new double[] { Functions.Min(zDataSeriesArr[i].SecondMoments), Functions.Max(zDataSeriesArr[i].SecondMoments) };
-            
-                }
-
-                // plot the zDataPoints
-                if (viewTypeObj == ViewType.PlotWaistsAndCentroid)
-                {
-                    centroidGraph.Plot("Centroid" + i.ToString(), zDataSeriesArr[i].ZPositions,
-                        zDataSeriesArr[i].CentroidDisplacements, GetColorByIndex(i));
+                    cuttingAxisGraph.ClearData("Fit " + i.ToString());
                 }
             }
 
-            pointIndex++;
-            if (pointIndex < scanOptionsFormObj.ZAxisNumPoints && bZScan == true)
+
+            pointZIndex++;
+            if (pointZIndex < scanOptionsFormObj.ZAxisNumPoints && bZScan == true)
             {                             
                 // take the next point
-                scanOptionsFormObj.ZAxisMotor.MoveAbsolute(zScanMinPosition + pointIndex * dZ);
+                scanOptionsFormObj.ZAxisMotor.MoveAbsolute(zScanMinPosition + pointZIndex * dZ);
                 TakeSingleTrace(startingCuttingPosition, new TraceCompletedDelegate(ZScanTraceCompletedCallback));
             }
             else
@@ -287,6 +391,150 @@ namespace Lab.Programs.Bullet
                 bZScan = false;
             }            
         }
+
+        private void TwoAxisScanTraceCompletedCallback(DataSeries[] dataSeriesArr)
+        {
+            // add all the data points to their zSeriesArrays
+            for (int i = 0; i < dataSeriesArr.Length; i++)
+            {
+                yDataSeriesArr[i].Add(dataSeriesArr[i]);
+            }
+
+            if (scanOptionsFormObj.ErfFit == true)
+            {
+                // Get the fit for each of the data points
+                for (int i = 0; i < dataSeriesArr.Length; i++)
+                {
+                    dataSeriesArr[i].GetFit();
+                    // put the fit paramters in the list view
+                    ListViewAddItem(dataSeriesArr[i].AIVoltageChannel.PhysicalChannelName,
+                        dataSeriesArr[i].Waist,
+                        dataSeriesArr[i].CentroidDisplacement);
+                }
+
+                if (viewTypeObj == ViewType.PlotWaistsAndCentroid || viewTypeObj == ViewType.PlotWaists)
+                {
+                    // loop through and find the minumum and maximum
+                    double yCenterMin = Functions.Min(zDataSeriesArr[0].CentroidDisplacements);
+                    double yCenterMax = Functions.Max(zDataSeriesArr[0].CentroidDisplacements);
+                    double yWaistMin = Functions.Min(zDataSeriesArr[0].Waists);
+                    double yWaistMax = Functions.Max(zDataSeriesArr[0].Waists);
+
+                    for (int i = 0; i < zDataSeriesArr.Length; i++)
+                    {
+                        double yCenterMinLoop = Functions.Min(zDataSeriesArr[i].CentroidDisplacements);
+                        double yCenterMaxLoop = Functions.Max(zDataSeriesArr[i].CentroidDisplacements);
+                        double yWaistMinLoop = Functions.Min(zDataSeriesArr[i].Waists);
+                        double yWaistMaxLoop = Functions.Max(zDataSeriesArr[i].Waists);
+
+                        // if the new values are bigger than the max or less than the min
+                        // update the min and max with those values
+                        if (yCenterMinLoop < yCenterMin)
+                            yCenterMin = yCenterMinLoop;
+
+                        if (yCenterMaxLoop > yCenterMax)
+                            yCenterMax = yCenterMaxLoop;
+
+                        if (yWaistMinLoop < yWaistMin)
+                            yWaistMin = yWaistMinLoop;
+
+                        if (yWaistMaxLoop > yWaistMax)
+                            yWaistMax = yWaistMaxLoop;
+                    }
+
+                    // set the centroid graph limits
+                    waistsGraph.AutoScale = false;
+                    waistsGraph.XLim = new double[]{zDataSeriesArr[0].ZPositions[0] ,
+                    yDataSeriesArr[0].ZPositions[zDataSeriesArr[0].ZPositions.Length - 1]};
+                    waistsGraph.YLim = new double[] { yWaistMin, yWaistMax };
+
+
+                    // set the centroid graph limits
+                    centroidGraph.AutoScale = false;
+                    centroidGraph.XLim = new double[]{zDataSeriesArr[0].ZPositions[0] ,
+                    yDataSeriesArr[0].ZPositions[zDataSeriesArr[0].ZPositions.Length - 1]};
+                    centroidGraph.YLim = new double[] { yCenterMin, yCenterMax };
+                }
+
+
+                // plot the fits and then plot the waist position
+                for (int i = 0; i < dataSeriesArr.Length; i++)
+                {
+                    // plot the fit in red
+                    cuttingAxisGraph.Plot("Fit " + i.ToString(), dataSeriesArr[i].x, dataSeriesArr[i].ERFFitResult.YDataFit, Color.Red);
+
+                    if (viewTypeObj == ViewType.PlotWaists || viewTypeObj == ViewType.PlotWaistsAndCentroid)
+                    {
+                        waistsGraph.Plot("Waist" + i.ToString(), zDataSeriesArr[i].ZPositions,
+                          yDataSeriesArr[i].Waists, GetColorByIndex(i));
+
+                        // waistsGraph.Plot("SecondMoment" + i.ToString(), zDataSeriesArr[i].ZPositions,
+                        //  zDataSeriesArr[i].SecondMoments, GetColorByIndex(2*i+1));
+                        //waistsGraph.AutoScale = false;
+                        // waistsGraph.YLim = new double[] { Functions.Min(zDataSeriesArr[i].SecondMoments), Functions.Max(zDataSeriesArr[i].SecondMoments) };
+
+                    }
+
+                    // plot the zDataPoints
+                    if (viewTypeObj == ViewType.PlotWaistsAndCentroid)
+                    {
+                        centroidGraph.Plot("Centroid" + i.ToString(), zDataSeriesArr[i].ZPositions,
+                            yDataSeriesArr[i].CentroidDisplacements, GetColorByIndex(i));
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < dataSeriesArr.Length; i++)
+                {
+                    cuttingAxisGraph.ClearData("Fit " + i.ToString());
+                }
+            }
+
+
+            pointYIndex++;            
+      
+            if (pointYIndex < scanOptionsFormObj.TwoAxisNumPoints && bZScan == true )
+            {
+                scanOptionsFormObj.TwoAxisMotor.MoveAbsolute(yScanMinPosition + pointYIndex * dY);
+                TakeSingleTrace(startingCuttingPosition, new TraceCompletedDelegate(TwoAxisScanTraceCompletedCallback));
+            }
+            else
+            {
+                pointYIndex = 0; // reset the YIndex on the trace
+                // save this yData as a matlab file
+                FileIO.WriteZScanMATLABFile(save2DFolderName + "\\" + string.Format("zPos={0:0.####}.mat", zScanMinPosition + pointZIndex * dZ), yDataSeriesArr);
+
+                // clear out the data file
+                for (int i = 0; i < yDataSeriesArr.Length; i++)
+                {
+                    yDataSeriesArr[i].Clear();
+                }
+
+                pointZIndex++;
+                if (pointZIndex < scanOptionsFormObj.ZAxisNumPoints)
+                {
+
+                    // move the Y motor back to the starting point
+                    scanOptionsFormObj.TwoAxisMotor.MoveAbsolute(yScanMinPosition);                
+                    // move the z motor to the next point 
+                    scanOptionsFormObj.ZAxisMotor.MoveAbsolute(zScanMinPosition + pointZIndex * dZ);
+                    TakeSingleTrace(startingCuttingPosition, new TraceCompletedDelegate(TwoAxisScanTraceCompletedCallback));
+                }
+                else
+                {  
+                    // move the zaxis motor back to the starting poisition
+                    scanOptionsFormObj.ZAxisMotor.MoveAbsolute(startingZPosition);
+                    scanOptionsFormObj.TwoAxisMotor.MoveAbsolute(startingYPosition);
+                    // move the cutting axis motor back to the starting position
+                    scanOptionsFormObj.CuttingAxisMotor.MoveAbsolute(startingCuttingPosition);
+                    scanOptionsFormObj.CuttingAxisMotor.EndMoveAbsolute(null);
+
+                    bZScan = false;
+                }
+            }                
+        }
+        
 
         private void CuttingMotorDoneCallback(IAsyncResult ar)
         {

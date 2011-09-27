@@ -117,7 +117,9 @@ namespace Lab.Programs.Bullet
         {
             get
             {
-
+                // make sure this doesn't break
+                if (erfFitResultObj == null)
+                    return (0);
                 return (secondMoment);
             }
         }
@@ -140,7 +142,9 @@ namespace Lab.Programs.Bullet
         {
             get
             {
-
+                // make sure this doesn't break
+                if (erfFitResultObj == null)
+                    return (0);
                 return (firstMoment);
             }
         }

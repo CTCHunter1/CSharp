@@ -43,12 +43,13 @@ namespace Lab.Programs.Bullet
             this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TwoAxisZScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cuttingProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zAxisPofileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.beamWaistAndCentroidProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cuttingAxisGraph = new GraphControl.GraphControl();
             this.waistListView = new System.Windows.Forms.ListView();
-            this.beamWaistAndCentroidProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -140,7 +141,8 @@ namespace Lab.Programs.Bullet
             this.controlToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.startToolStripMenuItem,
             this.zScanToolStripMenuItem,
-            this.stopToolStripMenuItem});
+            this.stopToolStripMenuItem,
+            this.TwoAxisZScanToolStripMenuItem});
             this.controlToolStripMenuItem.Name = "controlToolStripMenuItem";
             this.controlToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
             this.controlToolStripMenuItem.Text = "Control";
@@ -167,6 +169,13 @@ namespace Lab.Programs.Bullet
             this.stopToolStripMenuItem.Text = "Stop";
             this.stopToolStripMenuItem.Click += new System.EventHandler(this.stopToolStripMenuItem_Click);
             // 
+            // TwoAxisZScanToolStripMenuItem
+            // 
+            this.TwoAxisZScanToolStripMenuItem.Name = "TwoAxisZScanToolStripMenuItem";
+            this.TwoAxisZScanToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.TwoAxisZScanToolStripMenuItem.Text = "2D Z Scan";
+            this.TwoAxisZScanToolStripMenuItem.Click += new System.EventHandler(this.TwoAxisZScanToolStripMenuItem_Click);
+            // 
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -191,6 +200,13 @@ namespace Lab.Programs.Bullet
             this.zAxisPofileToolStripMenuItem.Text = "Beam Waist Pofile";
             this.zAxisPofileToolStripMenuItem.Click += new System.EventHandler(this.zAxisPofileToolStripMenuItem_Click);
             // 
+            // beamWaistAndCentroidProfileToolStripMenuItem
+            // 
+            this.beamWaistAndCentroidProfileToolStripMenuItem.Name = "beamWaistAndCentroidProfileToolStripMenuItem";
+            this.beamWaistAndCentroidProfileToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
+            this.beamWaistAndCentroidProfileToolStripMenuItem.Text = "Beam Waist and Centroid Profile";
+            this.beamWaistAndCentroidProfileToolStripMenuItem.Click += new System.EventHandler(this.beamWaistAndCentroidProfileToolStripMenuItem_Click);
+            // 
             // cuttingAxisGraph
             // 
             this.cuttingAxisGraph.AutoScale = true;
@@ -199,11 +215,11 @@ namespace Lab.Programs.Bullet
             this.cuttingAxisGraph.Size = new System.Drawing.Size(767, 438);
             this.cuttingAxisGraph.TabIndex = 0;
             this.cuttingAxisGraph.XLim = new double[] {
-        -10,
-        10};
+        -10D,
+        10D};
             this.cuttingAxisGraph.YLim = new double[] {
-        -10,
-        10};
+        -10D,
+        10D};
             // 
             // waistListView
             // 
@@ -216,13 +232,6 @@ namespace Lab.Programs.Bullet
             this.waistListView.UseCompatibleStateImageBehavior = false;
             this.waistListView.View = System.Windows.Forms.View.Details;
             this.waistListView.Resize += new System.EventHandler(this.waistListView_Resize);
-            // 
-            // beamWaistAndCentroidProfileToolStripMenuItem
-            // 
-            this.beamWaistAndCentroidProfileToolStripMenuItem.Name = "beamWaistAndCentroidProfileToolStripMenuItem";
-            this.beamWaistAndCentroidProfileToolStripMenuItem.Size = new System.Drawing.Size(239, 22);
-            this.beamWaistAndCentroidProfileToolStripMenuItem.Text = "Beam Waist and Centroid Profile";
-            this.beamWaistAndCentroidProfileToolStripMenuItem.Click += new System.EventHandler(this.beamWaistAndCentroidProfileToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -267,6 +276,7 @@ namespace Lab.Programs.Bullet
         private System.Windows.Forms.ToolStripMenuItem zAxisPofileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveZAxisScanToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem beamWaistAndCentroidProfileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem TwoAxisZScanToolStripMenuItem;
     }
 }
 

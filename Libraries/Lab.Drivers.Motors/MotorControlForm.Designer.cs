@@ -131,6 +131,7 @@ namespace Lab.Drivers.Motors
             this.setZeroButton.TabIndex = 13;
             this.setZeroButton.Text = "Set Zero";
             this.setZeroButton.UseVisualStyleBackColor = true;
+            this.setZeroButton.Click += new System.EventHandler(this.setZeroButton_Click);
             // 
             // goHomeButton
             // 

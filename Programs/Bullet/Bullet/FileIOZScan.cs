@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Lab.FileIO;
 
 namespace Lab.Programs.Bullet
 {
@@ -17,6 +18,32 @@ namespace Lab.Programs.Bullet
             WriteZScanChannelData(streamWritterObj, zDataSeriesArr);
         }
 
+        public static void WriteZScanMATLABFile(string fileName, ZDataSeries[] zDataSeriesArr)
+        {
+            MATLABIO io_obj = new MATLABIO(fileName);
+
+            io_obj.WriteString("Time_Stamp", DateTime.Now.ToString());
+            io_obj.WriteString("Title", "Bullet 2D Scan File");
+            io_obj.Write1DReal("Num_Ch", new double[] { zDataSeriesArr.Length });
+            io_obj.Write1DReal("Num_2D_Pts", new double[] { zDataSeriesArr[0].ZPositions.Length });
+
+            io_obj.Write1DReal("Z_Pos", zDataSeriesArr[0].ZPositions);
+
+            // write the individual channel data
+            for (int i = 0; i < zDataSeriesArr.Length; i++)
+            {
+                io_obj.Write1DReal("Ch" + i.ToString() + "_Velocity", new double[] { zDataSeriesArr[i].DataSeries[0].Velocity });
+                io_obj.Write1DReal("Ch" + i.ToString() + "_SampleRate", new double[] { zDataSeriesArr[i].DataSeries[0].SampleRate });
+                io_obj.Write1DReal("Ch" + i.ToString() + "_minV", new double[] { zDataSeriesArr[i].DataSeries[0].AIVoltageChannel.MinimumVoltage });
+                io_obj.Write1DReal("Ch" + i.ToString() + "_maxV", new double[] { zDataSeriesArr[i].DataSeries[0].AIVoltageChannel.MaximumVoltage });
+                
+                // these need to be 2D arrays
+                io_obj.Write2DReal("Ch" + i.ToString() + "_x", zDataSeriesArr[i].TwoDXVals);
+                io_obj.Write2DReal("Ch" + i.ToString() + "_AISig", zDataSeriesArr[i].TwoDAmpVals);
+            }
+
+            io_obj.WriteClose();
+        }
 
         private static void WriteZScanHeader(StreamWriter streamWritterObj,
             ZDataSeries[] zDataSeriesArr)

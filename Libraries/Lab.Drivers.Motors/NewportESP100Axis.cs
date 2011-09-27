@@ -228,6 +228,11 @@ namespace Lab.Drivers.Motors
             esp100Obj.MotorOff(axisNumber);
             position = esp100Obj.ReadActualPosition(axisNumber);
             asyncMovePointerRelativeObj.EndInvoke(iAsyncResultObj);
-        }        
+        }
+
+        public void SetZero()
+        {
+            return;
+        }
     }
 }

@@ -155,6 +155,11 @@ namespace GraphControl
             this.Invalidate();
         }
 
+        public void ClearData(string str_data_name)
+        {
+            graph_data_list.Clear(str_data_name);
+        }
+
         public void Semilogx(string str_data_name, double[] x_vals, double[] y_vals, Color color_obj)
         {
             if (m_autoscale)

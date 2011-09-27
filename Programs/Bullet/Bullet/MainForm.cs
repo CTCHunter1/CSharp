@@ -296,48 +296,64 @@ namespace Lab.Programs.Bullet
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           
-
             SaveFileDialog saveFileDialogObj = new SaveFileDialog();
+            saveFileDialogObj.AddExtension = true;
             // set what file types the dialog shows
-            saveFileDialogObj.Filter = "Csv Files (*.csv)|*.csv|All Files|*.*";
+            saveFileDialogObj.Filter = "Matlab Files (*.mat)|*.mat|Csv Files (*.csv)|*.csv|All Files|*.*";
 
 
             if (saveFileDialogObj.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
-                    StreamWriter streamWritterObj = new StreamWriter(saveFileDialogObj.OpenFile());
+                    switch (saveFileDialogObj.FilterIndex)
+                    {
+                        // save a matlab file
+                        case 1:
+                            FileIO.WriteSingleScanMATLABFile(saveFileDialogObj.FileName, singleScanArr);
+                            break;
 
-                    FileIO.WriteSingleScanCSVFile(streamWritterObj, singleScanArr);
+                        // save a .csv file
+                        case 2:
+                        default:
 
-                    streamWritterObj.Close();
+                            StreamWriter streamWritterObj = new StreamWriter(saveFileDialogObj.OpenFile());
+                            FileIO.WriteSingleScanCSVFile(streamWritterObj, singleScanArr);
+                            streamWritterObj.Close();
+                            break;
+                    }
                 }
                 catch (IOException ex)
                 {
                     MessageBox.Show(ex.Message);
                 }                
-
             }
-
         }
 
         private void saveZAxisScanToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialogObj = new SaveFileDialog();
             // set what file types the dialog shows
-            saveFileDialogObj.Filter = "Csv Files (*.csv)|*.csv|All Files|*.*";
+            saveFileDialogObj.Filter = "Matlab Files (*.mat)|*.mat|Csv Files (*.csv)|*.csv|All Files|*.*";
 
 
             if (saveFileDialogObj.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
-                    StreamWriter streamWritterObj = new StreamWriter(saveFileDialogObj.OpenFile());
-
-                    FileIO.WriteZScanCSVFile(streamWritterObj, zDataSeriesArr);
-
-                    streamWritterObj.Close();
+                    switch (saveFileDialogObj.FilterIndex)
+                    {
+                        case 1:
+                            FileIO.WriteZScanMATLABFile(saveFileDialogObj.FileName, zDataSeriesArr);
+                            break;
+                    
+                        case 2:
+                        default:
+                            StreamWriter streamWritterObj = new StreamWriter(saveFileDialogObj.OpenFile());                                
+                            FileIO.WriteZScanCSVFile(streamWritterObj, zDataSeriesArr);
+                            streamWritterObj.Close();
+                        break;
+                    }
                 }
                 catch (IOException ex)
                 {
@@ -345,6 +361,22 @@ namespace Lab.Programs.Bullet
                 }
 
             }
+        }
+
+        private void TwoAxisZScanToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // for the two axis zscan - a .mat file will be generated for each axis and put
+            // into the selected folder
+
+            FolderBrowserDialog fbd_obj = new FolderBrowserDialog();
+
+
+            // check that the user actually selected a folder
+            if (fbd_obj.ShowDialog() != DialogResult.OK)
+                return;
+
+                        
+            Take2DZScan(fbd_obj.SelectedPath);
         }
     }
 }

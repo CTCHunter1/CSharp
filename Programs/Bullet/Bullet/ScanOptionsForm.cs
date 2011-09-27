@@ -25,17 +25,25 @@ namespace Lab.Programs.Bullet
         private decimal backupZAxisRadius;
         private decimal backupZAxisNumPoints;
 
+        // two axis parameters
+        private IAxis backupTwoAxisMotor;
+        private decimal backupTwoAxisRadius;
+        private decimal backupTwoAxisNumPoints;
+        private bool backupTwoAxisScan;
+
         public ScanOptionsForm(IAxis[] iAxisArr)
         {
             InitializeComponent();
             // copy the axis arrays into the combo boxes
             cuttingAxisMotorComboBox.Items.AddRange(iAxisArr);
             zAxisMotorComboBox.Items.AddRange(iAxisArr);
+            twoAxisMotorComboBox.Items.AddRange(iAxisArr);
 
             if (iAxisArr.Length > 0)
             {
                 cuttingAxisMotorComboBox.SelectedIndex = 0;
                 zAxisMotorComboBox.SelectedIndex = 0;
+                twoAxisMotorComboBox.SelectedIndex = 0;
             }
         }
 
@@ -53,6 +61,14 @@ namespace Lab.Programs.Bullet
             backupZAxisMotor = (IAxis) zAxisMotorComboBox.SelectedItem;
             backupZAxisRadius = zAxisRadiusNumericUpDown.Value;
             backupZAxisNumPoints = zAxisNumPointsNumericUpDown.Value;
+
+            // two axis parameters
+            backupTwoAxisScan = twoAxisScanCheckBox.Checked;
+            backupTwoAxisMotor = (IAxis)twoAxisMotorComboBox.SelectedItem;
+            backupTwoAxisRadius = twoAxisRadiusNumericUpDown.Value;
+            backupTwoAxisNumPoints = twoAxisNumPtsNumericUpDown.Value;
+
+            twoAxisScanCheckBox_CheckedChanged(this, null);
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
@@ -69,6 +85,12 @@ namespace Lab.Programs.Bullet
             zAxisMotorComboBox.SelectedItem = backupZAxisMotor;
             zAxisRadiusNumericUpDown.Value = backupZAxisRadius;
             zAxisNumPointsNumericUpDown.Value = backupZAxisNumPoints;
+
+            // two axis parameters
+            twoAxisScanCheckBox.Checked = backupTwoAxisScan;
+            twoAxisMotorComboBox.SelectedItem = backupTwoAxisMotor;
+            twoAxisRadiusNumericUpDown.Value = backupTwoAxisRadius;
+            twoAxisNumPtsNumericUpDown.Value = backupTwoAxisNumPoints;
         }
 
         private void zAxisScanCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -98,6 +120,22 @@ namespace Lab.Programs.Bullet
             {
                 cuttingAxisNumPointsNumericUpDown.Enabled = false;
                 cuttingAxisHoldTimeNumericUpDown.Enabled = false;
+            }
+        }
+
+        private void twoAxisScanCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (twoAxisScanCheckBox.Checked == true)
+            {
+                twoAxisMotorComboBox.Enabled = true;
+                twoAxisNumPtsNumericUpDown.Enabled = true;
+                twoAxisRadiusNumericUpDown.Enabled = true;
+            }
+            else
+            {
+                twoAxisMotorComboBox.Enabled = false;
+                twoAxisNumPtsNumericUpDown.Enabled = false;
+                twoAxisRadiusNumericUpDown.Enabled = false;
             }
         }
 
@@ -173,5 +211,46 @@ namespace Lab.Programs.Bullet
                 return (Convert.ToInt32(zAxisNumPointsNumericUpDown.Value));
             }
         }
+
+        public bool TwoCuttingAxis
+        {
+            get
+            {
+                return (twoAxisScanCheckBox.Checked);
+            }
+        }
+
+        public IAxis TwoAxisMotor
+        {
+            get
+            {
+                return ((IAxis) twoAxisMotorComboBox.SelectedItem); 
+            }
+        }
+
+        public int TwoAxisNumPoints
+        {
+            get
+            {
+                return(Convert.ToInt32(twoAxisNumPtsNumericUpDown.Value));
+            }
+        }
+
+        public double TwoAxisRadius
+        {
+            get
+            {
+                return(Convert.ToDouble(twoAxisRadiusNumericUpDown.Value));
+            }
+        }
+
+        public bool ErfFit
+        {
+            get
+            {
+                return (erfFitCheckBox.Checked);
+            }
+        }
+
     }
 }

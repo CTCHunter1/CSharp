@@ -119,5 +119,10 @@ namespace Lab.Drivers.Motors
             if(iAsyncResultAbsoluteObj != null)
                 asyncMovePointerAbsoluteObj.EndInvoke(iAsyncResultObj);
         }
+
+        public void SetZero()
+        {
+            return;
+        }
     }
 }

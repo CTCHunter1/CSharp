@@ -19,7 +19,8 @@ namespace Lab.Drivers.Motors
         ASILV4000Axis[] axisArr = null;
         int numAxis = 0;
 
-        public enum MoveStatus { STOPED, MOVING }; 
+        public enum MoveStatus { STOPED, MOVING };
+        int invalidRespCount = 0;
 
 
         public ASILV4000()
@@ -155,12 +156,24 @@ namespace Lab.Drivers.Motors
             }
 
             if (returnString == "B")
+            {
+                invalidRespCount = 0; // reset the counter
                 return (MoveStatus.MOVING);
-
+            }
             if (returnString == "N")
+            {
+                invalidRespCount = 0; // reset the counter
                 return (MoveStatus.STOPED);
+            }
 
-            Exception ex = new Exception("Invalid Response");
+            // retry the get status command up to 3 times
+            if (invalidRespCount <= 3)
+            {
+                invalidRespCount++;
+                return(ReadMovementStatusXY());
+            }
+
+            Exception ex = new Exception("Invalid Response - Response: " + returnString);
             throw (ex);
         }
 
@@ -171,28 +184,50 @@ namespace Lab.Drivers.Motors
             //spObj.BaseStream.Flush();
             spObj.Write("1H/\r");
 
-            string returnString = spObj.ReadLine();
-            //string returnString = spObj.ReadExisting();
-
-            //string returnStringLine2 = spObj.ReadLine();
-
-            char c1 = '\0';
-            char c2 = '\0';
-
-            if (returnString.Length >= 2)
+            try
             {
-                c1 = returnString[0];
-                c2 = returnString[1];
+                string returnString = spObj.ReadLine();
+                //string returnString = spObj.ReadExisting();
+
+                //string returnStringLine2 = spObj.ReadLine();
+
+                char c1 = '\0';
+                char c2 = '\0';
+
+                if (returnString.Length >= 2)
+                {
+                    c1 = returnString[0];
+                    c2 = returnString[1];
+                }
+
+                if (returnString == "B")
+                {
+                    invalidRespCount = 0;
+                    return (MoveStatus.MOVING);
+                }
+
+                if (returnString == "N")
+                {
+                    invalidRespCount = 0;
+                    return (MoveStatus.STOPED);
+                }
+
+                Exception ex = new Exception("Invalid Response");
+                throw (ex); 
             }
-
-            if (returnString == "B")
-                return (MoveStatus.MOVING);
-
-            if (returnString == "N")
-                return (MoveStatus.STOPED);
-
-            Exception ex = new Exception("Invalid Response");
-            throw (ex);
+            catch (Exception ex)
+            {
+                // retry the get status command up to 3 times
+                if (invalidRespCount <= 3)
+                {
+                    invalidRespCount++;
+                    return (ReadMovementStatusZ());
+                }
+                else
+                {
+                    throw (ex);
+                }
+            }
         }
  
         public double [] ReadPositionXY()
@@ -245,13 +280,30 @@ namespace Lab.Drivers.Motors
 
             char[] delimiterChars = { ' ', '=' };
 
-            spObj.Write("2HS X?\r");
+            spObj.Write("2HS X? \r");
             string returnString = spObj.ReadLine();
 
             string[] stringArr = returnString.Split(delimiterChars);
+            double statePos = 0;
 
-            double statePos = Convert.ToDouble(stringArr[2]);
+            try
+            {
+                statePos = Convert.ToDouble(stringArr[2]);
+            }
+            catch(Exception ex)
+            {
+                if (invalidRespCount <= 3)
+                {
+                    invalidRespCount++;
+                    return (ReadSpeedX());
+                }
+                else
+                {
+                    throw (ex);
+                }
+            }
 
+            invalidRespCount = 0;
             return (statePos);
         }
 
@@ -331,7 +383,7 @@ namespace Lab.Drivers.Motors
                 string returnString = spObj.ReadLine();
 
                 // expected return string
-                if (returnString == "A ")
+                if (returnString.Contains("A") == true)
                 {
                     return;
                 }
@@ -357,7 +409,7 @@ namespace Lab.Drivers.Motors
                 string returnString = spObj.ReadLine();
 
                 // expected return string
-                if (returnString == "A ")
+                if (returnString.Contains("A") == true)
                 {
                     return;
                 }
@@ -401,7 +453,7 @@ namespace Lab.Drivers.Motors
             //spObj.BaseStream.Flush();
             // spObj.DiscardInBuffer();
 
-            char[] delimiterChars = { ' ' };
+            char[] delimiterChars = { ' ', '=' };
 
             spObj.Write("2HW X\r");
             string returnString = spObj.ReadLine();
@@ -410,8 +462,15 @@ namespace Lab.Drivers.Motors
 
             double pos = 0;
 
-            pos = Convert.ToDouble(stringArr[1]);
-
+            if (stringArr.Length == 3)
+            {
+                pos = Convert.ToDouble(stringArr[1]);
+            }
+            else if (stringArr.Length == 4)
+            {
+                pos = Convert.ToDouble(stringArr[2]);
+            }
+           
             return (pos);
         }
 
@@ -421,16 +480,26 @@ namespace Lab.Drivers.Motors
             //spObj.BaseStream.Flush();
             // spObj.DiscardInBuffer();
 
-            char[] delimiterChars = { ' ' };
+            char[] delimiterChars = { ' ', '=' };
+
 
             spObj.Write("2HW Y\r");
+
             string returnString = spObj.ReadLine();
 
             string[] stringArr = returnString.Split(delimiterChars);
 
             double pos = 0;
 
-            pos = Convert.ToDouble(stringArr[1]);
+
+            if (stringArr.Length == 3)
+            {
+                pos = Convert.ToDouble(stringArr[1]);
+            }
+            else if (stringArr.Length == 4)
+            {
+                pos = Convert.ToDouble(stringArr[2]);
+            }
 
             return (pos);
         }
@@ -441,8 +510,8 @@ namespace Lab.Drivers.Motors
             //spObj.BaseStream.Flush();
             // spObj.DiscardInBuffer();
 
-            char[] delimiterChars = { ' ' };
-
+            char[] delimiterChars = { ' ', '=' };
+            
             spObj.Write("1HW Z\r");
             string returnString = spObj.ReadLine();
 
@@ -450,7 +519,15 @@ namespace Lab.Drivers.Motors
 
             double pos = 0;
 
-            pos = Convert.ToDouble(stringArr[1]);
+
+            if (stringArr.Length == 3)
+            {
+                pos = Convert.ToDouble(stringArr[1]);
+            }
+            else if (stringArr.Length == 4)
+            {
+                pos = Convert.ToDouble(stringArr[2]);
+            }
 
             return (pos);
         }
@@ -461,20 +538,19 @@ namespace Lab.Drivers.Motors
             // spObj.BaseStream.Flush();
             // spObj.DiscardInBuffer();
 
-            string moveCmd = string.Format("2HM X={0}\r", Math.Round(pos, 1));
+            string moveCmd = string.Format("2HM X={0} \r", Math.Round(pos, 1));
 
             spObj.Write(moveCmd);
 
-            char c = Convert.ToChar(spObj.ReadChar());
-
-            if (c == ':')
+            try
             {
-
                 string returnString = spObj.ReadLine();
 
+
                 // expected return string
-                if (returnString == "A ")
+                if (returnString.Contains("A") == true)
                 {
+                    invalidRespCount = 0;
                     return;
                 }
                 else
@@ -483,6 +559,19 @@ namespace Lab.Drivers.Motors
                     throw (ex);
                 }
             }
+            catch (Exception ex)
+            {
+                invalidRespCount++;
+                if (invalidRespCount <= 3)
+                {
+                    MoveX(pos);
+                }
+                else
+                {
+                    throw (ex);
+                }
+            }
+            
         }
 
         public void MoveY(double pos)
@@ -495,21 +584,32 @@ namespace Lab.Drivers.Motors
 
             spObj.Write(moveCmd);
 
-            char c = Convert.ToChar(spObj.ReadChar());
-
-            if (c == ':')
+            try
             {
-
                 string returnString = spObj.ReadLine();
 
                 // expected return string
-                if (returnString == "A ")
+                if (returnString.Contains("A") == true)
                 {
+                    invalidRespCount = 0;
                     return;
+
                 }
                 else
                 {
                     Exception ex = new Exception(returnString);
+                    throw (ex);
+                }
+            }
+            catch (Exception ex)
+            {
+                invalidRespCount++;
+                if (invalidRespCount <= 3)
+                {
+                    MoveX(pos);
+                }
+                else
+                {
                     throw (ex);
                 }
             }
@@ -533,7 +633,7 @@ namespace Lab.Drivers.Motors
                 string returnString = spObj.ReadLine();
 
                 // expected return string
-                if (returnString == "A ")
+                if (returnString.Contains("A") == true)
                 {
                     return;
                 }
@@ -777,6 +877,10 @@ namespace Lab.Drivers.Motors
                 {
                     return;
                 }
+                else if (returnString == "A")
+                {
+                    return;
+                }
                 else
                 {
                     Exception ex = new Exception(returnString);
@@ -806,14 +910,14 @@ namespace Lab.Drivers.Motors
                 {
                     return;
                 }
-                else if (returnString == "A")
+                else if (returnString.Contains("A") == true)
                 {
                     // device is not moving
                     return;
                 }
                 else
                 {
-                    Exception ex = new Exception(returnString);
+                    Exception ex = new Exception("Unexpected Reply: " + returnString);
                     throw (ex);
                 }
             }

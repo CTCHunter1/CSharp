@@ -107,6 +107,10 @@
       <Project>{206E8042-B072-4E9F-87C4-BC3090C91E62}</Project>
       <Name>Lab.Drivers.Motors</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Libraries\Lab.FileIO\Lab.FileIO.csproj">
+      <Project>{6D2EAFF2-D9AA-48E2-AF4B-7EA6B396DE14}</Project>
+      <Name>Lab.FileIO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Libraries\Lab.Math\Lab.Math.csproj">
       <Project>{B1ABFB43-C135-45EE-B048-310B72895DCA}</Project>
       <Name>Lab.Math</Name>

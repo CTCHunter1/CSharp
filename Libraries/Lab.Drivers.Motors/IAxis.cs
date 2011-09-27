@@ -28,5 +28,6 @@ namespace Lab.Drivers.Motors
         void MoveAbsolute(double position);
         IAsyncResult BeginMoveAbsolute(double position, AsyncCallback acbObj, Control sender);
         void EndMoveAbsolute(IAsyncResult iascResultObj);
+        void SetZero();
     }
 }

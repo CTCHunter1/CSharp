@@ -260,5 +260,25 @@ namespace Lab.Drivers.Motors
                 asyncMovePointerAbsoluteeObj.EndInvoke(iascResultObj);
             }
         }
+
+        public void SetZero()
+        {
+            switch (axisIndex)
+            {
+                case 1:
+                    asilv4000_obj.ZeroXY(); // maybe there is a way to do these individually
+
+                    break;
+                    
+                case 2:
+                    asilv4000_obj.ZeroXY(); // maybe there is a way to do these individually
+
+                    break;
+
+                case 3:
+                    asilv4000_obj.ZeroZ();
+                    break;
+            }
+        }
     }
 }

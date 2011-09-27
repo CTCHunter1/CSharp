@@ -134,6 +134,7 @@
             // 
             // positionNumericUpDown
             // 
+            this.positionNumericUpDown.DecimalPlaces = 4;
             this.positionNumericUpDown.Location = new System.Drawing.Point(114, 103);
             this.positionNumericUpDown.Maximum = new decimal(new int[] {
             200000,
@@ -154,9 +155,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(111, 87);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(44, 13);
+            this.label3.Size = new System.Drawing.Size(69, 13);
             this.label3.TabIndex = 10;
-            this.label3.Text = "Position";
+            this.label3.Text = "Position (mm)";
             // 
             // moveAbsoluteButton
             // 

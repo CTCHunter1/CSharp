@@ -57,9 +57,16 @@ namespace Lab.Drivers.Motors
 
         private void gotoButton_Click(object sender, EventArgs e)
         {
-            IAxis selectedAxis = (IAxis)axisComboBox.SelectedItem;
-            selectedAxis.MoveAbsolute(Convert.ToDouble(positionTextBox.Text));
-            positionTextBox.Text = selectedAxis.Position.ToString(); ;
+            try
+            {
+                IAxis selectedAxis = (IAxis)axisComboBox.SelectedItem;
+                selectedAxis.MoveAbsolute(Convert.ToDouble(positionTextBox.Text));
+                positionTextBox.Text = selectedAxis.Position.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         private void velocitySetButton_Click(object sender, EventArgs e)
@@ -82,6 +89,12 @@ namespace Lab.Drivers.Motors
         private void axisComboBox_TextChanged(object sender, EventArgs e)
         {
             UpdateProperties(); // don't know if this is what change event should be used
+        }
+
+        private void setZeroButton_Click(object sender, EventArgs e)
+        {
+            IAxis selectedAxis = (IAxis)axisComboBox.SelectedItem;
+            selectedAxis.SetZero();
         }
     }
 }

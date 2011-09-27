@@ -13,6 +13,55 @@ namespace Lab.Programs.Bullet
 
         }
 
+        int GetLongestDataSeries()
+        {
+            int longestSeries = 0;
+
+            for (int i = 0; i < dataSeriesArr.Count; i++)
+            {
+                if (dataSeriesArr[i].Y.Length > longestSeries)
+                    longestSeries = dataSeriesArr[i].Y.Length;
+            }
+
+            return longestSeries;
+        }
+
+        public double[,] TwoDXVals
+        {
+            get
+            {
+                int longestSeries = GetLongestDataSeries();
+                double[,] vals = new double[longestSeries, dataSeriesArr.Count];
+                for (int i = 0; i < dataSeriesArr.Count; i++)
+                {
+                    for (int j = 0; j < dataSeriesArr[i].x.Length; j++)
+                    {
+                        vals[j, i] = dataSeriesArr[i].x[j];
+                    }
+                }
+
+                return (vals);
+            }
+        }
+
+        public double[,] TwoDAmpVals
+        {
+            get
+            {
+                int longestSeries = GetLongestDataSeries();
+                double[,] vals = new double[longestSeries, dataSeriesArr.Count];
+                for (int i = 0; i < dataSeriesArr.Count; i++)
+                {
+                    for (int j = 0; j < dataSeriesArr[i].Y.Length; j++)
+                    {
+                        vals[j, i] = dataSeriesArr[i].Y[j];
+                    }
+                }
+
+                return (vals);
+            }
+        }
+
         public void Clear()
         {
             dataSeriesArr.Clear();

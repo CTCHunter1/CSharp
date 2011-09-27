@@ -31,6 +31,14 @@ namespace Lab.Programs.Bullet
             this.OKButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.twoAxisNumPtsNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.twoAxisMotorComboBox = new System.Windows.Forms.ComboBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.twoAxisRadiusNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.twoAxisScanCheckBox = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.cuttingAxisMotorComboBox = new System.Windows.Forms.ComboBox();
@@ -51,19 +59,24 @@ namespace Lab.Programs.Bullet
             this.label12 = new System.Windows.Forms.Label();
             this.zAxisRadiusNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.zAxisScanCheckBox = new System.Windows.Forms.CheckBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.erfFitCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.twoAxisNumPtsNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.twoAxisRadiusNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cuttingAxisHoldTimeNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cuttingAxisNumPointsNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cuttingAxisRadiusNumericUpDown)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.zAxisNumPointsNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.zAxisRadiusNumericUpDown)).BeginInit();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // OKButton
             // 
             this.OKButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.OKButton.Location = new System.Drawing.Point(12, 411);
+            this.OKButton.Location = new System.Drawing.Point(12, 561);
             this.OKButton.Name = "OKButton";
             this.OKButton.Size = new System.Drawing.Size(75, 23);
             this.OKButton.TabIndex = 0;
@@ -73,7 +86,7 @@ namespace Lab.Programs.Bullet
             // cancelButton
             // 
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(176, 411);
+            this.cancelButton.Location = new System.Drawing.Point(176, 561);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 1;
@@ -83,6 +96,14 @@ namespace Lab.Programs.Bullet
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.twoAxisNumPtsNumericUpDown);
+            this.groupBox1.Controls.Add(this.label14);
+            this.groupBox1.Controls.Add(this.label10);
+            this.groupBox1.Controls.Add(this.label11);
+            this.groupBox1.Controls.Add(this.twoAxisMotorComboBox);
+            this.groupBox1.Controls.Add(this.label13);
+            this.groupBox1.Controls.Add(this.twoAxisRadiusNumericUpDown);
+            this.groupBox1.Controls.Add(this.twoAxisScanCheckBox);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.cuttingAxisMotorComboBox);
@@ -96,10 +117,105 @@ namespace Lab.Programs.Bullet
             this.groupBox1.Controls.Add(this.cuttingAxisRadiusNumericUpDown);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(239, 186);
+            this.groupBox1.Size = new System.Drawing.Size(239, 278);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Cutting Axis Parameters";
+            // 
+            // twoAxisNumPtsNumericUpDown
+            // 
+            this.twoAxisNumPtsNumericUpDown.Enabled = false;
+            this.twoAxisNumPtsNumericUpDown.Location = new System.Drawing.Point(22, 250);
+            this.twoAxisNumPtsNumericUpDown.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.twoAxisNumPtsNumericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.twoAxisNumPtsNumericUpDown.Name = "twoAxisNumPtsNumericUpDown";
+            this.twoAxisNumPtsNumericUpDown.Size = new System.Drawing.Size(70, 20);
+            this.twoAxisNumPtsNumericUpDown.TabIndex = 26;
+            this.twoAxisNumPtsNumericUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(98, 252);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(88, 13);
+            this.label14.TabIndex = 25;
+            this.label14.Text = "Number of Points";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(98, 225);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(40, 13);
+            this.label10.TabIndex = 24;
+            this.label10.Text = "Radius";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(149, 196);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(34, 13);
+            this.label11.TabIndex = 20;
+            this.label11.Text = "Motor";
+            // 
+            // twoAxisMotorComboBox
+            // 
+            this.twoAxisMotorComboBox.FormattingEnabled = true;
+            this.twoAxisMotorComboBox.Location = new System.Drawing.Point(22, 193);
+            this.twoAxisMotorComboBox.Name = "twoAxisMotorComboBox";
+            this.twoAxisMotorComboBox.Size = new System.Drawing.Size(121, 21);
+            this.twoAxisMotorComboBox.TabIndex = 21;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(144, 225);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(27, 13);
+            this.label13.TabIndex = 23;
+            this.label13.Text = "(um)";
+            // 
+            // twoAxisRadiusNumericUpDown
+            // 
+            this.twoAxisRadiusNumericUpDown.Location = new System.Drawing.Point(22, 223);
+            this.twoAxisRadiusNumericUpDown.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.twoAxisRadiusNumericUpDown.Name = "twoAxisRadiusNumericUpDown";
+            this.twoAxisRadiusNumericUpDown.Size = new System.Drawing.Size(70, 20);
+            this.twoAxisRadiusNumericUpDown.TabIndex = 22;
+            this.twoAxisRadiusNumericUpDown.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            // 
+            // twoAxisScanCheckBox
+            // 
+            this.twoAxisScanCheckBox.AutoSize = true;
+            this.twoAxisScanCheckBox.Location = new System.Drawing.Point(24, 171);
+            this.twoAxisScanCheckBox.Name = "twoAxisScanCheckBox";
+            this.twoAxisScanCheckBox.Size = new System.Drawing.Size(82, 17);
+            this.twoAxisScanCheckBox.TabIndex = 6;
+            this.twoAxisScanCheckBox.Text = "2 Axis Scan";
+            this.twoAxisScanCheckBox.UseVisualStyleBackColor = true;
+            this.twoAxisScanCheckBox.CheckedChanged += new System.EventHandler(this.twoAxisScanCheckBox_CheckedChanged);
             // 
             // label6
             // 
@@ -130,7 +246,7 @@ namespace Lab.Programs.Bullet
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(150, 150);
+            this.label5.Location = new System.Drawing.Point(150, 138);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(26, 13);
             this.label5.TabIndex = 18;
@@ -139,7 +255,7 @@ namespace Lab.Programs.Bullet
             // cuttingAxisHoldTimeNumericUpDown
             // 
             this.cuttingAxisHoldTimeNumericUpDown.Enabled = false;
-            this.cuttingAxisHoldTimeNumericUpDown.Location = new System.Drawing.Point(22, 148);
+            this.cuttingAxisHoldTimeNumericUpDown.Location = new System.Drawing.Point(22, 136);
             this.cuttingAxisHoldTimeNumericUpDown.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -152,7 +268,7 @@ namespace Lab.Programs.Bullet
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(97, 150);
+            this.label3.Location = new System.Drawing.Point(97, 138);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(55, 13);
             this.label3.TabIndex = 16;
@@ -161,7 +277,7 @@ namespace Lab.Programs.Bullet
             // cuttingAxisNumPointsNumericUpDown
             // 
             this.cuttingAxisNumPointsNumericUpDown.Enabled = false;
-            this.cuttingAxisNumPointsNumericUpDown.Location = new System.Drawing.Point(22, 120);
+            this.cuttingAxisNumPointsNumericUpDown.Location = new System.Drawing.Point(22, 108);
             this.cuttingAxisNumPointsNumericUpDown.Maximum = new decimal(new int[] {
             100000,
             0,
@@ -174,7 +290,7 @@ namespace Lab.Programs.Bullet
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(98, 122);
+            this.label4.Location = new System.Drawing.Point(98, 110);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(88, 13);
             this.label4.TabIndex = 14;
@@ -183,7 +299,7 @@ namespace Lab.Programs.Bullet
             // cuttingAxisSampleAndHoldCheckBox
             // 
             this.cuttingAxisSampleAndHoldCheckBox.AutoSize = true;
-            this.cuttingAxisSampleAndHoldCheckBox.Location = new System.Drawing.Point(22, 97);
+            this.cuttingAxisSampleAndHoldCheckBox.Location = new System.Drawing.Point(22, 85);
             this.cuttingAxisSampleAndHoldCheckBox.Name = "cuttingAxisSampleAndHoldCheckBox";
             this.cuttingAxisSampleAndHoldCheckBox.Size = new System.Drawing.Size(107, 17);
             this.cuttingAxisSampleAndHoldCheckBox.TabIndex = 13;
@@ -226,7 +342,7 @@ namespace Lab.Programs.Bullet
             this.groupBox2.Controls.Add(this.zAxisMotorComboBox);
             this.groupBox2.Controls.Add(this.label12);
             this.groupBox2.Controls.Add(this.zAxisRadiusNumericUpDown);
-            this.groupBox2.Location = new System.Drawing.Point(12, 231);
+            this.groupBox2.Location = new System.Drawing.Point(12, 328);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(239, 145);
             this.groupBox2.TabIndex = 3;
@@ -322,13 +438,36 @@ namespace Lab.Programs.Bullet
             // zAxisScanCheckBox
             // 
             this.zAxisScanCheckBox.AutoSize = true;
-            this.zAxisScanCheckBox.Location = new System.Drawing.Point(24, 208);
+            this.zAxisScanCheckBox.Location = new System.Drawing.Point(12, 305);
             this.zAxisScanCheckBox.Name = "zAxisScanCheckBox";
             this.zAxisScanCheckBox.Size = new System.Drawing.Size(83, 17);
             this.zAxisScanCheckBox.TabIndex = 4;
             this.zAxisScanCheckBox.Text = "Z Axis Scan";
             this.zAxisScanCheckBox.UseVisualStyleBackColor = true;
             this.zAxisScanCheckBox.CheckedChanged += new System.EventHandler(this.zAxisScanCheckBox_CheckedChanged);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.erfFitCheckBox);
+            this.groupBox3.Location = new System.Drawing.Point(12, 479);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(239, 60);
+            this.groupBox3.TabIndex = 5;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Fitting";
+            // 
+            // erfFitCheckBox
+            // 
+            this.erfFitCheckBox.AutoSize = true;
+            this.erfFitCheckBox.Checked = true;
+            this.erfFitCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.erfFitCheckBox.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.erfFitCheckBox.Location = new System.Drawing.Point(12, 19);
+            this.erfFitCheckBox.Name = "erfFitCheckBox";
+            this.erfFitCheckBox.Size = new System.Drawing.Size(67, 18);
+            this.erfFitCheckBox.TabIndex = 0;
+            this.erfFitCheckBox.Text = "Fit ERF";
+            this.erfFitCheckBox.UseVisualStyleBackColor = true;
             // 
             // ScanOptionsForm
             // 
@@ -337,7 +476,8 @@ namespace Lab.Programs.Bullet
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(265, 446);
+            this.ClientSize = new System.Drawing.Size(263, 593);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.zAxisScanCheckBox);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -349,6 +489,8 @@ namespace Lab.Programs.Bullet
             this.Shown += new System.EventHandler(this.ScanOptionsForm_Shown);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.twoAxisNumPtsNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.twoAxisRadiusNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cuttingAxisHoldTimeNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cuttingAxisNumPointsNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cuttingAxisRadiusNumericUpDown)).EndInit();
@@ -356,6 +498,8 @@ namespace Lab.Programs.Bullet
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.zAxisNumPointsNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.zAxisRadiusNumericUpDown)).EndInit();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -386,5 +530,15 @@ namespace Lab.Programs.Bullet
         private System.Windows.Forms.NumericUpDown zAxisNumPointsNumericUpDown;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.CheckBox zAxisScanCheckBox;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.CheckBox erfFitCheckBox;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.ComboBox twoAxisMotorComboBox;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.NumericUpDown twoAxisRadiusNumericUpDown;
+        private System.Windows.Forms.CheckBox twoAxisScanCheckBox;
+        private System.Windows.Forms.NumericUpDown twoAxisNumPtsNumericUpDown;
+        private System.Windows.Forms.Label label14;
     }
 }

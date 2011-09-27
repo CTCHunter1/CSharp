@@ -473,6 +473,13 @@ namespace GraphControl
 
         private double[] CalcHashPositions(double[] lims, int i_max_hashes)
         {
+            if (lims[0] > lims[1])
+            {
+                double temp = lims[0];
+                lims[1] = lims[0];
+                lims[0] = temp;
+            }
+
             // if the maximum hashes is zero just return
             if (i_max_hashes <= 0)
                 return (new double[0]);

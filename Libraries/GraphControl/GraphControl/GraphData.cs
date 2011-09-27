@@ -50,6 +50,17 @@ namespace GraphControl
             m_axis_obj = axis_obj;
         }
 
+        public void Clear(string data_name)
+        {
+            for (int i = 0; i < data_list.Count; i++)
+            {
+                if (data_list[i].m_data_name.Equals(data_name))
+                {
+                    data_list.RemoveAt(i);
+                }
+            }
+        }
+
         public void Add(string data_name, double []m_x_vals, double []m_y_vals, Color color_obj, int width, AxisType type)
         {
             GraphData d_rm = (GraphData) null;
