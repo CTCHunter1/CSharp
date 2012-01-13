@@ -16,18 +16,30 @@ namespace Lab.Drivers.Motors
         {
             InitializeComponent();
 
-            motorsObj = new Motors();
-
-            if (motorsObj.Axes == null)
+            try
             {
-                Exception ex = new Exception("No Motors Found");
-                throw (ex);
+                motorsObj = new Motors();
+           
+                if (motorsObj.Axes == null)
+                {
+                    Exception ex = new Exception("No Motors Found");
+                    throw (ex);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                motorsObj = null;
+                axisComboBox.Items.Add("No Motors Found");
             }
 
-            if (motorsObj.Axes != null)
+            if(motorsObj != null)
             {
-                // get the position and velocity
-                axisComboBox.Items.AddRange(motorsObj.Axes);
+                if (motorsObj.Axes != null)
+                {
+                    // get the position and velocity
+                    axisComboBox.Items.AddRange(motorsObj.Axes);
+                }            
             }
 
             // select the zeroth index
@@ -39,11 +51,14 @@ namespace Lab.Drivers.Motors
 
         private void UpdateProperties()
         {
-            if (motorsObj.Axes != null)
+            if (motorsObj != null)
             {
+                if (motorsObj.Axes != null)
+                {
 
-                positionTextBox.Text = ((IAxis)axisComboBox.SelectedItem).Position.ToString();
-                velocityTextBox.Text = ((IAxis)axisComboBox.SelectedItem).Velocity.ToString();
+                    positionTextBox.Text = ((IAxis)axisComboBox.SelectedItem).Position.ToString();
+                    velocityTextBox.Text = ((IAxis)axisComboBox.SelectedItem).Velocity.ToString();
+                }
             }
         }
 
@@ -51,6 +66,9 @@ namespace Lab.Drivers.Motors
         {
             get
             {
+                if (motorsObj == null)
+                    return (null);
+                
                 return (motorsObj.Axes);
             }
         }

@@ -86,7 +86,7 @@ namespace Squid
                 AnalogSingleChannelWriter writer = new AnalogSingleChannelWriter(taskObj.Stream);
 
                 daqFormObj.SingleShot = false;
-                daqFormObj.SamplesPerChannel = 2;
+                //daqFormObj.SamplesPerChannel = 2;
 
                 taskObj.Start();
                 AnalogSingleChannelReader reader = new AnalogSingleChannelReader(daqFormObj.TaskObj.Stream);

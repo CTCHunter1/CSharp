@@ -10,7 +10,6 @@ using NationalInstruments;
 using NationalInstruments.DAQmx;
 
 
-
 using Lab.Drivers.Motors;
 using Lab.Drivers.DAQ;
 using Lab.Math;
@@ -95,6 +94,7 @@ namespace Lab.Programs.Bullet
 
                 // get the radius to cut through the beam
                 double cuttingAxisRadius = scanOptionsFormObj.CuttingAxisRadius / 1000;   // to put in in (mm)
+
 
                 NIDAQControlFormObj.TaskObj.Control(TaskAction.Stop);
 
