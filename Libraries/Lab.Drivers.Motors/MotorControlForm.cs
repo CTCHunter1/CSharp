@@ -10,47 +10,54 @@ namespace Lab.Drivers.Motors
 {         
     public partial class MotorControlForm : Form
     {
-        Motors motorsObj;
+        Motors motorsObj = null;
+        bool bSubForm = false; /// set to true if this is a sub form of larger program
 
         public MotorControlForm()
         {
             InitializeComponent();
+            InitalizeMotors();
+        }
 
+        private void InitalizeMotors()
+        {
             try
             {
-                motorsObj = new Motors();
-           
-                if (motorsObj.Axes == null)
+                if (motorsObj != null)
                 {
-                    Exception ex = new Exception("No Motors Found");
-                    throw (ex);
+                    motorsObj.Dispose();
+                    motorsObj = null;
                 }
 
-            }
-            catch (Exception ex)
-            {
-                motorsObj = null;
-                axisComboBox.Items.Add("No Motors Found");
-            }
+                motorsObj = new Motors();
+            
+                if (motorsObj.Axes == null)
+                {
+                    MessageBox.Show("No Motors Found");
+                }
 
-            if(motorsObj != null)
-            {
                 if (motorsObj.Axes != null)
                 {
                     // get the position and velocity
                     axisComboBox.Items.AddRange(motorsObj.Axes);
-                }            
+                }
+
+                // select the zeroth index
+                if (axisComboBox.Items.Count > 0)
+                    axisComboBox.SelectedIndex = 0;
+
+                UpdateProperties();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
 
-            // select the zeroth index
-            if (axisComboBox.Items.Count > 0)
-                axisComboBox.SelectedIndex = 0;
-
-            UpdateProperties();
         }
 
         private void UpdateProperties()
         {
+            // if motors do not init then motorsObj will be null
             if (motorsObj != null)
             {
                 if (motorsObj.Axes != null)
@@ -66,9 +73,6 @@ namespace Lab.Drivers.Motors
         {
             get
             {
-                if (motorsObj == null)
-                    return (null);
-                
                 return (motorsObj.Axes);
             }
         }
@@ -114,5 +118,38 @@ namespace Lab.Drivers.Motors
             IAxis selectedAxis = (IAxis)axisComboBox.SelectedItem;
             selectedAxis.SetZero();
         }
+
+        private void closeButton_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+        }
+
+        private void MotorControlForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (bSubForm == true)
+            {
+                this.Hide();
+                e.Cancel = true; // cancel dispose
+            } 
+        }
+
+        // set to true if this a subform of a larger program
+        public bool IsSubForm
+        {
+            get
+            {
+                return (bSubForm);
+            }
+            set
+            {
+                bSubForm = value;
+            }
+        }
+
+        private void reinitalizeButton_Click(object sender, EventArgs e)
+        {
+            InitalizeMotors();
+        }
+
     }
 }

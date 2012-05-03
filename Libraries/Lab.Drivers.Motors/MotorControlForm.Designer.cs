@@ -41,22 +41,26 @@ namespace Lab.Drivers.Motors
             this.goHomeButton = new System.Windows.Forms.Button();
             this.hardwareLimitButton = new System.Windows.Forms.Button();
             this.getButton = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.reinitalizeButton = new System.Windows.Forms.Button();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // closeButton
             // 
             this.closeButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.closeButton.Location = new System.Drawing.Point(296, 129);
+            this.closeButton.Location = new System.Drawing.Point(557, 331);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(75, 23);
             this.closeButton.TabIndex = 0;
             this.closeButton.Text = "Close";
             this.closeButton.UseVisualStyleBackColor = true;
+            this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 18);
+            this.label1.Location = new System.Drawing.Point(18, 20);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(34, 13);
             this.label1.TabIndex = 5;
@@ -65,7 +69,7 @@ namespace Lab.Drivers.Motors
             // axisComboBox
             // 
             this.axisComboBox.FormattingEnabled = true;
-            this.axisComboBox.Location = new System.Drawing.Point(119, 15);
+            this.axisComboBox.Location = new System.Drawing.Point(133, 17);
             this.axisComboBox.Name = "axisComboBox";
             this.axisComboBox.Size = new System.Drawing.Size(210, 21);
             this.axisComboBox.TabIndex = 4;
@@ -73,7 +77,7 @@ namespace Lab.Drivers.Motors
             // 
             // positionTextBox
             // 
-            this.positionTextBox.Location = new System.Drawing.Point(119, 43);
+            this.positionTextBox.Location = new System.Drawing.Point(133, 45);
             this.positionTextBox.Name = "positionTextBox";
             this.positionTextBox.Size = new System.Drawing.Size(86, 20);
             this.positionTextBox.TabIndex = 6;
@@ -81,7 +85,7 @@ namespace Lab.Drivers.Motors
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(4, 47);
+            this.label2.Location = new System.Drawing.Point(18, 49);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(69, 13);
             this.label2.TabIndex = 7;
@@ -90,7 +94,7 @@ namespace Lab.Drivers.Motors
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(4, 75);
+            this.label3.Location = new System.Drawing.Point(18, 77);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(109, 13);
             this.label3.TabIndex = 9;
@@ -98,14 +102,14 @@ namespace Lab.Drivers.Motors
             // 
             // velocityTextBox
             // 
-            this.velocityTextBox.Location = new System.Drawing.Point(119, 72);
+            this.velocityTextBox.Location = new System.Drawing.Point(133, 74);
             this.velocityTextBox.Name = "velocityTextBox";
             this.velocityTextBox.Size = new System.Drawing.Size(86, 20);
             this.velocityTextBox.TabIndex = 8;
             // 
             // gotoButton
             // 
-            this.gotoButton.Location = new System.Drawing.Point(262, 43);
+            this.gotoButton.Location = new System.Drawing.Point(276, 45);
             this.gotoButton.Name = "gotoButton";
             this.gotoButton.Size = new System.Drawing.Size(48, 23);
             this.gotoButton.TabIndex = 10;
@@ -115,7 +119,7 @@ namespace Lab.Drivers.Motors
             // 
             // velocitySetButton
             // 
-            this.velocitySetButton.Location = new System.Drawing.Point(211, 71);
+            this.velocitySetButton.Location = new System.Drawing.Point(225, 73);
             this.velocitySetButton.Name = "velocitySetButton";
             this.velocitySetButton.Size = new System.Drawing.Size(48, 23);
             this.velocitySetButton.TabIndex = 11;
@@ -125,7 +129,7 @@ namespace Lab.Drivers.Motors
             // 
             // setZeroButton
             // 
-            this.setZeroButton.Location = new System.Drawing.Point(316, 43);
+            this.setZeroButton.Location = new System.Drawing.Point(330, 45);
             this.setZeroButton.Name = "setZeroButton";
             this.setZeroButton.Size = new System.Drawing.Size(64, 23);
             this.setZeroButton.TabIndex = 13;
@@ -135,7 +139,7 @@ namespace Lab.Drivers.Motors
             // 
             // goHomeButton
             // 
-            this.goHomeButton.Location = new System.Drawing.Point(211, 100);
+            this.goHomeButton.Location = new System.Drawing.Point(225, 102);
             this.goHomeButton.Name = "goHomeButton";
             this.goHomeButton.Size = new System.Drawing.Size(60, 23);
             this.goHomeButton.TabIndex = 14;
@@ -144,7 +148,7 @@ namespace Lab.Drivers.Motors
             // 
             // hardwareLimitButton
             // 
-            this.hardwareLimitButton.Location = new System.Drawing.Point(277, 100);
+            this.hardwareLimitButton.Location = new System.Drawing.Point(291, 102);
             this.hardwareLimitButton.Name = "hardwareLimitButton";
             this.hardwareLimitButton.Size = new System.Drawing.Size(94, 23);
             this.hardwareLimitButton.TabIndex = 15;
@@ -153,7 +157,7 @@ namespace Lab.Drivers.Motors
             // 
             // getButton
             // 
-            this.getButton.Location = new System.Drawing.Point(211, 43);
+            this.getButton.Location = new System.Drawing.Point(225, 45);
             this.getButton.Name = "getButton";
             this.getButton.Size = new System.Drawing.Size(48, 23);
             this.getButton.TabIndex = 16;
@@ -161,31 +165,54 @@ namespace Lab.Drivers.Motors
             this.getButton.UseVisualStyleBackColor = true;
             this.getButton.Click += new System.EventHandler(this.getButton_Click);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.getButton);
+            this.groupBox1.Controls.Add(this.axisComboBox);
+            this.groupBox1.Controls.Add(this.hardwareLimitButton);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.goHomeButton);
+            this.groupBox1.Controls.Add(this.positionTextBox);
+            this.groupBox1.Controls.Add(this.setZeroButton);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.velocitySetButton);
+            this.groupBox1.Controls.Add(this.velocityTextBox);
+            this.groupBox1.Controls.Add(this.gotoButton);
+            this.groupBox1.Location = new System.Drawing.Point(12, 52);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(407, 146);
+            this.groupBox1.TabIndex = 17;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Axis Properties";
+            // 
+            // reinitalizeButton
+            // 
+            this.reinitalizeButton.Location = new System.Drawing.Point(12, 16);
+            this.reinitalizeButton.Name = "reinitalizeButton";
+            this.reinitalizeButton.Size = new System.Drawing.Size(75, 23);
+            this.reinitalizeButton.TabIndex = 18;
+            this.reinitalizeButton.Text = "Reinitalize";
+            this.reinitalizeButton.UseVisualStyleBackColor = true;
+            this.reinitalizeButton.Click += new System.EventHandler(this.reinitalizeButton_Click);
+            // 
             // MotorControlForm
             // 
             this.AcceptButton = this.closeButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(381, 162);
-            this.Controls.Add(this.getButton);
-            this.Controls.Add(this.hardwareLimitButton);
-            this.Controls.Add(this.goHomeButton);
-            this.Controls.Add(this.setZeroButton);
-            this.Controls.Add(this.velocitySetButton);
-            this.Controls.Add(this.gotoButton);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.velocityTextBox);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.positionTextBox);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.axisComboBox);
+            this.ClientSize = new System.Drawing.Size(644, 356);
+            this.Controls.Add(this.reinitalizeButton);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.closeButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "MotorControlForm";
             this.Text = "MotorControlForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MotorControlForm_FormClosing);
             this.Load += new System.EventHandler(this.MotorControlForm_Load);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -204,5 +231,7 @@ namespace Lab.Drivers.Motors
         private System.Windows.Forms.Button goHomeButton;
         private System.Windows.Forms.Button hardwareLimitButton;
         private System.Windows.Forms.Button getButton;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button reinitalizeButton;
     }
 }

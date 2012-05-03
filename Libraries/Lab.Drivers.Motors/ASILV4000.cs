@@ -140,39 +140,51 @@ namespace Lab.Drivers.Motors
             //spObj.DiscardInBuffer();
             //spObj.BaseStream.Flush();
             spObj.Write("2H/\r");
+
+            string returnString = "";
             
-            string returnString = spObj.ReadLine();
-            //string returnString = spObj.ReadExisting();
-            
-            //string returnStringLine2 = spObj.ReadLine();
-
-            char c1 = '\0';
-            char c2 = '\0';
-
-            if (returnString.Length >= 2)
+            try
             {
-                c1 = returnString[0];
-                c2 = returnString[1];
-            }
+                returnString = spObj.ReadLine();
+                //string returnString = spObj.ReadExisting();
 
-            if (returnString == "B")
-            {
-                invalidRespCount = 0; // reset the counter
-                return (MoveStatus.MOVING);
-            }
-            if (returnString == "N")
-            {
-                invalidRespCount = 0; // reset the counter
-                return (MoveStatus.STOPED);
-            }
+                //string returnStringLine2 = spObj.ReadLine();
 
-            // retry the get status command up to 3 times
-            if (invalidRespCount <= 3)
-            {
-                invalidRespCount++;
-                return(ReadMovementStatusXY());
-            }
+                char c1 = '\0';
+                char c2 = '\0';
 
+                if (returnString.Length >= 2)
+                {
+                    c1 = returnString[0];
+                    c2 = returnString[1];
+                }
+
+                if (returnString == "B")
+                {
+                    invalidRespCount = 0; // reset the counter
+                    return (MoveStatus.MOVING);
+                }
+                if (returnString == "N")
+                {
+                    invalidRespCount = 0; // reset the counter
+                    return (MoveStatus.STOPED);
+                }
+
+                // retry the get status command up to 3 times
+                if (invalidRespCount <= 3)
+                {
+                    invalidRespCount++;
+                    return (ReadMovementStatusXY());
+                }
+            }
+            catch
+            {
+                if (invalidRespCount <= 3)
+                {
+                    invalidRespCount++;
+                    return (ReadMovementStatusXY());
+                }
+            }
             Exception ex = new Exception("Invalid Response - Response: " + returnString);
             throw (ex);
         }
@@ -319,9 +331,26 @@ namespace Lab.Drivers.Motors
             string returnString = spObj.ReadLine();
 
             string[] stringArr = returnString.Split(delimiterChars);
+            double statePos = 0;
 
-            double statePos = Convert.ToDouble(stringArr[2]);
+            try
+            {
+                 statePos = Convert.ToDouble(stringArr[2]);
+            }
+            catch (Exception ex)
+            {
+                if (invalidRespCount < 3)
+                {
+                    spObj.BaseStream.Flush();
+                    return (ReadSpeedY());
+                }
+                else
+                {
+                    throw (ex);
+                }
+            }
 
+            invalidRespCount = 0;
             return (statePos);
         }
 
@@ -337,8 +366,25 @@ namespace Lab.Drivers.Motors
             string returnString = spObj.ReadLine();
 
             string[] stringArr = returnString.Split(delimiterChars);
-                        
-            double statePos = Convert.ToDouble(stringArr[2]);
+
+            double statePos = 0;
+
+            try
+            {
+                statePos = Convert.ToDouble(stringArr[2]);
+            }
+            catch (Exception ex)
+            {
+                if (invalidRespCount < 3)
+                {
+                    spObj.BaseStream.Flush();
+                    return (ReadSpeedY());
+                }
+                else
+                {
+                    throw (ex);
+                }
+            }
 
             return (statePos);
         }
@@ -564,6 +610,7 @@ namespace Lab.Drivers.Motors
                 invalidRespCount++;
                 if (invalidRespCount <= 3)
                 {
+                    spObj.BaseStream.Flush();
                     MoveX(pos);
                 }
                 else
