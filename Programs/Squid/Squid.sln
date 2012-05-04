@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C# Express 2010
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Squid", "Squid\Squid.csproj", "{3F4CEABB-B28D-4B9B-835A-BBA56816EFBC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab.Drivers.DAQ", "..\..\Libraries\Lab.Drivers.DAQ\Lab.Drivers.DAQ.csproj", "{20A289EB-5891-4A59-90D6-BEE35ED61578}"
