@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8B939DD7-9428-4496-A5D2-B564BEF57BB7}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Beluga</RootNamespace>
+    <AssemblyName>Beluga</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Expression.Encoder, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=x86" />
+    <Reference Include="Microsoft.Expression.Encoder.Types, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=x86" />
+    <Reference Include="Microsoft.Expression.Encoder.Utilities, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=x86" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BelugaMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BelugaMainForm.Designer.cs">
+      <DependentUpon>BelugaMainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AcqController.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TwoDGraphControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TwoDGraphControl.Designer.cs">
+      <DependentUpon>TwoDGraphControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VideoPreviewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VideoPreviewForm.Designer.cs">
+      <DependentUpon>VideoPreviewForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="BelugaMainForm.resx">
+      <DependentUpon>BelugaMainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TwoDGraphControl.resx">
+      <DependentUpon>TwoDGraphControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="VideoPreviewForm.resx">
+      <DependentUpon>VideoPreviewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\CPP\Libraries\Lab.Drivers.ARC_SpectraProDLL_ManagedWrapper\Lab.Drivers.ARC_SpectraProDLL_ManagedWrapper.vcxproj">
+      <Project>{492AB10A-3AD5-4879-8675-2D6D45B4F3FD}</Project>
+      <Name>Lab.Drivers.ARC_SpectraProDLL_ManagedWrapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\CPP\Libraries\Lab.Drivers.PVCAM_Wrapper\Lab.Drivers.PVCAM_Wrapper.vcxproj">
+      <Project>{72CBC668-C60A-4854-8576-BFFDD2DA8765}</Project>
+      <Name>Lab.Drivers.PVCAM_Wrapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Libraries\GraphControl\GraphControl\GraphControl.csproj">
+      <Project>{B99E750E-EF0D-48B8-87A8-A09C90B35866}</Project>
+      <Name>GraphControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Libraries\Lab.Drivers.ARC_SpectraProDLL_Wrapper.Test\Lab.Drivers.ARC_SpectraProDLL_Wrapper.Test\Lab.Drivers.ARC_SpectraProDLL_Wrapper.Test.csproj">
+      <Project>{FFFC3817-55E6-4E09-8956-999CBA2BEF1A}</Project>
+      <Name>Lab.Drivers.ARC_SpectraProDLL_Wrapper.Test</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Libraries\Lab.Drivers.Motors\Lab.Drivers.Motors.csproj">
+      <Project>{206E8042-B072-4E9F-87C4-BC3090C91E62}</Project>
+      <Name>Lab.Drivers.Motors</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Libraries\Lab.Drivers.PVCAM_Wrapper.Test\Lab.Drivers.PVCAM_Wrapper.Test\Lab.Drivers.PVCAM_Wrapper.Test.csproj">
+      <Project>{F638D4F9-30DC-417A-BFC9-52FF19872157}</Project>
+      <Name>Lab.Drivers.PVCAM_Wrapper.Test</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
