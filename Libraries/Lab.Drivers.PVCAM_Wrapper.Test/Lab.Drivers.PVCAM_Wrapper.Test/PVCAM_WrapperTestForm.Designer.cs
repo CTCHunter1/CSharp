@@ -66,21 +66,13 @@
             this.setShutterModeButton = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.ccdClearingControl = new Lab.Drivers.PVCAM_Wrapper.Test.PropertyControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.gainPropertyControl = new Lab.Drivers.PVCAM_Wrapper.Test.PropertyControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.temperaturePropertyControl = new Lab.Drivers.PVCAM_Wrapper.Test.PropertyControl();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.shutterPropertyControl = new Lab.Drivers.PVCAM_Wrapper.Test.PropertyControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.ADCPropertyControl = new Lab.Drivers.PVCAM_Wrapper.Test.PropertyControl();
             this.tabPage6 = new System.Windows.Forms.TabPage();
-            this.CCDPhysPropertyControl = new Lab.Drivers.PVCAM_Wrapper.Test.PropertyControl();
             this.tabPage7 = new System.Windows.Forms.TabPage();
-            this.CCDReadOutPropertyControl = new Lab.Drivers.PVCAM_Wrapper.Test.PropertyControl();
             this.tabPage8 = new System.Windows.Forms.TabPage();
-            this.DataAcqPropertyControl = new Lab.Drivers.PVCAM_Wrapper.Test.PropertyControl();
             this.numCamerasNmericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label10 = new System.Windows.Forms.Label();
             this.cameraNamesComboBox = new System.Windows.Forms.ComboBox();
@@ -89,6 +81,14 @@
             this.exposureUnitComboBox = new System.Windows.Forms.ComboBox();
             this.label13 = new System.Windows.Forms.Label();
             this.integrationNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.ccdClearingControl = new Lab.Drivers.PVCAM_Wrapper.Test.PropertyControl();
+            this.gainPropertyControl = new Lab.Drivers.PVCAM_Wrapper.Test.PropertyControl();
+            this.temperaturePropertyControl = new Lab.Drivers.PVCAM_Wrapper.Test.PropertyControl();
+            this.shutterPropertyControl = new Lab.Drivers.PVCAM_Wrapper.Test.PropertyControl();
+            this.ADCPropertyControl = new Lab.Drivers.PVCAM_Wrapper.Test.PropertyControl();
+            this.CCDPhysPropertyControl = new Lab.Drivers.PVCAM_Wrapper.Test.PropertyControl();
+            this.CCDReadOutPropertyControl = new Lab.Drivers.PVCAM_Wrapper.Test.PropertyControl();
+            this.DataAcqPropertyControl = new Lab.Drivers.PVCAM_Wrapper.Test.PropertyControl();
             ((System.ComponentModel.ISupportInitialize)(this.xPixelsNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.yPixelsNumericUpDown)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -350,7 +350,7 @@
             // 
             // acquireSingleShotButton
             // 
-            this.acquireSingleShotButton.Location = new System.Drawing.Point(290, 226);
+            this.acquireSingleShotButton.Location = new System.Drawing.Point(292, 221);
             this.acquireSingleShotButton.Name = "acquireSingleShotButton";
             this.acquireSingleShotButton.Size = new System.Drawing.Size(152, 23);
             this.acquireSingleShotButton.TabIndex = 7;
@@ -536,7 +536,7 @@
             this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Controls.Add(this.tabPage7);
             this.tabControl1.Controls.Add(this.tabPage8);
-            this.tabControl1.Location = new System.Drawing.Point(22, 250);
+            this.tabControl1.Location = new System.Drawing.Point(12, 255);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(603, 346);
@@ -553,13 +553,6 @@
             this.tabPage1.Text = "CCD Clearing";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // ccdClearingControl
-            // 
-            this.ccdClearingControl.Location = new System.Drawing.Point(-4, 0);
-            this.ccdClearingControl.Name = "ccdClearingControl";
-            this.ccdClearingControl.Size = new System.Drawing.Size(436, 398);
-            this.ccdClearingControl.TabIndex = 28;
-            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.gainPropertyControl);
@@ -570,13 +563,6 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Gain";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // gainPropertyControl
-            // 
-            this.gainPropertyControl.Location = new System.Drawing.Point(-4, -22);
-            this.gainPropertyControl.Name = "gainPropertyControl";
-            this.gainPropertyControl.Size = new System.Drawing.Size(522, 405);
-            this.gainPropertyControl.TabIndex = 0;
             // 
             // tabPage3
             // 
@@ -589,13 +575,6 @@
             this.tabPage3.Text = "Temperature";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // temperaturePropertyControl
-            // 
-            this.temperaturePropertyControl.Location = new System.Drawing.Point(7, 7);
-            this.temperaturePropertyControl.Name = "temperaturePropertyControl";
-            this.temperaturePropertyControl.Size = new System.Drawing.Size(437, 310);
-            this.temperaturePropertyControl.TabIndex = 0;
-            // 
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.shutterPropertyControl);
@@ -606,13 +585,6 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Shutter";
             this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // shutterPropertyControl
-            // 
-            this.shutterPropertyControl.Location = new System.Drawing.Point(7, 7);
-            this.shutterPropertyControl.Name = "shutterPropertyControl";
-            this.shutterPropertyControl.Size = new System.Drawing.Size(437, 310);
-            this.shutterPropertyControl.TabIndex = 0;
             // 
             // tabPage5
             // 
@@ -625,13 +597,6 @@
             this.tabPage5.Text = "ADC Attributes";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
-            // ADCPropertyControl
-            // 
-            this.ADCPropertyControl.Location = new System.Drawing.Point(7, 4);
-            this.ADCPropertyControl.Name = "ADCPropertyControl";
-            this.ADCPropertyControl.Size = new System.Drawing.Size(437, 310);
-            this.ADCPropertyControl.TabIndex = 0;
-            // 
             // tabPage6
             // 
             this.tabPage6.Controls.Add(this.CCDPhysPropertyControl);
@@ -642,13 +607,6 @@
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "CCD Phys. Attr.";
             this.tabPage6.UseVisualStyleBackColor = true;
-            // 
-            // CCDPhysPropertyControl
-            // 
-            this.CCDPhysPropertyControl.Location = new System.Drawing.Point(4, 7);
-            this.CCDPhysPropertyControl.Name = "CCDPhysPropertyControl";
-            this.CCDPhysPropertyControl.Size = new System.Drawing.Size(437, 310);
-            this.CCDPhysPropertyControl.TabIndex = 0;
             // 
             // tabPage7
             // 
@@ -661,13 +619,6 @@
             this.tabPage7.Text = "CCD Readout";
             this.tabPage7.UseVisualStyleBackColor = true;
             // 
-            // CCDReadOutPropertyControl
-            // 
-            this.CCDReadOutPropertyControl.Location = new System.Drawing.Point(7, 7);
-            this.CCDReadOutPropertyControl.Name = "CCDReadOutPropertyControl";
-            this.CCDReadOutPropertyControl.Size = new System.Drawing.Size(437, 310);
-            this.CCDReadOutPropertyControl.TabIndex = 0;
-            // 
             // tabPage8
             // 
             this.tabPage8.Controls.Add(this.DataAcqPropertyControl);
@@ -678,13 +629,6 @@
             this.tabPage8.TabIndex = 7;
             this.tabPage8.Text = "Data Acquisition";
             this.tabPage8.UseVisualStyleBackColor = true;
-            // 
-            // DataAcqPropertyControl
-            // 
-            this.DataAcqPropertyControl.Location = new System.Drawing.Point(0, 5);
-            this.DataAcqPropertyControl.Name = "DataAcqPropertyControl";
-            this.DataAcqPropertyControl.Size = new System.Drawing.Size(437, 310);
-            this.DataAcqPropertyControl.TabIndex = 1;
             // 
             // numCamerasNmericUpDown
             // 
@@ -722,7 +666,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(479, 180);
+            this.label12.Location = new System.Drawing.Point(481, 175);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(73, 13);
             this.label12.TabIndex = 36;
@@ -731,7 +675,7 @@
             // exposureUnitComboBox
             // 
             this.exposureUnitComboBox.FormattingEnabled = true;
-            this.exposureUnitComboBox.Location = new System.Drawing.Point(401, 199);
+            this.exposureUnitComboBox.Location = new System.Drawing.Point(403, 194);
             this.exposureUnitComboBox.Name = "exposureUnitComboBox";
             this.exposureUnitComboBox.Size = new System.Drawing.Size(157, 21);
             this.exposureUnitComboBox.TabIndex = 35;
@@ -739,7 +683,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(290, 181);
+            this.label13.Location = new System.Drawing.Point(292, 176);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(97, 13);
             this.label13.TabIndex = 34;
@@ -747,7 +691,7 @@
             // 
             // integrationNumericUpDown
             // 
-            this.integrationNumericUpDown.Location = new System.Drawing.Point(290, 200);
+            this.integrationNumericUpDown.Location = new System.Drawing.Point(292, 195);
             this.integrationNumericUpDown.Maximum = new decimal(new int[] {
             50000,
             0,
@@ -761,6 +705,70 @@
             0,
             0,
             0});
+            // 
+            // ccdClearingControl
+            // 
+            this.ccdClearingControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ccdClearingControl.Location = new System.Drawing.Point(3, 3);
+            this.ccdClearingControl.Name = "ccdClearingControl";
+            this.ccdClearingControl.Size = new System.Drawing.Size(589, 314);
+            this.ccdClearingControl.TabIndex = 28;
+            // 
+            // gainPropertyControl
+            // 
+            this.gainPropertyControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gainPropertyControl.Location = new System.Drawing.Point(3, 3);
+            this.gainPropertyControl.Name = "gainPropertyControl";
+            this.gainPropertyControl.Size = new System.Drawing.Size(589, 314);
+            this.gainPropertyControl.TabIndex = 0;
+            // 
+            // temperaturePropertyControl
+            // 
+            this.temperaturePropertyControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.temperaturePropertyControl.Location = new System.Drawing.Point(3, 3);
+            this.temperaturePropertyControl.Name = "temperaturePropertyControl";
+            this.temperaturePropertyControl.Size = new System.Drawing.Size(589, 314);
+            this.temperaturePropertyControl.TabIndex = 0;
+            // 
+            // shutterPropertyControl
+            // 
+            this.shutterPropertyControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.shutterPropertyControl.Location = new System.Drawing.Point(3, 3);
+            this.shutterPropertyControl.Name = "shutterPropertyControl";
+            this.shutterPropertyControl.Size = new System.Drawing.Size(589, 314);
+            this.shutterPropertyControl.TabIndex = 0;
+            // 
+            // ADCPropertyControl
+            // 
+            this.ADCPropertyControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ADCPropertyControl.Location = new System.Drawing.Point(3, 3);
+            this.ADCPropertyControl.Name = "ADCPropertyControl";
+            this.ADCPropertyControl.Size = new System.Drawing.Size(589, 314);
+            this.ADCPropertyControl.TabIndex = 0;
+            // 
+            // CCDPhysPropertyControl
+            // 
+            this.CCDPhysPropertyControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CCDPhysPropertyControl.Location = new System.Drawing.Point(3, 3);
+            this.CCDPhysPropertyControl.Name = "CCDPhysPropertyControl";
+            this.CCDPhysPropertyControl.Size = new System.Drawing.Size(589, 314);
+            this.CCDPhysPropertyControl.TabIndex = 0;
+            // 
+            // CCDReadOutPropertyControl
+            // 
+            this.CCDReadOutPropertyControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CCDReadOutPropertyControl.Location = new System.Drawing.Point(3, 3);
+            this.CCDReadOutPropertyControl.Name = "CCDReadOutPropertyControl";
+            this.CCDReadOutPropertyControl.Size = new System.Drawing.Size(589, 314);
+            this.CCDReadOutPropertyControl.TabIndex = 0;
+            // 
+            // DataAcqPropertyControl
+            // 
+            this.DataAcqPropertyControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DataAcqPropertyControl.Location = new System.Drawing.Point(3, 3);
+            this.DataAcqPropertyControl.Name = "DataAcqPropertyControl";
+            this.DataAcqPropertyControl.Size = new System.Drawing.Size(589, 314);
+            this.DataAcqPropertyControl.TabIndex = 1;
             // 
             // PVCAM_WrapperTestForm
             // 

@@ -49,7 +49,7 @@ namespace Lab.Drivers.Motors
         // not sure if it's necessary
         ~ASILV4000()
         {
-            spObj.Close();
+            
         }
 
 

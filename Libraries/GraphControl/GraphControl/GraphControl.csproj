@@ -34,6 +34,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -51,7 +53,19 @@
       <DependentUpon>GraphControl.cs</DependentUpon>
     </Compile>
     <Compile Include="GraphData.cs" />
+    <Compile Include="GraphWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GraphWindow.Designer.cs">
+      <DependentUpon>GraphWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TwoDGraphControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TwoDGraphControl.Designer.cs">
+      <DependentUpon>TwoDGraphControl.cs</DependentUpon>
+    </Compile>
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +75,12 @@
     <EmbeddedResource Include="GraphControl.resx">
       <SubType>Designer</SubType>
       <DependentUpon>GraphControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraphWindow.resx">
+      <DependentUpon>GraphWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TwoDGraphControl.resx">
+      <DependentUpon>TwoDGraphControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

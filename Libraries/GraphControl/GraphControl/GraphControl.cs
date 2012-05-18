@@ -8,6 +8,7 @@ using System.Windows.Forms;
 
 namespace GraphControl
 {
+    [Docking(DockingBehavior.Ask)]
     public partial class GraphControl : UserControl
     {
         Rectangle control_rect;     // rectangle represents size of contro

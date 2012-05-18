@@ -51,6 +51,9 @@
       <DependentUpon>MotorControlForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Motors.cs" />
+    <Compile Include="NumericUpDownCustomIncrement.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ZaberDLLWrapper.cs" />
     <Compile Include="NewportESP100.cs" />
     <Compile Include="NewportESP100Axis.cs" />

@@ -23,6 +23,10 @@ namespace Lab.Drivers.Motors
         {
             try
             {
+                axisComboBox.Items.Clear(); // clear because this could be a reinit
+                verticalComboBox.Items.Clear();
+                horizontalComboBox.Items.Clear();
+
                 if (motorsObj != null)
                 {
                     motorsObj.Dispose();
@@ -35,17 +39,28 @@ namespace Lab.Drivers.Motors
                 {
                     MessageBox.Show("No Motors Found");
                 }
-
-                if (motorsObj.Axes != null)
+                else 
                 {
-                    // get the position and velocity
+
                     axisComboBox.Items.AddRange(motorsObj.Axes);
+                    verticalComboBox.Items.AddRange(motorsObj.Axes);
+                    horizontalComboBox.Items.AddRange(motorsObj.Axes);
                 }
 
                 // select the zeroth index
                 if (axisComboBox.Items.Count > 0)
+                {
                     axisComboBox.SelectedIndex = 0;
+                    horizontalComboBox.SelectedIndex = 0; // will be overwritten if there are 2 axes
+                    verticalComboBox.SelectedIndex = 0; 
+                }
 
+                if (axisComboBox.Items.Count > 1)
+                {
+                    horizontalComboBox.SelectedIndex = 1;
+                }   
+
+                // get positoin and velocity
                 UpdateProperties();
             }
             catch (Exception ex)
@@ -74,6 +89,32 @@ namespace Lab.Drivers.Motors
             get
             {
                 return (motorsObj.Axes);
+            }
+        }
+
+        /// <summary>
+        /// Get the current position of all the motors in millimeters
+        /// </summary>
+        public double[] CurrentPositions
+        {
+            get
+            {
+                if (motorsObj.Axes == null)
+                    return (null);
+
+                int numMotors = motorsObj.Axes.Length;
+
+                if (numMotors == 0)
+                    return (null);
+
+                double[] positions = new double[numMotors];
+
+                for (int i = 0; i < numMotors; i++)
+                {
+                    positions[i] = motorsObj.Axes[i].Position;
+                }
+
+                return (positions);
             }
         }
 
@@ -151,5 +192,70 @@ namespace Lab.Drivers.Motors
             InitalizeMotors();
         }
 
+        private void panUpButton_Click(object sender, EventArgs e)
+        {
+            IAxis selectedAxis = (IAxis)verticalComboBox.SelectedItem;
+            double curPosition_mm = selectedAxis.Position;
+            double stepSize_um = (double)stepSizeNumericUpDown.Value;
+
+            // reverse
+            if (upDownReverseCheckBox.Checked == true)
+                stepSize_um = -stepSize_um;
+
+            double newPosition_mm = curPosition_mm + stepSize_um / 1000;
+
+
+            selectedAxis.MoveAbsolute(newPosition_mm);
+        }
+
+        private void panDownButton_Click(object sender, EventArgs e)
+        {
+            IAxis selectedAxis = (IAxis) verticalComboBox.SelectedItem;
+            double curPosition_mm = selectedAxis.Position;
+            double stepSize_um = (double) stepSizeNumericUpDown.Value;
+
+            // reverse
+            if (upDownReverseCheckBox.Checked == true)
+                stepSize_um = -stepSize_um;
+
+            double newPosition_mm = curPosition_mm - stepSize_um / 1000;
+
+
+            selectedAxis.MoveAbsolute(newPosition_mm);
+        }
+
+        private void panRightButton_Click(object sender, EventArgs e)
+        {
+            IAxis selectedAxis = (IAxis) horizontalComboBox.SelectedItem;
+            double curPosition_mm = selectedAxis.Position;
+            double stepSize_um = (double)stepSizeNumericUpDown.Value;
+
+            // reverse
+            if (leftRightRevCheckBox.Checked == true)
+                stepSize_um = -stepSize_um;
+
+            double newPosition_mm = curPosition_mm + stepSize_um / 1000;
+
+
+            selectedAxis.MoveAbsolute(newPosition_mm);
+        }
+        
+
+        private void panLeftButton_Click(object sender, EventArgs e)
+        {
+            IAxis selectedAxis = (IAxis) horizontalComboBox.SelectedItem;
+            double curPosition_mm = selectedAxis.Position;
+            double stepSize_um = (double)stepSizeNumericUpDown.Value;
+
+            // reverse
+            if (leftRightRevCheckBox.Checked == true)
+                stepSize_um = -stepSize_um;
+
+            double newPosition_mm = curPosition_mm - stepSize_um / 1000;
+
+            selectedAxis.MoveAbsolute(newPosition_mm);
+        }
+
+      
     }
 }

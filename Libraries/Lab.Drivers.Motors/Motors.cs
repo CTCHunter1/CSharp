@@ -184,6 +184,10 @@ namespace Lab.Drivers.Motors
                 // will throw error if ZaberDLL not found
             catch { }
 
+            if (asilv4000_obj != null)
+            {
+                asilv4000_obj.Dispose();
+            }
         }
 
         #endregion

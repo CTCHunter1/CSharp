@@ -137,6 +137,7 @@ namespace Lab.Drivers.PVCAM_Wrapper.Test
 
         public PVCAM_WrapperTestForm() : this(new PVCAM_Wrapper_Class("Camera1"))
         {
+
         }
 
         private void initalizeButton_Click(object sender, EventArgs e)
@@ -340,7 +341,14 @@ namespace Lab.Drivers.PVCAM_Wrapper.Test
 
         private void setShutterModeButton_Click(object sender, EventArgs e)
         {
-            PVCAM_obj.ShutterMode2 = (SHUTTER_MODE) shutterModeComboBox.SelectedItem;
+            try
+            {
+                PVCAM_obj.ShutterMode2 = (SHUTTER_MODE)shutterModeComboBox.SelectedItem;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         private void PVCAM_WrapperTestForm_FormClosing(object sender, FormClosingEventArgs e)
