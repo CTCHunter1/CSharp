@@ -7,6 +7,7 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Configuration;
 
 using System.IO;
 using System.Runtime.Serialization;
@@ -20,17 +21,23 @@ namespace Beluga
         Rectangle elipsePosition;
         IFormatter formatter = new BinaryFormatter();
         String configFileName = "TransparentForm.config.bin";
+        String fullQualFileName = null;
 
         public TransparentForm()
         {
             InitializeComponent();
             elipsePosition = new Rectangle(3, 5, 10, 10); 
-            
-            
+
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            String dirName = Path.GetDirectoryName(config.FilePath);
+            fullQualFileName = dirName + "\\" + configFileName;            
 
             try
             {
-                Stream stream = new FileStream(configFileName, FileMode.Open);
+                
+                // build the full file path
+
+                Stream stream = new FileStream(fullQualFileName, FileMode.Open);
                 elipsePosition = (Rectangle)formatter.Deserialize(stream);
                 stream.Close();
             }
@@ -70,7 +77,7 @@ namespace Beluga
                 elipsePosition.X = pt.X - elipsePosition.Width / 2;
                 elipsePosition.Y = pt.Y - elipsePosition.Height / 2;
 
-                Stream stream = new FileStream(configFileName, FileMode.OpenOrCreate);
+                Stream stream = new FileStream(fullQualFileName, FileMode.OpenOrCreate);
                 formatter.Serialize(stream, elipsePosition);
                 stream.Close();
 

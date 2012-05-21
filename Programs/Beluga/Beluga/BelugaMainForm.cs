@@ -533,6 +533,13 @@ namespace Beluga
             acqControllerObj.NumExposure = (int)numScansNumericUpDown.Value;
             acqControllerObj.ExposureTime = exposureTime;
 
+            if (savePathTextBox.Text == null)
+                pathSelectButton_Click(this, EventArgs.Empty);
+
+            if (savePathTextBox.Text == "")
+                pathSelectButton_Click(this, EventArgs.Empty);
+
+
             if (usePVCamRadioButton.Checked == true)
             {
                 if (seperateGraphWindow == null)
@@ -548,17 +555,11 @@ namespace Beluga
                 seperateGraphWindow.Show();
                 seperateGraphWindow.BringToFront();
 
-                acqControllerObj.StartAcqSeq(this, motorsFormObj.Axes, dataPointArr, pvcamObj);
+                acqControllerObj.StartAcqSeq(this, motorsFormObj.Axes, dataPointArr, pvcamObj, savePathTextBox.Text);
             }
 
             if (useWebCamRadioButton.Checked == true)
-            {
-                if (savePathTextBox.Text == null)
-                    pathSelectButton_Click(this, EventArgs.Empty);
-
-                if (savePathTextBox.Text == "")
-                    pathSelectButton_Click(this, EventArgs.Empty);
-
+            {              
                 startCapture_Click(this, EventArgs.Empty); // make sure the caputre has been started
                 acqControllerObj.StartAcqSeq(this, motorsFormObj.Axes, dataPointArr, prevForm, savePathTextBox.Text);
             }
@@ -633,7 +634,7 @@ namespace Beluga
             double xStepSize = (double)stepSizeXNumericUpDown.Value / 1000; // convert to (mm)
             double yStepSize = (double)stepSizeYNumericUpDown.Value / 1000; // convert to (mm)
             int xMotorIndex = motorAxis1ComboBox.SelectedIndex;
-            int yMotorIndex = motorAxis1ComboBox.SelectedIndex;
+            int yMotorIndex = motorAxis2ComboBox.SelectedIndex;
 
 
             double[] currentPositions = motorsFormObj.CurrentPositions;

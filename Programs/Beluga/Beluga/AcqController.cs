@@ -106,6 +106,22 @@ namespace Beluga
             scanThreadObj.Start((object)new object[] { sender, pvcamObj, motorAxes, ptArr });
         }
 
+        public void StartAcqSeq(ContainerControl sender, IAxis[] motorAxes, DataLocation[] ptArr, PVCAM_Wrapper_Class pvcamObj, String savePath)
+        {
+            // if is running just return
+            if (isRunning == true)
+            {
+                runScan = true;
+                return;
+            }
+
+            scanThreadObj = new Thread(new ParameterizedThreadStart(ParameterizedThreadStartScan));
+            // contiousScanThreadObj.Priority = ThreadPriority.BelowNormal;
+            runScan = true;
+            isRunning = true;
+            scanThreadObj.Start((object)new object[] { sender, pvcamObj, motorAxes, ptArr, savePath});
+        }
+
         public void StartAcqSeq(ContainerControl sender, IAxis[] motorAxes, DataLocation[] ptArr, VideoPreviewForm vpfObj, String path)
         {
             // if is running just return
@@ -151,7 +167,7 @@ namespace Beluga
                 ptArr = objArr[3] as DataLocation[];
             }
 
-            if (objArr.Length == 5)
+            if (objArr.Length >= 5)
             {
                 path = (String)objArr[4];
             }
@@ -222,6 +238,12 @@ namespace Beluga
                         }
                         // change this -> stop creating and passing x values during the loop
                         sender.BeginInvoke(uiUpdateGraphDelegate, new object[] { ds });
+                    }
+
+                    // save the data into the path
+                    if (path != null)
+                    {
+                        SaveDataArrPriv(path);
                     }
                 }
 
@@ -339,6 +361,34 @@ namespace Beluga
             }            
         }
 
+        private void SaveDataArrPriv(String path)
+        {
+            String fullFileName = null;
+            // save the dataList
+            for (int i = 0; i < dataArr.Count; i++)
+            {
+                // this could be cleaned up
+                if (dataArr[i].Positions == null)
+                {
+                    fullFileName = String.Format("{0}\\{1}.txt", path, i + 1);
+                }
+                else
+                {
+                    if (dataArr[i].Positions.Length >= 2)
+                    {
+                        fullFileName = String.Format("{0}\\{1} x={2},y={3}.txt", path, i + 1, dataArr[i].Positions[0], dataArr[i].Positions[1]);
+                    }
+                    else
+                    {
+                        fullFileName = String.Format("{0}\\{1}.txt", path, i + 1);
+                    }
+                }
+
+                if (fullFileName != null)
+                    dataArr[i].Save(fullFileName);
+            }
+        }
+
         // saves all the points in the data Array to a given path
         public void SaveDataArr(String path)
         {
@@ -347,31 +397,8 @@ namespace Beluga
                 Exception ex = new Exception("Acq. In progress. Wait for completion before saving.");
                 throw (ex);
             }
-
-            String fullFileName = null;
-            // save the dataList
-            for (int i = 0; i < dataArr.Count; i++)
-            {
-                // this could be cleaned up
-                if(dataArr[i].Positions == null)
-                {
-                    fullFileName = String.Format("{0}\\{1}.txt", path, i+1);
-                }
-                else
-                {
-                    if (dataArr[i].Positions.Length >= 2)
-                    {
-                        fullFileName = String.Format("{0}\\{1} x={2},y={3}.txt", path, i+1, dataArr[i].Positions[0], dataArr[i].Positions[1]);
-                    }
-                    else
-                    {
-                        fullFileName = String.Format("{0}\\{1}.txt", path, i+1);
-                    }
-                }
-
-                if(fullFileName != null)
-                    dataArr[i].Save(fullFileName);
-            }            
+            
+            SaveDataArrPriv(path);                        
         }
     }
 }

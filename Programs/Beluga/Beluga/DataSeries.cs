@@ -48,6 +48,11 @@ namespace Beluga
         {
             get
             {
+                if (ccdData == null)
+                {
+                    return (0);
+                }
+
                 return(ccdData.GetLength(0));
             }
         }
@@ -56,6 +61,11 @@ namespace Beluga
         {
             get
             {
+                if (ccdData == null)
+                {
+                    return (0);
+                }
+
                 return (ccdData.GetLength(1));
             }
         }
