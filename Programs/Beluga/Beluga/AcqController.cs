@@ -300,10 +300,13 @@ namespace Beluga
 
                 
                 sender.BeginInvoke(uiUpdateStatusDelegate, new object[] { statusString.ToString() });
+
+
+                sender.BeginInvoke(uiFinishedScanDelegate, new object[] { statusString.ToString() });
             }
 
-          
-            sender.BeginInvoke(uiFinishedScanDelegate, new object[] {});
+
+            sender.BeginInvoke(uiFinishedScanDelegate, new object[] { null });
             isRunning = false;
             runScan = false;
         }

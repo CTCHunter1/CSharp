@@ -1,6 +1,6 @@
 ﻿namespace Lab.Communications
 {
-    partial class SendSTMP
+    partial class SendSMTP
     {
         /// <summary>
         /// Required designer variable.
@@ -173,7 +173,7 @@
             this.subjectTextBox.Size = new System.Drawing.Size(297, 20);
             this.subjectTextBox.TabIndex = 0;
             // 
-            // SendSTMP
+            // SendSMTP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -193,8 +193,9 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.serverTextBox);
             this.Controls.Add(this.sendEmail);
-            this.Name = "SendSTMP";
-            this.Text = "SendSTMP";
+            this.Name = "SendSMTP";
+            this.Text = "Send E-Mail";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SendSMTP_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

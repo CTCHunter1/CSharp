@@ -124,6 +124,10 @@
       <Project>{B99E750E-EF0D-48B8-87A8-A09C90B35866}</Project>
       <Name>GraphControl</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Libraries\Lab.Communications\Lab.Communications\Lab.Communications.csproj">
+      <Project>{576AD9A0-DCB9-4AD6-8DCF-53FBAE6C24BD}</Project>
+      <Name>Lab.Communications</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Libraries\Lab.Drivers.ARC_SpectraProDLL_Wrapper.Test\Lab.Drivers.ARC_SpectraProDLL_Wrapper.Test\Lab.Drivers.ARC_SpectraProDLL_Wrapper.Test.csproj">
       <Project>{FFFC3817-55E6-4E09-8956-999CBA2BEF1A}</Project>
       <Name>Lab.Drivers.ARC_SpectraProDLL_Wrapper.Test</Name>

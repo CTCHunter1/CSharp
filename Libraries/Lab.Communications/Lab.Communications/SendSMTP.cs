@@ -13,9 +13,11 @@ using System.Net.Mail;
 
 namespace Lab.Communications
 {
-    public partial class SendSTMP : Form
+    public partial class SendSMTP : Form
     {
-        public SendSTMP()
+        bool bSubForm = false;
+
+        public SendSMTP()
         {
             InitializeComponent();
         }
@@ -35,6 +37,28 @@ namespace Lab.Communications
             smtpClient.Send(userNameTextBox.Text, recipentTextBox.Text,
                 subject, message);
             
+        }
+
+        // set to true if this a subform of a larger program
+        public bool IsSubForm
+        {
+            get
+            {
+                return (bSubForm);
+            }
+            set
+            {
+                bSubForm = value;
+            }
+        }
+
+        private void SendSMTP_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (bSubForm == true)
+            {
+                this.Hide();
+                e.Cancel = true; // cancel dispose
+            } 
         }
 
     }

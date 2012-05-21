@@ -115,7 +115,6 @@ namespace Lab.Drivers.ARC_SpectraProDLL_Wrapper.Test
             set {
                 bSubForm = value;
             }
-
         }
 
         private void ARC_SpectraProDLL_WrapperTestForm_FormClosing(object sender, FormClosingEventArgs e)

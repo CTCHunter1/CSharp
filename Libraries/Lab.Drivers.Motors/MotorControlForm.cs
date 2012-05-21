@@ -88,6 +88,9 @@ namespace Lab.Drivers.Motors
         {
             get
             {
+                if (motorsObj == null)
+                    return (null);
+
                 return (motorsObj.Axes);
             }
         }
@@ -99,6 +102,9 @@ namespace Lab.Drivers.Motors
         {
             get
             {
+                if (motorsObj == null)
+                    return (null);
+
                 if (motorsObj.Axes == null)
                     return (null);
 

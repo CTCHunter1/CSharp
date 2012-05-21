@@ -17,7 +17,8 @@ using Lab_Drivers_PVCAM_Wrapper;
 using Lab.Drivers.PVCAM_Wrapper.Test;
 // Motors
 using Lab.Drivers.Motors;
-
+// Send SMTP
+using Lab.Communications;
 
 // Webcam
 using Microsoft.Expression.Encoder.Devices;
@@ -30,7 +31,7 @@ namespace Beluga
     public delegate void UIUpdateGraphDelegate(DataSeries dataSeries);
     public delegate void UIUpdateSequenceDelegate(int seqPt, bool isAquired);
     public delegate void UIUpdateStatusDelegate(String status);
-    public delegate void UIFinished();
+    public delegate void UIFinished(String description);
     public enum ExposureResolution { us, ms, s, min };
 
     public partial class BelugaMainForm : Form
@@ -46,6 +47,7 @@ namespace Beluga
         String []cameraNames = null;
         GraphWindow seperateGraphWindow;
         VideoPreviewForm prevForm = null;
+        SendSMTP sendSTMPForm = null;
 
         public BelugaMainForm()
         {
@@ -147,6 +149,10 @@ namespace Beluga
             exposureUnitComboBox.DataSource = Enum.GetValues(typeof(ExposureResolution));
             exposureUnitComboBox.SelectedIndex = 1;
             
+            // create new send smtp form
+            sendSTMPForm = new SendSMTP();
+            sendSTMPForm.IsSubForm = true; // causes form to persist on close
+
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -279,9 +285,20 @@ namespace Beluga
             toolStripStatusLabel1.Text = status;
         }
 
-        private void AcqComplete()
+        private void AcqComplete(String description)
         {
-            // acqControllerObj = null;
+            // description == null means the scan failed
+            if (sendEmailCheckBox.Checked == true && description != null)
+            {
+                try
+                {
+                    sendSTMPForm.SendMessage("Beluga Acq. Complete", description);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
         }
         private void acquireButton_Click(object sender, EventArgs e)
         {
@@ -429,6 +446,9 @@ namespace Beluga
             {
                 acqControllerObj.Stop();
             }
+
+            // try to dispose of all the subforms
+
         }
 
         private void LVRenumber()
@@ -669,6 +689,11 @@ namespace Beluga
             {
                 deleteButton_Click(this, EventArgs.Empty);
             }
+        }
+
+        private void sendEmailToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            sendSTMPForm.ShowDialog();
         }
     }
 }

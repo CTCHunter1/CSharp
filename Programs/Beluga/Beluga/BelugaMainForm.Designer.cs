@@ -37,6 +37,7 @@
             this.pVCamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.actonMonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.motorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sendEmailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.videoDeviceComboBox = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.startCapture = new System.Windows.Forms.Button();
@@ -88,6 +89,7 @@
             this.clearButton = new System.Windows.Forms.Button();
             this.resetButton = new System.Windows.Forms.Button();
             this.stopSeqButton = new System.Windows.Forms.Button();
+            this.sendEmailCheckBox = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numScansNumericUpDown)).BeginInit();
@@ -142,7 +144,8 @@
             this.configToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.pVCamToolStripMenuItem,
             this.actonMonToolStripMenuItem,
-            this.motorsToolStripMenuItem});
+            this.motorsToolStripMenuItem,
+            this.sendEmailToolStripMenuItem});
             this.configToolStripMenuItem.Name = "configToolStripMenuItem";
             this.configToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.configToolStripMenuItem.Text = "Config";
@@ -166,6 +169,13 @@
             this.motorsToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
             this.motorsToolStripMenuItem.Text = "Motors";
             this.motorsToolStripMenuItem.Click += new System.EventHandler(this.motorsToolStripMenuItem_Click);
+            // 
+            // sendEmailToolStripMenuItem
+            // 
+            this.sendEmailToolStripMenuItem.Name = "sendEmailToolStripMenuItem";
+            this.sendEmailToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.sendEmailToolStripMenuItem.Text = "Send E-Mail";
+            this.sendEmailToolStripMenuItem.Click += new System.EventHandler(this.sendEmailToolStripMenuItem_Click);
             // 
             // videoDeviceComboBox
             // 
@@ -585,6 +595,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.sendEmailCheckBox);
             this.groupBox3.Controls.Add(this.pathSelectButton);
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.groupBox1);
@@ -705,6 +716,16 @@
             this.stopSeqButton.UseVisualStyleBackColor = true;
             this.stopSeqButton.Click += new System.EventHandler(this.stopButton_Click);
             // 
+            // sendEmailCheckBox
+            // 
+            this.sendEmailCheckBox.AutoSize = true;
+            this.sendEmailCheckBox.Location = new System.Drawing.Point(217, 273);
+            this.sendEmailCheckBox.Name = "sendEmailCheckBox";
+            this.sendEmailCheckBox.Size = new System.Drawing.Size(153, 17);
+            this.sendEmailCheckBox.TabIndex = 35;
+            this.sendEmailCheckBox.Text = "Send E-Mail on Completion";
+            this.sendEmailCheckBox.UseVisualStyleBackColor = true;
+            // 
             // BelugaMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -813,6 +834,8 @@
         private System.Windows.Forms.ComboBox motorAxis2ComboBox;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox motorAxis1ComboBox;
+        private System.Windows.Forms.ToolStripMenuItem sendEmailToolStripMenuItem;
+        private System.Windows.Forms.CheckBox sendEmailCheckBox;
     }
 }
 

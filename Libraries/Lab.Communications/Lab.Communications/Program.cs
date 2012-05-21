@@ -15,7 +15,7 @@ namespace Lab.Communications
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new SendSTMP());
+            Application.Run(new SendSMTP());
         }
     }
 }
