@@ -71,7 +71,10 @@ namespace Lab.Drivers.Motors
                     spObj.DiscardInBuffer();
 
                     ReadMovementStatusXY();
-                    
+                    // make the timeout bigger
+                    spObj.ReadTimeout = 100;
+
+
                     //spObj.BaseStream.Flush();                   
                     
 
@@ -528,6 +531,8 @@ namespace Lab.Drivers.Motors
 
             char[] delimiterChars = { ' ', '=' };
 
+            spObj.DiscardInBuffer();
+            spObj.DiscardOutBuffer();
 
             spObj.Write("2HW Y\r");
 
@@ -584,12 +589,26 @@ namespace Lab.Drivers.Motors
             // spObj.BaseStream.Flush();
             // spObj.DiscardInBuffer();
 
-            string moveCmd = string.Format("2HM X={0} \r", Math.Round(pos, 1));
+            try
+            {
 
-            spObj.Write(moveCmd);
+                double position = ReadPositionX();
+
+                if (Math.Round(position, 1) == Math.Round(pos, 1))
+                {
+                    // already at the desired position return
+                    return;
+                }
+            }
+            catch { };
 
             try
             {
+                spObj.DiscardInBuffer();
+                string moveCmd = string.Format("2HM X={0} \r", Math.Round(pos, 1));
+                spObj.Write(moveCmd);
+
+           
                 string returnString = spObj.ReadLine();
 
 
@@ -604,6 +623,18 @@ namespace Lab.Drivers.Motors
                     Exception ex = new Exception(returnString);
                     throw (ex);
                 }
+            }
+            catch (TimeoutException)
+            {
+                try
+                {
+                    spObj.DiscardInBuffer();
+                    spObj.DiscardOutBuffer();
+                }
+                catch { };
+
+                invalidRespCount = 0;
+                return;
             }
             catch (Exception ex)
             {
@@ -625,10 +656,24 @@ namespace Lab.Drivers.Motors
         {
             // clear the com port object
             // spObj.BaseStream.Flush();
-            // spObj.DiscardInBuffer();
 
-            string moveCmd = string.Format("2HM Y={0}\r", Math.Round(pos, 1));
+            // controller can't handle odd position incrments
+            pos = Math.Round(pos / .2) * .2; // clean up the input position
 
+            try
+            {
+                double position = ReadPositionY();
+
+                if (Math.Round(position, 1) == Math.Round(pos, 1))
+                {
+                    // already at the desired position return
+                    return;
+                }
+            }
+            catch { };
+
+            spObj.DiscardInBuffer();
+            string moveCmd = string.Format("2HM Y={0}\r", Math.Round(pos, 1));           
             spObj.Write(moveCmd);
 
             try
@@ -648,15 +693,28 @@ namespace Lab.Drivers.Motors
                     throw (ex);
                 }
             }
+            catch (TimeoutException)
+            {
+                try
+                {
+                    spObj.DiscardInBuffer();
+                    spObj.DiscardOutBuffer();
+                }
+                catch { };
+
+                invalidRespCount = 0;
+                return;
+            }
             catch (Exception ex)
             {
                 invalidRespCount++;
                 if (invalidRespCount <= 3)
                 {
-                    MoveX(pos);
+                    MoveY(pos);
                 }
                 else
                 {
+                    invalidRespCount = 0;
                     throw (ex);
                 }
             }

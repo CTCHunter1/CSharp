@@ -242,9 +242,15 @@ namespace Lab.Drivers.Motors
 
             double newPosition_mm = curPosition_mm + stepSize_um / 1000;
 
-
-            selectedAxis.MoveAbsolute(newPosition_mm);
-        }
+            try
+            {
+                selectedAxis.MoveAbsolute(newPosition_mm);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+       }
         
 
         private void panLeftButton_Click(object sender, EventArgs e)
@@ -259,7 +265,15 @@ namespace Lab.Drivers.Motors
 
             double newPosition_mm = curPosition_mm - stepSize_um / 1000;
 
-            selectedAxis.MoveAbsolute(newPosition_mm);
+            try
+            {
+
+                selectedAxis.MoveAbsolute(newPosition_mm);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
       
