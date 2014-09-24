@@ -346,18 +346,22 @@ namespace Lab.Programs.Bullet
                         case 1:
                             FileIO.WriteZScanMATLABFile(saveFileDialogObj.FileName, zDataSeriesArr);
                             break;
-                    
+
                         case 2:
                         default:
-                            StreamWriter streamWritterObj = new StreamWriter(saveFileDialogObj.OpenFile());                                
+                            StreamWriter streamWritterObj = new StreamWriter(saveFileDialogObj.OpenFile());
                             FileIO.WriteZScanCSVFile(streamWritterObj, zDataSeriesArr);
                             streamWritterObj.Close();
-                        break;
+                            break;
                     }
                 }
                 catch (IOException ex)
                 {
                     MessageBox.Show(ex.Message);
+                }
+                catch (NullReferenceException ex)
+                {
+                    MessageBox.Show("No Z Scan Data\r\n" + ex.Message);
                 }
 
             }
